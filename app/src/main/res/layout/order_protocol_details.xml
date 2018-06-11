@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/protocol_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/protocol_delete"
+        android:layout_toStartOf="@+id/protocol_delete"
+        android:text="委托协议1"
+        android:textColor="@color/__picker_text_40"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/protocol_name"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/protocol_number"
+        android:layout_alignStart="@+id/protocol_number"
+        android:layout_below="@+id/protocol_id"
+        android:text="TextView\n" />
+
+    <TextView
+        android:id="@+id/protocol_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/protocol_name"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_toEndOf="@+id/textView46"
+        android:layout_toRightOf="@+id/textView46"
+        android:text="TextView\n" />
+
+    <Button
+        android:focusable="false"
+        android:id="@+id/protocol_delete"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/__picker_ic_delete_p" />
+
+<!--
+ <TextView
+        android:id="@+id/protocol_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="详情>>  "
+        android:textAlignment="textEnd"
+        android:layout_below="@+id/protocol_address"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+-->
+
+    <TextView
+        android:id="@+id/textView45"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_above="@+id/textView46"
+        android:layout_alignLeft="@+id/textView46"
+        android:layout_alignStart="@+id/textView46"
+        android:layout_below="@+id/protocol_id"
+        android:layout_marginTop="8dp"
+        android:text="设备名称："
+        android:textColor="@color/__picker_text_40"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView46"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/protocol_name"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:text="设备数量："
+        android:textColor="@color/__picker_text_40"
+        android:textStyle="bold" />
+
+</RelativeLayout>

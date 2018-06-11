@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.hp.xmtest.UI.Salesman">
+
+    <Button
+        android:id="@+id/button36"
+        android:layout_width="84dp"
+        android:layout_height="63dp"
+        android:text="提交订单"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintLeft_toRightOf="@+id/button37"
+        android:layout_marginLeft="7dp"
+        tools:layout_editor_absoluteY="448dp" />
+
+    <Button
+        android:id="@+id/button37"
+        android:layout_width="87dp"
+        android:layout_height="63dp"
+        android:text="查询订单"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="7dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="447dp" />
+
+    <Button
+        android:id="@+id/button39"
+        android:layout_width="87dp"
+        android:layout_height="64dp"
+        android:text="消息通知"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintLeft_toRightOf="@+id/button36"
+        android:layout_marginLeft="0dp"
+        tools:layout_editor_absoluteY="447dp" />
+
+    <Button
+        android:id="@+id/button40"
+        android:layout_width="88dp"
+        android:layout_height="62dp"
+        android:text="我"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintLeft_toRightOf="@+id/button39"
+        android:layout_marginLeft="-1dp"
+        tools:layout_editor_absoluteY="448dp" />
+
+</android.support.constraint.ConstraintLayout>

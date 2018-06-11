@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pi_modify_person_infomation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView130"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lpi_login_pass"
+        android:layout_alignBottom="@+id/lpi_login_pass"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_weight="1"
+        android:text="登录密码：" />
+
+    <EditText
+        android:id="@+id/lpi_login_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView130"
+        android:layout_toRightOf="@+id/textView130"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/lpi_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lpi_login_pass"
+        android:layout_toEndOf="@+id/textView131"
+        android:layout_toRightOf="@+id/textView131"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lpi_username"
+        android:layout_toEndOf="@+id/textView132"
+        android:layout_toRightOf="@+id/textView132"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/lpi_sex_nv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lpi_username"
+            android:layout_toEndOf="@+id/lpi_sex_nan"
+            android:layout_toRightOf="@+id/lpi_sex_nan"
+            android:layout_weight="1"
+            android:text="女" />
+
+        <RadioButton
+            android:id="@+id/lpi_sex_nan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/lpi_username"
+            android:layout_alignStart="@+id/lpi_username"
+            android:layout_below="@+id/lpi_username"
+            android:layout_weight="1"
+            android:text="男" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/lpi_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/radioGroup"
+        android:layout_toEndOf="@+id/textView133"
+        android:layout_toRightOf="@+id/textView133"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <EditText
+        android:id="@+id/lpi_fax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lpi_phone"
+        android:layout_toEndOf="@+id/textView134"
+        android:layout_toRightOf="@+id/textView134"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <EditText
+        android:id="@+id/lpi_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lpi_fax"
+        android:layout_toEndOf="@+id/textView135"
+        android:layout_toRightOf="@+id/textView135"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <EditText
+        android:id="@+id/lpi_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lpi_email"
+        android:layout_toEndOf="@+id/textView136"
+        android:layout_toRightOf="@+id/textView136"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
+    <TextView
+        android:id="@+id/textView131"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lpi_username"
+        android:layout_alignBottom="@+id/lpi_username"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="用户姓名：" />
+
+    <TextView
+        android:id="@+id/textView132"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lpi_username"
+        android:text="性别：" />
+
+    <TextView
+        android:id="@+id/textView133"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lpi_phone"
+        android:layout_alignBottom="@+id/lpi_phone"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="电话：" />
+
+    <TextView
+        android:id="@+id/textView134"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lpi_fax"
+        android:layout_alignBottom="@+id/lpi_fax"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="传真：" />
+
+    <TextView
+        android:id="@+id/textView135"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lpi_email"
+        android:layout_alignBottom="@+id/lpi_email"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="邮件：" />
+
+    <TextView
+        android:id="@+id/textView136"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lpi_address"
+        android:layout_alignBottom="@+id/lpi_address"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="地址：" />
+</RelativeLayout>

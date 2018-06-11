@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="22sp"
+            android:text="审核详情"/>
+        <ImageButton
+
+            android:layout_alignParentRight="true"
+            android:id="@+id/exit_check_detail"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@null"
+            android:src="@drawable/ic_clear_red_700_24dp"/>
+    </RelativeLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/checker_blue"
+            android:gravity="center_vertical"
+            android:text="申请人："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/app_person"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_access_time_blue_800_18dp"
+            android:gravity="center_vertical"
+            android:text="申请时间："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/apply_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_access_time_blue_800_18dp"
+            android:gravity="center_vertical"
+            android:text="申请理由："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/apply_reason"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_perm_identity_green_800_18dp"
+            android:gravity="center_vertical"
+            android:text="审核人："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/check_person"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_access_time_green_800_18dp"
+            android:gravity="center_vertical"
+            android:text="审核时间："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/finance_check_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_featured_play_list_cyan_a400_18dp"
+            android:gravity="center_vertical"
+            android:text="审核结果："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/check_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reject_layout"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_info_outline_red_400_18dp"
+            android:gravity="center_vertical"
+            android:text="审核理由："
+            android:textSize="14sp"
+             />
+
+        <TextView
+            android:id="@+id/reject_reason"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

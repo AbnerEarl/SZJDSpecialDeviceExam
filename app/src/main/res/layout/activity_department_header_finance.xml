@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.frank.jinding.UI.DepartorActivity.DepartmentHeaderFinance">
+    <include
+        layout="@layout/back_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/include4" />
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="内容: "
+            android:layout_gravity="center_vertical"/>
+        <LinearLayout
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@drawable/divider_line_bottom">
+            <Spinner
+                android:id="@+id/search_content_spinner"
+                style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="2.2"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="申请人: "
+            android:layout_gravity="center_vertical"/>
+        <LinearLayout
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@drawable/divider_line_bottom">
+            <Spinner
+                android:id="@+id/applicant_spinner"
+                style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="2.2"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/search_history"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+           android:layout_marginTop="5dp"
+
+            android:src="@android:drawable/ic_menu_search"
+            android:background="@drawable/divider_line_bottom"
+            />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lv_tasksss"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        />
+</LinearLayout>

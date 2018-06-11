@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/button28"
+        android:layout_width="63dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="4dp"
+        android:text="派工"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="453dp" />
+
+    <Button
+        android:id="@+id/button29"
+        android:layout_width="60dp"
+        android:layout_height="56dp"
+        android:text="检验报告"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintLeft_toRightOf="@+id/button28"
+        android:layout_marginLeft="0dp"
+        tools:layout_editor_absoluteY="453dp" />
+
+    <Button
+        android:id="@+id/button31"
+        android:layout_width="62dp"
+        android:layout_height="57dp"
+        android:text="业务请求"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintLeft_toRightOf="@+id/button29"
+        android:layout_marginLeft="-1dp"
+        tools:layout_editor_absoluteY="453dp" />
+
+    <Button
+        android:id="@+id/button32"
+        android:layout_width="62dp"
+        android:layout_height="55dp"
+        android:text="其他申请"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintLeft_toRightOf="@+id/button31"
+        android:layout_marginLeft="0dp"
+        tools:layout_editor_absoluteY="453dp" />
+
+    <Button
+        android:id="@+id/button33"
+        android:layout_width="63dp"
+        android:layout_height="56dp"
+        android:text="消息通知"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintLeft_toRightOf="@+id/button32"
+        android:layout_marginLeft="0dp" />
+
+    <Button
+        android:id="@+id/button34"
+        android:layout_width="55dp"
+        android:layout_height="57dp"
+        android:text="我"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintLeft_toRightOf="@+id/button33"
+        android:layout_marginLeft="0dp"
+        tools:layout_editor_absoluteY="452dp" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:src="@mipmap/icon_instrument" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="序号：" />
+
+            <TextView
+                android:id="@+id/instrument_index"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="序号内容" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="名称：" />
+
+            <TextView
+                android:id="@+id/instrument_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="名称内容" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="编号：" />
+
+            <TextView
+                android:id="@+id/instrument_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="编号内容" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="仪器箱：" />
+
+            <TextView
+                android:id="@+id/instrument_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="仪器箱内容" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/instrument_checkbox"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:gravity="center"
+        android:layout_weight="0.7"/>
+</LinearLayout>

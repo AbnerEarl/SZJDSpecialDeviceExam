@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_order_manage"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="订单管理" />
+        <item
+            android:id="@+id/nav_task"
+            android:icon="@drawable/__picker_ic_photo_black_48dp"
+            android:title="历史订单" />
+        <item
+            android:id="@+id/nav_instrument"
+            android:icon="?android:attr/actionModeCutDrawable"
+            android:title="仪器申领" />
+        <item
+            android:id="@+id/nav_check"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="检验现场" />
+        <item
+            android:id="@+id/nav_opinion"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="校核报告" />
+    </group>
+
+    <item android:title="更多">
+        <menu>
+            <item
+                android:id="@+id/extra_permisson_checkers"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="额外权限" />
+            <item
+                android:id="@+id/nav_messageinfo"
+                android:icon="@drawable/ic_menu_send"
+                android:title="消息通知" />
+            <item
+                android:id="@+id/nav_personinfomation"
+                android:icon="@android:drawable/ic_secure"
+                android:title="个人信息" />
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="切换角色" />
+        </menu>
+    </item>
+
+</menu>

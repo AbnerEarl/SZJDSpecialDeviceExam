@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.frank.jinding.UI.DepartorActivity.DispatchRecord">
+
+    <include
+        android:id="@+id/include12"
+        layout="@layout/back_title"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+<LinearLayout
+    android:id="@+id/linearLayout4"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/include12"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+    <TextView
+        android:layout_weight="1.2"
+        android:layout_marginLeft="5dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="开始时间: "
+        android:layout_gravity="center_vertical"/>
+    <TextView
+        android:layout_weight="2"
+        android:id="@+id/submission_history_start_date"
+        android:layout_margin="5dp"
+        android:layout_width="0dp"
+        android:gravity="center_vertical"
+        android:layout_height="match_parent"
+        android:textColor="@color/__picker_black_40"
+        android:background="@drawable/divider_line_bottom"/>
+    <TextView
+        android:layout_weight="1.2"
+        android:layout_marginLeft="5dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="结束时间: "
+        android:layout_gravity="center_vertical"/>
+    <TextView
+        android:layout_weight="2"
+        android:id="@+id/submission_history_end_date"
+        android:layout_margin="5dp"
+        android:layout_width="0dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/__picker_black_40"
+        android:layout_height="match_parent"
+        android:background="@drawable/divider_line_bottom"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_height="wrap_content"
+            android:text="委托单位: "
+            android:layout_gravity="center_vertical"/>
+        <EditText
+            android:layout_weight="2"
+            android:id="@+id/submission_history_org"
+            android:layout_marginLeft="5dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:focusable="false"
+            android:background="@drawable/divider_line_bottom"/>
+        <Button
+            android:layout_weight="1.2"
+
+            android:id="@+id/search_submission"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="查询"
+            android:layout_margin="8dp"
+            android:background="@drawable/buttonss_shape"/>
+        <View
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout4"
+        app:layout_constraintLeft_toLeftOf="parent">
+        <ListView
+            android:id="@+id/lv_order_recorde"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="?android:attr/actionBarSize"
+            />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

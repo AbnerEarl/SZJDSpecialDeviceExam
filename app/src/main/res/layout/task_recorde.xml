@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/task_recorde"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:src="@mipmap/no_check"/>
+
+    <TextView
+        android:id="@+id/text_recorde_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="深圳市宝安区工厂有一个任务需要去做！"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:layout_toLeftOf="@+id/button_recorde_beizhu" />
+
+    <Button
+        android:id="@+id/button_recorde_beizhu"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:focusable="false"
+        android:text="撤销"
+        android:layout_gravity="center_vertical" />
+</LinearLayout>

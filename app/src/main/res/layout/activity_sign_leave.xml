@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.hp.xmtest.UI.SignLeave">
+
+    <Button
+        android:id="@+id/button_sign"
+        android:layout_width="284dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="146dp"
+        android:text="签到"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/button_leave"
+        android:layout_width="272dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="81dp"
+        android:text="离开"
+        app:layout_constraintTop_toBottomOf="@+id/button_sign"
+        android:layout_marginLeft="56dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView112"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:text="设备类型："
+        android:textColor="@color/__picker_black_40"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/check_start_protocol_device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/textView112"
+        android:layout_toRightOf="@+id/textView112"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView117"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView112"
+        android:layout_marginTop="8dp"
+        android:text="设备数量："
+        android:textColor="@color/__picker_black_40"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/check_start_protocol_device_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/check_start_protocol_device_name"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/textView112"
+        android:layout_toRightOf="@+id/textView112"
+        android:text="TextView" />
+</RelativeLayout>

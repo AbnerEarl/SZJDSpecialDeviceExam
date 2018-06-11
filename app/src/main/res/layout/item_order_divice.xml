@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+ >
+
+    <ImageView
+        android:id="@+id/delete_agree"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="5dp"
+        android:src="@drawable/delete" />
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="出厂编号："
+            android:textColor="@color/__picker_black_40"
+            android:textStyle="bold" />
+    <TextView
+        android:layout_marginLeft="8dp"
+        android:id="@+id/device_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""/>
+</LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="型号规格："
+            android:textColor="@color/__picker_black_40"
+            android:textStyle="bold" />
+        <TextView
+
+            android:id="@+id/number_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="TextView" />
+    </LinearLayout>
+   <LinearLayout
+       android:layout_marginTop="8dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="检验类别："
+           android:textColor="@color/__picker_black_40"
+           android:textStyle="bold" />
+       <TextView
+           android:id="@+id/check_type"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+          android:layout_marginLeft="8dp"
+           android:text="TextView" />
+   </LinearLayout>
+
+
+<LinearLayout
+    android:layout_marginTop="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="安装高度："
+        android:textColor="@color/__picker_black_40"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/height"
+        android:layout_marginLeft="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+</LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="检验费用："
+            android:textColor="@color/__picker_black_40"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/prize"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+    </LinearLayout>
+   <LinearLayout
+       android:layout_marginTop="8dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="自 编 号  ："
+           android:textColor="@color/__picker_black_40"
+           android:textStyle="bold" />
+       <TextView
+           android:id="@+id/auto_number"
+           android:layout_marginLeft="8dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text=""/>
+   </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/monitor_show"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="监控系统："
+            android:textColor="@color/__picker_black_40"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/monitor_status"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+    </LinearLayout>
+
+</LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.frank.jinding.UI.DepartorActivity.SubmissionOrderDetails">
+
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/blue">
+
+
+            <ImageView
+                android:id="@+id/image_back"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:src="@mipmap/back_black" />
+
+            <Button
+                android:id="@+id/title_button"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:text="派工查看"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="公司名称"
+                android:textColor="@color/__picker_black_40" />
+
+            <TextView
+                android:id="@+id/comapany_name"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="检验时间"
+                android:textColor="@color/__picker_black_40" />
+
+            <TextView
+                android:id="@+id/check_time"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+
+            <ImageButton
+                android:id="@+id/update_check_time"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/tagico" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="检验组长"
+                android:textColor="@color/__picker_black_40" />
+
+            <TextView
+                android:id="@+id/mian_checker"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+
+            <ImageButton
+                android:id="@+id/update_main_checker"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/tagico" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="检验员"
+                android:textColor="@color/__picker_black_40"
+                tools:text="检验员" />
+
+            <TextView
+                android:id="@+id/checkers"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+
+            <ImageButton
+                android:id="@+id/update_checkers"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/tagico" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="派工人员"
+                android:textColor="@color/__picker_black_40" />
+
+            <TextView
+                android:id="@+id/submitor"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="派工时间"
+                android:textColor="@color/__picker_black_40" />
+
+            <TextView
+                android:id="@+id/submit_time"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="已确认检验员"
+                android:textColor="@color/__picker_black_40" />
+
+            <TextView
+                android:id="@+id/confirm_checkers"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="已拒绝检验员"
+                android:textColor="@color/__picker_black_40" />
+
+            <TextView
+                android:id="@+id/reject_checkers"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:text="待确认检验员"
+                android:textColor="@color/__picker_black_40" />
+
+            <TextView
+                android:id="@+id/wait_confirm_checkers"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/divider_line_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:textColor="@color/__picker_black_40" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/update_submission"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="?android:attr/actionBarSize"
+            android:background="@drawable/button_com_shape"
+            android:text="修改派工"
+            android:textColor="@color/__picker_black_40"
+            android:textStyle="bold" />
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

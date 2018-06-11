@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.frank.jinding.UI.DepartorActivity.Dispatching">
+
+    <include
+        android:id="@+id/back_title"
+        layout="@layout/back_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/back_title"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <ImageView
+                android:id="@+id/icon_second_checker"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/second_checker"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/button48"
+                android:layout_toRightOf="@+id/icon_second_checker"
+                android:text="检验员："
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/button48"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="15dp"
+                android:layout_toLeftOf="@+id/button49"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@mipmap/delete" />
+
+            <Button
+                android:id="@+id/button49"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/add" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/divider_line_bottom"
+            android:text=""
+            android:textSize="18sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <ImageView
+                android:id="@+id/icon_main_checker"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/second_checker"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/icon_main_checker"
+                android:text="检验组长："
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/spinner2"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:background="@drawable/divider_line_bottom"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@+id/main_checker_btn"
+                android:layout_toRightOf="@id/textView24"
+                android:gravity="center"
+                android:textColor="@color/__picker_black_40" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/icon_time"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/time"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/textView_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="检验时间："
+                android:textSize="18sp"
+                android:layout_toRightOf="@+id/icon_time"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/textview_showtime"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+
+                android:layout_toRightOf="@+id/textView_time"
+                android:layout_centerVertical="true"
+                android:textSize="17sp"
+                android:layout_marginLeft="18dp"
+                android:gravity="center"
+                android:background="@drawable/divider_line_bottom"
+                android:textColor="@color/__picker_black_40" />
+            
+            <Button
+                android:id="@+id/btn_add_time"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/add" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button50"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/buttonss_shape"
+        android:layout_margin="15dp"
+        android:text="提交" />
+
+    <!--<Button
+        android:id="@+id/button51"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/buttonss_shape"
+        android:text="取消"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />-->
+</RelativeLayout>

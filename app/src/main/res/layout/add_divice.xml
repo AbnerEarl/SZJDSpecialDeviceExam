@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_device"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="8dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/divice_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/editText6"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:hint="请输入出厂编号！"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/device_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:hint="请输入型号规格！"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/check_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText7"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:hint="请输入检验类别！"
+        android:focusable="false"/>
+
+    <EditText
+        android:id="@+id/height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText8"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:hint="请输入安装高度！"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/prize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText8"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:hint="请输入检验费用(元)!"
+        android:inputType="numberDecimal" />
+    <EditText
+        android:id="@+id/auto_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText8"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:hint="请输入自编号！"
+        android:inputType="textPersonName" />
+    <LinearLayout
+        android:id="@+id/monitor_layout"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="6dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:textColor="@color/__picker_black_40"
+            android:layout_height="wrap_content"
+            android:text="监控系统："/>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/add_device_rg"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/monitor_true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="有监控"/>
+            <RadioButton
+                android:id="@+id/monitor_false"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="无监控"/>
+        </RadioGroup>
+    </LinearLayout>
+</LinearLayout>
