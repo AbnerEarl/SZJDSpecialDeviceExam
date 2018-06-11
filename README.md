@@ -1,0 +1,2 @@
+# SZJDSpecialDeviceExam
+基于Android实现特种设备的数据监测记录和报告审批。
