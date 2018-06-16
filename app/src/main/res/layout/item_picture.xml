@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@mipmap/pic_failed"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageButton
+        android:id="@+id/item_button"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@null"
+        android:src="@mipmap/pic_check_no"
+        android:clickable="false"/>
+
+</RelativeLayout>
