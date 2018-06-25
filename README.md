@@ -1,2 +1,4 @@
 # SZJDSpecialDeviceExam
 基于Android实现特种设备的数据监测记录和报告审批。
+
+运行该项目本地测试，需要把web项目的发布项目名改为：WEBSYSTEM（即配置tomcat界面的项目名称）。同时需要在电脑上下载猎豹wifi，手机连接电脑的共享wifi，使手机和电脑处在同一个局域网环境。
