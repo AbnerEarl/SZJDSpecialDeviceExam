@@ -40,7 +40,7 @@ public class Equipment_Recorde extends AppCompatActivity {
     private ImageButton back;
     private TextView title;
 
-    private  String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
+    private  String path = Environment.getExternalStorageDirectory() + "/Luban/image/"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

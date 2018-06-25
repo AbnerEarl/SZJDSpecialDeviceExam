@@ -1,4 +1,4 @@
-package com.henau.pictureselect.adapter;
+package com.example.frank.jinding.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.henau.pictureselect.R;
+import com.example.frank.jinding.R;
+
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * 显示图片适配器
  * Created by xxx on 2016/6/30.
  */
-public class ShowImageAdapter extends BaseAdapter{
+public class ShowImageAdapter extends BaseAdapter {
     private final int MAX_IMAGE_SIZE = 9;
     private Context mContext;
     private LayoutInflater mInflater;

@@ -1,4 +1,4 @@
-package com.henau.pictureselect.adapter;
+package com.example.frank.jinding.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.henau.pictureselect.R;
+import com.example.frank.jinding.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
  * 选取相册图片适配器
  * Created by xxx on 2015/10/31.
  */
-public class SelectImageAdapter extends BaseAdapter{
+public class SelectImageAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<String> mImageList;//某一文件夹内图片的集合
@@ -87,9 +87,9 @@ public class SelectImageAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.imageView.setImageResource(R.mipmap.pic_failed);
+        viewHolder.imageView.setImageResource(R.drawable.pic_failed);
         viewHolder.imageView.setColorFilter(null);
-        viewHolder.imageButton.setImageResource(R.mipmap.pic_check_no);
+        viewHolder.imageButton.setImageResource(R.drawable.pic_check_no);
         Glide.with(mContext).load(mDir.getAbsolutePath() + "/" + mImageList.get(position)).into(viewHolder.imageView);
 
         final String path = mDir.getAbsolutePath()+"/"+mImageList.get(position);
@@ -100,12 +100,12 @@ public class SelectImageAdapter extends BaseAdapter{
                     Log.d("remove",path+"---"+ mSelectList.size());
                     mSelectList.remove(path);
                     viewHolder.imageView.setColorFilter(null);
-                    viewHolder.imageButton.setImageResource(R.mipmap.pic_check_no);
+                    viewHolder.imageButton.setImageResource(R.drawable.pic_check_no);
                 }else{
                     Log.d("add",path+"---"+ mSelectList.size());
                     mSelectList.add(path);
                     viewHolder.imageView.setColorFilter(Color.parseColor("#77000000"));
-                    viewHolder.imageButton.setImageResource(R.mipmap.pic_check);
+                    viewHolder.imageButton.setImageResource(R.drawable.pic_check);
                 }
 //                notifyDataSetChanged();
             }
@@ -113,7 +113,7 @@ public class SelectImageAdapter extends BaseAdapter{
 
         if(mSelectList.contains(path)){
             viewHolder.imageView.setColorFilter(Color.parseColor("#77000000"));
-            viewHolder.imageButton.setImageResource(R.mipmap.pic_check);
+            viewHolder.imageButton.setImageResource(R.drawable.pic_check);
         }
 
         return convertView;

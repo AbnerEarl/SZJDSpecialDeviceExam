@@ -1,4 +1,4 @@
-package com.henau.pictureselect.view;
+package com.example.frank.jinding.View.Picture;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,15 +15,16 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.henau.pictureselect.R;
-import com.henau.pictureselect.bean.FolderBean;
+import com.example.frank.jinding.Bean.Picture.FolderBean;
+import com.example.frank.jinding.R;
+
 
 import java.util.List;
 
 /**
  * 选取相册图片PopWindow
  */
-public class SelectImagePop extends PopupWindow{
+public class SelectImagePop extends PopupWindow {
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
@@ -99,7 +100,7 @@ public class SelectImagePop extends PopupWindow{
         mHeight = (int) (displayMetrics.heightPixels * 0.7);
     }
 
-    private class ImagePopAdapter extends BaseAdapter{
+    private class ImagePopAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -131,7 +132,7 @@ public class SelectImagePop extends PopupWindow{
             }
 
             FolderBean folderBean = mFolderList.get(position);
-            viewHolder.imageView.setImageResource(R.mipmap.pic_failed);
+            viewHolder.imageView.setImageResource(R.drawable.pic_failed);
             Glide.with(mContext).load(folderBean.getFirstImagePath()).into(viewHolder.imageView);
             viewHolder.picDir.setText(folderBean.getName());
             viewHolder.picCount.setText(folderBean.getCount()+"张");

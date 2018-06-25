@@ -1,40 +1,46 @@
-package com.henau.pictureselect;
+package com.example.frank.jinding.UI.SelectPicture;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
-import com.henau.pictureselect.view.ViewPagerIndicator;
+
+import com.example.frank.jinding.R;
+import com.example.frank.jinding.View.Picture.ViewPagerIndicator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by xxx on 2016/6/29.
- */
-public class MyPhotoActivity extends AppCompatActivity{
 
-    private List<String> mTitles = Arrays.asList("公开照片","私密照片");
+public class MyPhotoActivity extends AppCompatActivity {
+
+    private List<String> mTitles = Arrays.asList("选择照片");
     private List<MyPhotoFragment> mFragments = new ArrayList<>();
 
     private ViewPagerIndicator mIndicator;
     private ViewPager mViewPager;
+    public static boolean finishPhotoSelect=false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_photo);
 
+
         mIndicator = (ViewPagerIndicator) findViewById(R.id.viewPagerIndicator);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        mIndicator.setShowTabs(2);
+        mIndicator.setShowTabs(1);
         mIndicator.setTitles(mTitles);
 
         for (int i = 0; i < mTitles.size(); i++) {
@@ -42,6 +48,21 @@ public class MyPhotoActivity extends AppCompatActivity{
         }
         mViewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
         mIndicator.setViewPager(mViewPager, 0);
+
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            public void run() {
+                handler.postDelayed(this, 1000);
+                if (finishPhotoSelect){
+                    finishPhotoSelect=false;
+                    finish();
+                }
+
+            }
+        };
+        handler.postDelayed(runnable, 1000);
+
+
     }
 
     @Override
@@ -65,5 +86,9 @@ public class MyPhotoActivity extends AppCompatActivity{
         public int getCount() {
             return mTitles.size();
         }
+    }
+
+    public void finishPhoto(){
+        MyPhotoActivity.this.finish();
     }
 }

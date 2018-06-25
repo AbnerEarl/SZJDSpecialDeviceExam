@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -22,8 +21,8 @@ import com.example.frank.jinding.Bean.OrderBean.ConsignmentDetail;
 import com.example.frank.jinding.Interface.CallBack;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
-import com.example.frank.jinding.UI.SalesmanActivity.AddOrderInformation;
 import com.example.frank.jinding.UI.PublicMethodActivity.TaskDetails;
+import com.example.frank.jinding.UI.SalesmanActivity.AddOrderInformation;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
@@ -119,10 +118,21 @@ public class TDProtocolCheck extends AppCompatActivity implements CallBack {
                 if (response != null && !TextUtils.isEmpty(response)) {
                     List<ConsignmentDetail> list = JSON.parseArray(response, ConsignmentDetail.class);
                     if (list != null) {
+                        boolean allChecked=true;
                         for (int i = 0; i < list.size(); i++) {
                             consignmentDetails.add(list.get(i));
+                          if (list.get(i).getIsPassCheck()!=null&&list.get(i).getIsPassCheck().equals("2")){
+                              allChecked=false;
+                          }
+                        }
+
+                        if (requestCode==0&&allChecked){
+                            Toast.makeText(TDProtocolCheck.this,"协议审核完成",Toast.LENGTH_SHORT).show();
+                            setResult(0);
+                            finish();
                         }
                         list.clear();
+
                         mAdapter.notifyDataSetChanged();
                     }
                 } else {
@@ -187,13 +197,23 @@ public class TDProtocolCheck extends AppCompatActivity implements CallBack {
                         }
                     }).setTitle("协议审核").create();
                     alertDialog.show();
-                } else if (consignmentDetails.get(Integer.parseInt(view.getTag().toString())).getIsPassCheck().equals("0")) {
-                    Log.i("拒绝理由", consignmentDetails.get(Integer.parseInt(view.getTag().toString())).getRefuseReason());
+                } else  {
+                    String title=null;
+
+                   // Log.i("拒绝理由", consignmentDetails.get(Integer.parseInt(view.getTag().toString())).getRefuseReason());
                     TextView textView = new TextView(TDProtocolCheck.this);
-                    textView.setText(consignmentDetails.get(Integer.parseInt(view.getTag().toString())).getRefuseReason());
+                    if (consignmentDetails.get(Integer.parseInt(view.getTag().toString())).getIsPassCheck().equals("0")){
+                        title="协议已拒绝";
+                        textView.setText(consignmentDetails.get(Integer.parseInt(view.getTag().toString())).getRefuseReason());
+
+                    }else{
+                        title="协议已通过";
+                        textView.setText("");
+                    }
+
                     textView.setPadding(50, 0, 0, 0);
                     textView.setTextColor(getResources().getColor(R.color.__picker_black_40));
-                    AlertDialog alertDialog = new AlertDialog.Builder(TDProtocolCheck.this).setTitle("协议已拒绝")
+                    AlertDialog alertDialog = new AlertDialog.Builder(TDProtocolCheck.this).setTitle(title)
                             .setView(textView).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

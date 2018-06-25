@@ -82,6 +82,10 @@
     //获取窗体名称权限
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    //获取相册相关权限
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <!-- Required -->
     <permission
@@ -523,6 +527,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UI.AuthorActivity.AuthorizedWaitCheckActivity" />
         <activity android:name=".UI.AuthorActivity.AuthorizedHadCheckActivity"></activity>
+
+        <activity android:name=".UI.SelectPicture.MyPhotoActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".UI.SelectPicture.SelectImageActivity"/>
+        <activity android:name=".UI.SelectPicture.UploadImageActivity"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.henau.pictureselect.view;
+package com.example.frank.jinding.View.Picture;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,7 +15,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.henau.pictureselect.R;
+
+import com.example.frank.jinding.R;
 
 import java.util.List;
 
@@ -212,9 +213,9 @@ public class ViewPagerIndicator extends LinearLayout {
             throw new RuntimeException("设置标签的数量必须大于0个");
         this.mTabTitles = titles;
         this.removeAllViews();
-        for (String title : titles) {
+        /*for (String title : titles) {
             addView(createView(title));
-        }
+        }*/
         setTabClickListener();
     }
 

@@ -11,12 +11,12 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="8dp"
-        android:text="出厂编号："
+        android:text="型号规格："
         android:textColor="@color/__picker_black_40"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/csdi_num"
+        android:id="@+id/csdi_model"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView115"
@@ -34,15 +34,15 @@
         android:layout_below="@+id/textView115"
         android:layout_marginTop="8dp"
 
-        android:text="型号规格："
+        android:text="出厂编号："
         android:textColor="@color/__picker_black_40"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/csdi_model"
+        android:id="@+id/csdi_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/csdi_num"
+        android:layout_below="@+id/csdi_model"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/textView115"
         android:layout_toRightOf="@+id/textView115"
@@ -52,7 +52,7 @@
         android:id="@+id/csdi_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/csdi_model"
+        android:layout_below="@+id/csdi_num"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/textView119"
         android:layout_toRightOf="@+id/textView119"

@@ -110,6 +110,7 @@ public class ProtocolAdapter extends BaseAdapter implements View.OnClickListener
             else{
                 holder.protocolStatus.setText("已审核");
             }
+            holder.protocolCheck.setText("查看");
         }
 
         else if (list.get(position).getIsPassCheck()!=null&& list.get(position).getIsPassCheck().equals("0")){
@@ -118,6 +119,7 @@ public class ProtocolAdapter extends BaseAdapter implements View.OnClickListener
         else{
                 holder.protocolStatus.setText("已拒绝");
             }
+            holder.protocolCheck.setText("查看");
         }else {
             holder.protocolStatus.setText(list.get(position).getConsignmentStatus());
         }

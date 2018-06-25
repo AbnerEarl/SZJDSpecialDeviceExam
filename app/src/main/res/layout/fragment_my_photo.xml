@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/btn_photo_select_finish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="right|center_vertical"
+        android:text="完成        " />
+
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"

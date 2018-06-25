@@ -1,4 +1,4 @@
-package com.henau.pictureselect.utils;
+package com.example.frank.jinding.Utils.Picture;
 
 import android.os.Environment;
 
@@ -8,7 +8,7 @@ public class Constant {
 
 	//默认保存数据路径
 	public final static String IMAGES = "images";
-	public final static String DEFAULT_SAVE_PATH = Environment.getExternalStorageDirectory() 
+	public final static String DEFAULT_SAVE_PATH = Environment.getExternalStorageDirectory()
 			+ File.separator + "select";
 	public final static String DEFAULT_SAVE_IMAGES_PATH = DEFAULT_SAVE_PATH + File.separator
 			+ IMAGES;

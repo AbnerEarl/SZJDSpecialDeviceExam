@@ -231,7 +231,30 @@ public class CheckOpinion extends AppCompatActivity {
                                 CheckControl.start=true;
                                 Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
 
-                            } else if (response.trim().equals("提交成功！") ) {
+                            }
+                            if (response.trim().equals("提交失败！")){
+                                Toast.makeText(CheckOpinion.this, "提交失败，请检查网络连接", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (response.trim().equals("session为空")){
+                                Toast.makeText(CheckOpinion.this, "提交失败，需要重新登录", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (!response.trim().equals("")){
+                                if (response.trim().equals("device")){
+
+                                    CheckControl.device_finish=true;
+                                }
+                                if (response.trim().equals("protocol")){
+
+                                    CheckControl.device_finish=true;
+                                    CheckControl.protocol_finish=true;
+                                }
+                                if (response.trim().equals("order")){
+                                    CheckControl.device_finish=true;
+                                    CheckControl.protocol_finish=true;
+                                    CheckControl.order_finish=true;
+                                }
+
+
 
                                 CheckControl.start=true;
 
@@ -252,7 +275,7 @@ public class CheckOpinion extends AppCompatActivity {
                                     @Override
                                     public void onNext(Object tag, String response) {
 
-                                        if (response.trim().equals("上传成功！")) {
+                                        if (response.trim().equals("")){
                                             etcontent.setText("");
                                             CheckControl.start = true;
                                             submit.setEnabled(false);
@@ -331,14 +354,35 @@ public class CheckOpinion extends AppCompatActivity {
                                                         if (response.trim().equals("重复提交")) {
                                                             Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
                                                             CheckControl.start=true;
-                                                        } else if (response.trim().equals("提交成功！")) {
+                                                        }
+                                                        else if (response.trim().equals("提交失败！")){
+                                                            Toast.makeText(CheckOpinion.this, "提交失败，请检查网络连接", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        else if (response.trim().equals("session为空")){
+                                                            Toast.makeText(CheckOpinion.this, "提交失败，需要重新登录", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        else {
+                                                            if (response.trim().equals("device")){
+
+                                                                CheckControl.device_finish=true;
+                                                            }
+                                                            if (response.trim().equals("protocol")){
+
+                                                                CheckControl.device_finish=true;
+                                                                CheckControl.protocol_finish=true;
+                                                            }
+                                                            if (response.trim().equals("order")){
+                                                                CheckControl.device_finish=true;
+                                                                CheckControl.protocol_finish=true;
+                                                                CheckControl.order_finish=true;
+                                                            }
+
+
                                                             etcontent.setText("");
                                                             CheckControl.start = true;
                                                             submit.setEnabled(false);
                                                             Toast.makeText(CheckOpinion.this, "检测意见提交成功，请等待审核结果", Toast.LENGTH_SHORT).show();
                                                             finish();
-                                                        } else if("session为空".equals(response.trim())) {
-                                                            Toast.makeText(CheckOpinion.this, "提交失败，需要重新登录账号", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
 

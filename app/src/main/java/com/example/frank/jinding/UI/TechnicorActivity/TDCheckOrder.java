@@ -88,7 +88,7 @@ public class TDCheckOrder extends AppCompatActivity {
                 intent.putExtra("checkOrder",orderList.get(position));
                 intent.putExtra("requestCode",requestCode);
                 intent.putExtra("orderId",orderList.get(position).getOrderId());
-                startActivity(intent);
+                startActivityForResult(intent,requestCode);
             }
         });
 }
@@ -201,5 +201,13 @@ public class TDCheckOrder extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode==0){
+            //待审核订单刷新
+            search();
+        }
     }
 }

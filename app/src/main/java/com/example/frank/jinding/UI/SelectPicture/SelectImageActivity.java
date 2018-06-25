@@ -1,4 +1,4 @@
-package com.henau.pictureselect;
+package com.example.frank.jinding.UI.SelectPicture;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -22,11 +22,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.henau.pictureselect.adapter.SelectImageAdapter;
-import com.henau.pictureselect.bean.FolderBean;
-import com.henau.pictureselect.utils.Constant;
-import com.henau.pictureselect.utils.UIUtils;
-import com.henau.pictureselect.view.SelectImagePop;
+
+import com.example.frank.jinding.Adapter.SelectImageAdapter;
+import com.example.frank.jinding.Bean.Picture.FolderBean;
+
+import com.example.frank.jinding.R;
+import com.example.frank.jinding.Utils.Picture.Constant;
+import com.example.frank.jinding.Utils.Picture.UIUtils;
+import com.example.frank.jinding.View.Picture.SelectImagePop;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -81,7 +84,7 @@ public class SelectImageActivity extends AppCompatActivity {
 
     private void refreshView() {
         if(mCurrentDir == null){
-            Toast.makeText(this,"未扫描到任何图片",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"未扫描到任何图片", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -151,7 +154,7 @@ public class SelectImageActivity extends AppCompatActivity {
 
     private void initDatas() {
         if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            Toast.makeText(this,"当前存储卡不可用",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"当前存储卡不可用", Toast.LENGTH_LONG).show();
             return;
         }
         if(mFolderList == null){
@@ -170,7 +173,7 @@ public class SelectImageActivity extends AppCompatActivity {
         tvPicNum = (TextView) findViewById(R.id.select_pic_num);
     }
 
-    private class ScanImageTask implements Runnable{
+    private class ScanImageTask implements Runnable {
         @Override
         public void run() {
             ContentResolver cr = getContentResolver();
@@ -189,7 +192,41 @@ public class SelectImageActivity extends AppCompatActivity {
 
             Set<String> mDirSet = new HashSet<>();
 
+//            boolean path_tag=true;
+//            String my_path=Environment.getExternalStorageDirectory() + "/Luban/image/";
             while (cursor.moveToNext()){
+               /* if (path_tag){
+                    path_tag=false;
+                    String path = my_path+"yyt.jpg";
+                    File parentFile = new File(path).getParentFile();
+                    mDirSet.add(my_path);
+                    FolderBean folderBean = new FolderBean();
+                    folderBean.setDir(my_path);
+                    folderBean.setFirstImagePath(path);
+                    if(parentFile.list() == null){
+                        continue;
+                    }
+                    int picSize = parentFile.list(new FilenameFilter() {
+                        @Override
+                        public boolean accept(File dir, String filename) {
+                            if(filename.endsWith("jpg") || filename.endsWith("jpeg")
+                                    || filename.endsWith("png")){
+                                return true;
+                            }else {
+                                return false;
+                            }
+                        }
+                    }).length;
+                    folderBean.setCount(picSize);
+                    mFolderList.add(folderBean);
+                    if(picSize > mMaxCount){
+                        mMaxCount = picSize;
+                        mCurrentDir = parentFile;
+                    }
+
+
+                }*/
+
                 String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
                 File parentFile = new File(path).getParentFile();
                 if(parentFile == null){
@@ -199,6 +236,7 @@ public class SelectImageActivity extends AppCompatActivity {
                 if(mDirSet.contains(dirPath)){
                     continue;
                 }else {
+
                     mDirSet.add(dirPath);
                     FolderBean folderBean = new FolderBean();
                     folderBean.setDir(dirPath);

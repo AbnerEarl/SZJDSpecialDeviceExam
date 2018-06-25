@@ -28,6 +28,7 @@ import com.example.frank.jinding.Conf.URLConfig;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Report.ReportRule;
 import com.example.frank.jinding.Service.ApiService;
+import com.example.frank.jinding.UI.CheckerActivity.CheckReport;
 import com.example.frank.jinding.Utils.DownloadProgressListener;
 import com.example.frank.jinding.Utils.FileDownloader;
 import com.tamic.novate.Throwable;
@@ -107,7 +108,8 @@ public class ReportAdapter extends BaseAdapter{
         holder.reportDetailBtn.setTag(position);
         holder.orderOrgTv.setText(listItem.get(position).get("orderOrg").toString());
         holder.deviceType.setText(listItem.get(position).get("deviceTypeName").toString());
-        holder.reportNumber.setText(listItem.get(position).get("reportId").toString());
+        //holder.reportNumber.setText(listItem.get(position).get("reportId").toString());//修改为报告的report_code
+        holder.reportNumber.setText(listItem.get(position).get("reportCode").toString());
         if (option!=3){
             holder.place.setText(listItem.get(position).get("projectAddress").toString());
         }else{
@@ -133,7 +135,7 @@ public class ReportAdapter extends BaseAdapter{
         TextView secondTime=view.findViewById(R.id.second_time);
          LinearLayout thirdPersonLayout=view.findViewById(R.id.third_person_layout);
          LinearLayout thirdTimeLayout=view.findViewById(R.id.third_time_layout);
-        TextView thirdPerson=view.findViewById(R.id.report_second_person);
+        TextView thirdPerson=view.findViewById(R.id.report_third_person);
         TextView thirdTime=view.findViewById(R.id.third_time);
         Button actionBtnPass=view.findViewById(R.id.action_pass);
         Button actionBtnRefuse=view.findViewById(R.id.action_refuse);
@@ -165,10 +167,11 @@ public class ReportAdapter extends BaseAdapter{
             secondPersonFrontTv.setText("报告校核人");
             secondPerson.setText(listItem.get(position).get("checkPeople").toString());
             secondTime.setText(listItem.get(position).get("checkTime").toString());
-            if (position==3){
+            if (option==3){
                 //actionBtn.setText("前往审批");
                 firstPerson.setText(listItem.get(position).get("modifiedPeople").toString());
                 firstTime.setText(listItem.get(position).get("modifiedTime").toString());
+                System.out.println("适配器取得审核人："+listItem.get(position).get("auditPeople").toString());
                 thirdPerson.setText(listItem.get(position).get("auditPeople").toString());
                 thirdTime.setText(listItem.get(position).get("auditTime").toString());
             }
@@ -253,10 +256,13 @@ public class ReportAdapter extends BaseAdapter{
         actionBtnPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                actionBtnPass.setEnabled(false);
+                actionBtnRefuse.setEnabled(false);
                 String temd[]=datainfo.split("#");
-
                 String dd=temd[1]+"#1#  #"+temd[2];
-                checkReport(dd);
+                checkReport(dd,position);
+                actionBtnRefuse.setEnabled(true);
+                actionBtnPass.setEnabled(true);
             }
         });
 
@@ -280,11 +286,15 @@ public class ReportAdapter extends BaseAdapter{
                                     @Override
                                     public  void  onClick(DialogInterface dialog, int  which)
                                     {
+                                        actionBtnRefuse.setEnabled(false);
+                                        actionBtnPass.setEnabled(false);
                                         String temd[]=datainfo.split("#");
                                         String dd=temd[1]+"#0#"+et.getText().toString()+" #"+temd[2];
 
                                         //String dd=data.split("#")[1]+"#0#"+et.getText().toString()+" ";
-                                        checkReport(dd);
+                                        checkReport(dd,position);
+                                        actionBtnRefuse.setEnabled(true);
+                                        actionBtnPass.setEnabled(true);
                                     }
                                 }).show();
             }
@@ -382,7 +392,7 @@ public class ReportAdapter extends BaseAdapter{
     }
 
 
-    private void checkReport(String dd) {
+    private void checkReport(String dd,int pos) {
 
 
         //下面写的冗余代码是为了让提示信息不一样，和以后的操作扩展
@@ -400,6 +410,9 @@ public class ReportAdapter extends BaseAdapter{
                     if (response.equals("true")) {
                         alertDialog.dismiss();
                         Toast.makeText(context, "操作成功", Toast.LENGTH_SHORT).show();
+                        listItem.remove(pos);
+
+                        CheckReport.isOperate=true;
 
                     } else if (response.equals("false")) {
                         Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
@@ -434,7 +447,8 @@ public class ReportAdapter extends BaseAdapter{
                     if (response.equals("true")) {
                         alertDialog.dismiss();
                         Toast.makeText(context, "操作成功", Toast.LENGTH_SHORT).show();
-
+                        listItem.remove(pos);
+                        CheckReport.isOperate=true;
                     } else if (response.equals("false")) {
                         Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
                     } else if (response.equals("重新登录")) {
@@ -468,7 +482,8 @@ public class ReportAdapter extends BaseAdapter{
                     if (response.equals("true")) {
                         alertDialog.dismiss();
                         Toast.makeText(context, "操作成功", Toast.LENGTH_SHORT).show();
-
+                        listItem.remove(pos);
+                        CheckReport.isOperate=true;
                     } else if (response.equals("false")) {
                         Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
                     } else if (response.equals("重新登录")) {

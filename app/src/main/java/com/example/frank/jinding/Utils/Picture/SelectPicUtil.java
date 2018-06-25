@@ -1,4 +1,4 @@
-package com.henau.pictureselect.utils;
+package com.example.frank.jinding.Utils.Picture;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +30,7 @@ public class SelectPicUtil {
 		}
 	}
 	
-	public static void cropImageUri(Activity activity,String mCropPath,Uri uri, int outputX, int outputY) {
+	public static void cropImageUri(Activity activity, String mCropPath, Uri uri, int outputX, int outputY) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		intent.putExtra("crop", "true");

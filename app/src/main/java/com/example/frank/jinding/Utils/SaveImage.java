@@ -9,6 +9,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Frank on 2017/12/2.
@@ -56,12 +58,12 @@ public class SaveImage {
     public static void saveBitmap(String path,String fileName) {
         String compressdPicPath = "";
 
-//      ★★★★★★★★★★★★★★重点★★★★★★★★★★★★★
-      /*  //★如果不压缩直接从path获取bitmap，这个bitmap会很大，下面在压缩文件到100kb时，会循环很多次，
-        // ★而且会因为迟迟达不到100k，options一直在递减为负数，直接报错
-        //★ 即使原图不是太大，options不会递减为负数，也会循环多次，UI会卡顿，所以不推荐不经过压缩，直接获取到bitmap
+
+      /*  //如果不压缩直接从path获取bitmap，这个bitmap会很大，下面在压缩文件到100kb时，会循环很多次，
+        // 而且会因为迟迟达不到100k，options一直在递减为负数，直接报错
+        // 即使原图不是太大，options不会递减为负数，也会循环多次，UI会卡顿，所以不推荐不经过压缩，直接获取到bitmap
         Bitmap bitmap=BitmapFactory.decodeFile(path);*/
-//      ★★★★★★★★★★★★★★重点★★★★★★★★★★★★★
+//     重点
         Bitmap bitmap = decodeSampledBitmapFromPath(path, 720, 1280);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -84,7 +86,9 @@ public class SaveImage {
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
         }
 
-        String mDir = Environment.getExternalStorageDirectory() + "/Luban/image/";
+        //String mDir = Environment.getExternalStorageDirectory() + "/Luban/image/";
+        String mDir = Environment.getExternalStorageDirectory() + "/Luban/image/"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"/";;
+
         File dir = new File(mDir);
         if (!dir.exists()) {
             dir.mkdirs();//文件不存在，则创建文件

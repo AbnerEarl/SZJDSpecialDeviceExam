@@ -194,6 +194,7 @@ public class OperationProcess extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(OperationProcess.this,"操作成功，正在请求数据……",Toast.LENGTH_LONG).show();
                 startcheckstatus();
             }
         });
@@ -331,7 +332,13 @@ public class OperationProcess extends AppCompatActivity {
             @Override
             public void onNext(Object tag, String response) {
 
-                if (response.trim().equals("true")&&CheckControl.sign) {
+                if (response.trim().equals("ywc")){
+                    CheckControl.sign=true;
+                    CheckControl.comfirm=true;
+                    CheckControl.start=true;
+                    CheckControl.leave=true;
+                }
+                else if (response.trim().equals("yhd")&&CheckControl.sign) {
                     flag =true;
                     CheckControl.comfirm=true;
                 }else {

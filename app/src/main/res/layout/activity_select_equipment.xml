@@ -96,7 +96,9 @@
         android:layout_marginLeft="120dp"
         android:layout_marginTop="16dp"
         android:text="请选择检验设备型号！"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />

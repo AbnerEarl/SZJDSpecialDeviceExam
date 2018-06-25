@@ -489,7 +489,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
                 if (response!=null) {
                     Log.i("获取deviceType结果成功",response.toString());
                     JSONObject object=JSON.parseObject(response);
-                    com.alibaba.fastjson.JSONArray deviceArray= JSONObject.parseArray(object.getString("deviceType"));
+                    JSONArray deviceArray= JSONObject.parseArray(object.getString("deviceType"));
                     for (Object objectDevicetype : deviceArray){
                         JSONObject deviceType=(JSONObject)objectDevicetype;
                         deviceTypeList.add(new DeviceType(deviceType.getString("device_type_id"),deviceType.getString("device_type_code"),deviceType.getString("device_type_name")));
@@ -748,6 +748,8 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
          Toast.makeText(this, "请完善订单信息", Toast.LENGTH_SHORT).show();
 
      } else {
+         submitClick=false;
+
          View processView = View.inflate(this, R.layout.simple_processbar, null);
          final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
          processDialog.setView(processView);

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,17 +33,24 @@ import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.Conf.URLConfig;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
+import com.example.frank.jinding.UI.SelectPicture.MyPhotoActivity;
 import com.example.frank.jinding.Upload.FtpClientUpload;
 import com.example.frank.jinding.Upload.FtpUpload;
 import com.example.frank.jinding.Utils.CameraPermissionCompat;
+import com.example.frank.jinding.Utils.SaveImage;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
+import org.apache.poi.hssf.util.HSSFColor;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class SelectEquipment extends AppCompatActivity {
 
@@ -52,7 +61,7 @@ public class SelectEquipment extends AppCompatActivity {
     private List<String> list = new ArrayList<String>();
     private EditText opinion;
     //private File file;
-
+    public static ArrayList<String> mDataList = new ArrayList<>();//存储选取图片路径
     private ImageButton back;
     private TextView title ,device;
     private ListView lv_tasksss;
@@ -62,7 +71,7 @@ public class SelectEquipment extends AppCompatActivity {
     private static boolean dirurl=false;
     private MyAdapter mAdapter;
     FtpUpload ff=new FtpUpload();
-    private  String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
+    private  String path = Environment.getExternalStorageDirectory() + "/Luban/image/"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"/";
 
 
     @Override
@@ -126,22 +135,57 @@ public class SelectEquipment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Boolean permission=CameraPermissionCompat.checkCameraPermission(SelectEquipment.this, new CameraPermissionCompat.OnCameraPermissionListener() {
-                    @Override
-                    public void onGrantResult(boolean granted) {
 
-                        Log.i("相机权限：",granted+"");
+
+                LinearLayout linearLayout=new LinearLayout(SelectEquipment.this);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                Button photo_machine=new Button(SelectEquipment.this);
+                photo_machine.setText("相机拍照");
+                Button photo_picture=new Button(SelectEquipment.this);
+                photo_picture.setText("本地照片");
+                linearLayout.addView(photo_machine);
+                linearLayout.addView(photo_picture);
+
+
+                AlertDialog photo_dialog=new  AlertDialog.Builder(SelectEquipment.this).create();
+                photo_dialog.setView(linearLayout);
+                photo_dialog.show();
+
+                photo_machine.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        photo_dialog.dismiss();
+                        Boolean permission=CameraPermissionCompat.checkCameraPermission(SelectEquipment.this, new CameraPermissionCompat.OnCameraPermissionListener() {
+                            @Override
+                            public void onGrantResult(boolean granted) {
+
+                                Log.i("相机权限：",granted+"");
+                            }
+                        });
+
+                        if (permission) {
+                            Intent intent = new Intent(SelectEquipment.this, Equipment_Recorde.class);
+                            //startActivity(intent);
+                            startActivityForResult(intent, 5201);
+                        }
+                        else {
+                            new AlertDialog.Builder(SelectEquipment.this).setTitle("系统提示").setMessage("您还没有给该应用赋予拍照的权限，请前往手机设置里面手动赋予该应用相机权限").show();
+                        }
                     }
                 });
 
-                if (permission) {
-                    Intent intent = new Intent(SelectEquipment.this, Equipment_Recorde.class);
-                    //startActivity(intent);
-                    startActivityForResult(intent, 5201);
-                }
-                else {
-                    new AlertDialog.Builder(SelectEquipment.this).setTitle("系统提示").setMessage("您还没有给该应用赋予拍照的权限，请前往手机设置里面手动赋予该应用相机权限").show();
-                }
+                photo_picture.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        photo_dialog.dismiss();
+                        Intent intent = new Intent(SelectEquipment.this, MyPhotoActivity.class);
+                        //startActivity(intent);
+                        startActivityForResult(intent, 7777);
+                    }
+                });
+
+
+
             }
         });
 
@@ -158,6 +202,83 @@ public class SelectEquipment extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
+
+                final EditText et=new EditText(SelectEquipment.this);
+                et.setText(mAdapter.listItem.get(arg2).get("ItemText").toString());
+                new  AlertDialog.Builder(SelectEquipment.this)
+                        .setTitle("系统提示")
+                        .setMessage("\n请修改新的检验情况说明：")
+                        .setView(et)
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .setPositiveButton("确定",
+                                new  DialogInterface.OnClickListener()
+                                {
+                                    @Override
+                                    public  void  onClick(DialogInterface dialog, int  which)
+                                    {
+
+                                        String datatext=mAdapter.listItem.get(arg2).get("ItemText").toString();
+                                        final String temimg = mAdapter.listItem.get(arg2).get("ItemImage").toString();
+                                        final String tagtag = mAdapter.listItem.get(arg2).get("Tag").toString();
+
+                                        if (mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("0")) {
+                                            HashMap<String, Object> map = new HashMap<String, Object>();
+                                            map.put("ItemImage", temimg);
+                                            map.put("ItemText", et.getText());
+                                            map.put("Tag", tagtag);
+                                            mAdapter.listItem.remove(arg2);
+                                            mAdapter.listItem.add(map);
+                                            mAdapter.notifyDataSetChanged();
+                                            Toast.makeText(SelectEquipment.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                        }else if (!et.getText().toString().equals(datatext)&&mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("1")){
+                                            String filename = mAdapter.listItem.get(arg2).get("ItemImage").toString();
+                                            String datafile = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) ;
+
+                                            Map<String, Object> paremetes = new HashMap<>();
+                                            paremetes.put("data", orderId+"#"+consignmentId+"#"+deviceId+"#"+datafile+"#"+et.getText());
+                                            ApiService.GetString(SelectEquipment.this, "modifyDescription", paremetes, new RxStringCallback() {
+                                                boolean flag = false;
+
+                                                @Override
+                                                public void onNext(Object tag, String response) {
+                                                    if (response.trim().equals("修改成功！")) {
+                                                        HashMap<String, Object> map = new HashMap<String, Object>();
+                                                        map.put("ItemImage", temimg);
+                                                        map.put("ItemText", et.getText());
+                                                        map.put("Tag", tagtag);
+                                                        mAdapter.listItem.remove(arg2);
+                                                        mAdapter.listItem.add(map);
+                                                        mAdapter.notifyDataSetChanged();
+                                                        Toast.makeText(SelectEquipment.this,"修改成功",Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(Object tag, Throwable e) {
+                                                    Toast.makeText(SelectEquipment.this, "修改失败" + e, Toast.LENGTH_SHORT).show();
+
+
+                                                }
+
+                                                @Override
+                                                public void onCancel(Object tag, Throwable e) {
+                                                    Toast.makeText(SelectEquipment.this, "修改失败" + e, Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            });
+
+                                        }
+
+
+                                    }
+                                }).show();
+
 
 
             }
@@ -306,8 +427,9 @@ public class SelectEquipment extends AppCompatActivity {
                                         intent.putExtra("orderId", orderId);
                                         intent.putExtra("deviceId",deviceId);
                                         intent.putExtra("consignmentId",consignmentId);
+                                        startActivityForResult(intent,123);
 
-                                        startActivity(intent);
+                                        //startActivity(intent);
                                         //finish();
 
 
@@ -493,7 +615,43 @@ public class SelectEquipment extends AppCompatActivity {
 
 
         }
+
+
+
+        if (requestCode ==7777) {
+            Random random=new Random();
+            for (int i=0;i<mDataList.size();i++){
+                System.out.println("返回的路径："+mDataList.get(i));
+                //设置自定义照片的名字
+
+                String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+random.nextInt(1000);
+                String tem_filename=path  + fileName + ".jpg";
+                SaveImage.saveBitmap(mDataList.get(i),fileName);
+
+                HashMap<String, Object> map=new HashMap<>();
+                map.put("ItemImage", tem_filename);
+                map.put("ItemText", "请填写照片相关描述");
+                map.put("Tag","0");
+                mAdapter.listItem.add(map);
+
+            }
+            mAdapter.notifyDataSetChanged();
+
+        }
+
+
+        if (requestCode ==123&& CheckControl.device_finish){
+            System.out.println("order=="+CheckControl.order_finish);
+            System.out.println("protocol=="+CheckControl.protocol_finish);
+            System.out.println("device=="+CheckControl.device_finish);
+            CheckControl.device_finish=false;
+            finish();
+        }
+
+
     }
+
+
 
     private void init(){
 
@@ -702,7 +860,19 @@ public class SelectEquipment extends AppCompatActivity {
             /*Bitmap bm = BitmapFactory.decodeFile(listItem.get(position).get("ItemImage").toString());
             holder.pic.setImageBitmap(bm);*/
 
-            holder.title.setText(listItem.get(position).get("ItemText").toString());
+            //文字处理
+            //holder.title.setText(listItem.get(position).get("ItemText").toString());
+            String tem_str=listItem.get(position).get("ItemText").toString();
+            if (tem_str.equals("请填写照片相关描述")){
+                holder.title.setTextColor(Color.RED);
+            }else {
+                holder.title.setTextColor(Color.BLACK);
+            }
+            holder.title.setText(tem_str);
+
+
+
+
             //图片处理
 
             /*Bitmap bm = BitmapFactory.decodeFile(listItem.get(position).get("ItemImage").toString());

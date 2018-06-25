@@ -1,4 +1,4 @@
-package com.henau.pictureselect.view;
+package com.example.frank.jinding.View.Picture;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.henau.pictureselect.R;
+import com.example.frank.jinding.R;
+
 
 /**
  * 选取图片方式PopWindow
@@ -19,7 +20,7 @@ public class SelectPicWayPop extends PopupWindow implements OnClickListener {
 
     private View mRootView;
     private final LayoutInflater mInflater;
-    private TextView tvPhotoCamera, tvPhotoAlbum, tvCancel;//拍照 选择相册 取消
+    private TextView tvPhotoAlbum, tvCancel;//拍照 选择相册 取消
     private OnSelectPicListener mListener;
 
     public interface OnSelectPicListener{
@@ -40,7 +41,7 @@ public class SelectPicWayPop extends PopupWindow implements OnClickListener {
     private void initView() {
         mRootView = mInflater.inflate(R.layout.pop_select_pic_way, null);
         this.setContentView(mRootView);
-        tvPhotoCamera = (TextView) mRootView.findViewById(R.id.add_photo_camra);
+
         tvPhotoAlbum = (TextView) mRootView.findViewById(R.id.add_photo_album);
         tvCancel = (TextView) mRootView.findViewById(R.id.add_photo_cancel);
     }
@@ -49,7 +50,7 @@ public class SelectPicWayPop extends PopupWindow implements OnClickListener {
      * 设置监听器
      */
     private void setListener() {
-        tvPhotoCamera.setOnClickListener(this);
+
         tvPhotoAlbum.setOnClickListener(this);
         tvCancel.setOnClickListener(this);
     }
@@ -79,10 +80,6 @@ public class SelectPicWayPop extends PopupWindow implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.add_photo_camra:
-                if(mListener != null) mListener.onCapturePhoto();
-                dismiss();
-                break;
             case R.id.add_photo_album:
                 if(mListener != null) mListener.onPickPhoto();
                 dismiss();

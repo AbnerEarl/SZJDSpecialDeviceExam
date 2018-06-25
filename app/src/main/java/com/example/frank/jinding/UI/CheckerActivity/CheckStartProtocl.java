@@ -221,7 +221,8 @@ public class CheckStartProtocl extends AppCompatActivity {
 //                intent.putExtra("deviceType",consignmentList.get(arg2).getDeviceTypeId());
 //                intent.putExtra("ItemPosition", consignmentList.get(arg2).getConsignmentId());
 
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent,123);
 
 
 
@@ -261,6 +262,19 @@ public class CheckStartProtocl extends AppCompatActivity {
     }
 
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode ==123&&CheckControl.order_finish){
+            CheckControl.order_finish=false;
+            finish();
+        }
+        else if (requestCode ==123) {
+
+            getData(refreshcode);
+        }
+    }
 
     private void init(){
 

@@ -1,4 +1,4 @@
-package com.henau.pictureselect.bean;
+package com.example.frank.jinding.Bean.Picture;
 
 import java.io.File;
 

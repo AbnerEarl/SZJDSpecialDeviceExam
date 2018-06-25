@@ -1,4 +1,4 @@
-package com.henau.pictureselect;
+package com.example.frank.jinding.UI.SelectPicture;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,20 +10,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 
-import com.henau.pictureselect.adapter.ShowImageAdapter;
-import com.henau.pictureselect.bean.User;
-import com.henau.pictureselect.utils.Constant;
-import com.henau.pictureselect.utils.SelectPicUtil;
-import com.henau.pictureselect.view.SelectPicWayPop;
+
+import com.example.frank.jinding.Adapter.ShowImageAdapter;
+import com.example.frank.jinding.Bean.Picture.User;
+import com.example.frank.jinding.R;
+import com.example.frank.jinding.Utils.Picture.Constant;
+import com.example.frank.jinding.Utils.Picture.SelectPicUtil;
+import com.example.frank.jinding.View.Picture.SelectPicWayPop;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xxx on 2016/6/27.
- */
+
 public class UploadImageActivity extends AppCompatActivity {
 
     public List<String> mDataList = new ArrayList<>();

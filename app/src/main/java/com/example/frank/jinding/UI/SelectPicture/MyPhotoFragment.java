@@ -1,4 +1,4 @@
-package com.henau.pictureselect;
+package com.example.frank.jinding.UI.SelectPicture;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,28 +10,32 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
-import com.henau.pictureselect.adapter.ShowImageAdapter;
-import com.henau.pictureselect.utils.Constant;
-import com.henau.pictureselect.utils.SelectPicUtil;
-import com.henau.pictureselect.utils.UIUtils;
-import com.henau.pictureselect.view.SelectPicWayPop;
+
+import com.example.frank.jinding.Adapter.ShowImageAdapter;
+import com.example.frank.jinding.R;
+import com.example.frank.jinding.UI.CheckerActivity.SelectEquipment;
+import com.example.frank.jinding.Utils.Picture.Constant;
+import com.example.frank.jinding.Utils.Picture.SelectPicUtil;
+import com.example.frank.jinding.Utils.Picture.UIUtils;
+import com.example.frank.jinding.View.Picture.SelectPicWayPop;
 
 import java.io.File;
 import java.util.ArrayList;
 
-/**
- * Created by xxx on 2016/6/30.
- */
-public class MyPhotoFragment extends Fragment{
 
+public class MyPhotoFragment extends Fragment {
+    private Button btn_finish;
     private View mRootView;
     private ArrayList<String> mDataList = new ArrayList<>();//存储选取图片路径
     private GridView mGridView;
     private ShowImageAdapter mAdapter;
     private SelectPicWayPop mSelectPic;//选取图片方式
+
 
     private String mFilePath;// 拍照文件名
     private String mCropPath;// 裁剪文件名
@@ -58,6 +62,7 @@ public class MyPhotoFragment extends Fragment{
         }
 
         mGridView = (GridView) mRootView.findViewById(R.id.gridView);
+        btn_finish=(Button)mRootView.findViewById(R.id.btn_photo_select_finish);
         mAdapter = new ShowImageAdapter(mRootView.getContext(),mDataList);
         mAdapter.setOnClickImageListener(new ShowImageAdapter.OnClickImageListener() {
             @Override
@@ -73,6 +78,13 @@ public class MyPhotoFragment extends Fragment{
             }
         });
         mGridView.setAdapter(mAdapter);
+        btn_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"操作成功，正在读取数据……",Toast.LENGTH_LONG).show();
+               MyPhotoActivity.finishPhotoSelect=true;
+            }
+        });
     }
 
     public void initSelectPop(){
@@ -132,6 +144,8 @@ public class MyPhotoFragment extends Fragment{
                 mAdapter.notifyDataSetChanged();
             }
         }
+
+        SelectEquipment.mDataList=mDataList;
     }
 
     public static MyPhotoFragment newInstance(ArrayList<String> datas){

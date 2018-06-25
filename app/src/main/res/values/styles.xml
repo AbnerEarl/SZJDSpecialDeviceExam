@@ -18,6 +18,12 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
+    <style name="pop_show_style">
+        <item name="android:windowEnterAnimation">@anim/pop_show_up</item>
+        <item name="android:windowExitAnimation">@anim/pop_show_down</item>
+    </style>
+
+
     <!-- spinner -->
     <style name="spinner_style">
         <item name="android:background">@drawable/spinner_selector</item>

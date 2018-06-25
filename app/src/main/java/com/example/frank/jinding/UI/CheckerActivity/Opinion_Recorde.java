@@ -48,7 +48,7 @@ public class Opinion_Recorde extends AppCompatActivity {
 
     private String order_id="",consignment_id="",device_id="";
 
-    private  String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
+    private  String path = Environment.getExternalStorageDirectory() + "/Luban/image/"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package com.henau.pictureselect.bean;
+package com.example.frank.jinding.Bean.Picture;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * 测试Parcelable
  * Created by xxx on 2016/6/27.
  */
-public class User implements Parcelable{
+public class User implements Parcelable {
     public int userId;
     public String userName;
     public boolean isMale;

@@ -32,6 +32,7 @@
         android:layout_height="20dp"
         android:background="@drawable/__picker_ic_delete_p"
         android:layout_alignParentTop="true"
+        android:focusable="false"
         android:layout_toLeftOf="@+id/imageView5"
         android:layout_toStartOf="@+id/imageView5" />
 
@@ -39,8 +40,10 @@
         android:id="@+id/button61"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:background="@android:drawable/ic_menu_edit"
+        android:focusable="false"
         android:layout_alignBottom="@+id/imageView5"
         android:layout_toLeftOf="@+id/imageView5"
-        android:layout_toStartOf="@+id/imageView5" />
+        android:layout_toStartOf="@+id/imageView5"
+        android:background="@android:drawable/ic_menu_edit"
+        android:visibility="invisible" />
 </RelativeLayout>

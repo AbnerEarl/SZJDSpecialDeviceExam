@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.example.frank.jinding.UI.PublicMethodActivity.OrderDetails;
@@ -135,7 +136,8 @@ public class SelectOrder extends AppCompatActivity {
                 intent.putExtra("isMainChecker", submissionOrderList.get(arg2).getBoolean("isMainChecker"));
                 //intent.putExtra("userid",userid);
                 intent.putExtra("submission_id", submissionOrderList.get(arg2).get("submissionId").toString());
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent,123);
             }
         });
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -172,6 +174,23 @@ public class SelectOrder extends AppCompatActivity {
     }
 
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // super.onActivityResult(requestCode, resultCode, data);
+       if (requestCode ==123) {
+
+           refreshLayout.setRefreshing(true);
+           if (spinnerSelectedItem==1){
+               getData(6);
+           }
+           else if (spinnerSelectedItem==3){
+               getData(7);
+           }else if (spinnerSelectedItem==2){
+               getData(8);
+           }
+        }
+    }
 
     private void init(){
 

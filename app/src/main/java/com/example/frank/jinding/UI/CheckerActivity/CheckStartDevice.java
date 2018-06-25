@@ -29,6 +29,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.frank.jinding.Bean.OrderBean.CheckType;
 import com.example.frank.jinding.Bean.OrderBean.OrderDeviceDetail;
+import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.tamic.novate.Throwable;
@@ -93,7 +94,8 @@ public class CheckStartDevice extends AppCompatActivity {
                 intent.putExtra("isMainChecker", isMainChecker);
                 intent.putExtra("consignmentId", consignmentId);
                 intent.putExtra("deviceId", waitAdapter.listItem.get(arg2).getDeviceDetailId().toString());//设备id有待确认
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent,123);
 
             }
         });
@@ -110,6 +112,19 @@ public class CheckStartDevice extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode ==123&& CheckControl.protocol_finish){
+            CheckControl.protocol_finish=false;
+            finish();
+        }
+        else if (requestCode ==123) {
+            refreshLayout.setRefreshing(true);
+            getDeviceList(consignmentId, refreshcode);
+        }
+    }
 
     private void init() {
 

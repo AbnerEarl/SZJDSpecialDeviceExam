@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.frank.jinding.Bean.Instrument.InstrumentStatus;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
+import com.example.frank.jinding.Utils.ClickUtils;
 import com.example.frank.jinding.Utils.JsonTimeUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -195,7 +198,8 @@ public class ApplyInstrument extends AppCompatActivity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSelectedList.size() > 0) {
+
+                if (isSelectedList.size() > 0&&!ClickUtils.isFastClick()) {
                     new AlertDialog.Builder(ApplyInstrument.this)
                             .setTitle("系统提示")
                             .setMessage("您是否确认提交所选仪器？")
