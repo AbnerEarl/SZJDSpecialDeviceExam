@@ -27,6 +27,7 @@ import com.example.frank.jinding.Adapter.SpinnerAdapter;
 import com.example.frank.jinding.Bean.OrderBean.CheckReference;
 import com.example.frank.jinding.Bean.OrderBean.ConsignmentDetail;
 import com.example.frank.jinding.Bean.OrderBean.DeviceType;
+import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.Interface.CallBack;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
@@ -363,9 +364,10 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         @Override
         public void onNext(Object tag, String response) {
             if (response!=null&&response.equals("true")){
-
                 Toast.makeText(OrderCheck.this,"信息核对完成",Toast.LENGTH_SHORT).show();
-             finish();
+
+                CheckControl.comfirm=true;
+                finish();
             }else {
                 Toast.makeText(OrderCheck.this,response,Toast.LENGTH_SHORT).show();
             }

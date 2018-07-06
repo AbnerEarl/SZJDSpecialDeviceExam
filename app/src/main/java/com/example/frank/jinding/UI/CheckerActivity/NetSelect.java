@@ -112,7 +112,7 @@ public class NetSelect extends AppCompatActivity {
                 adapter.titleContainer = titleContainer;
                 adapter.viewContainter = viewContainter;
                 viewPager.setAdapter(adapter);
-                viewPager.setOffscreenPageLimit(10);
+                //viewPager.setOffscreenPageLimit(10);
                 tabLayout.setupWithViewPager(viewPager);
                 initFragmentData();
             }
@@ -177,6 +177,7 @@ public class NetSelect extends AppCompatActivity {
                     for (InstrumentStatus instrumentStatus : list) {
                         list_adapter.get(i).listItem.add(instrumentStatus);
                     }
+                    //全选按钮
                     checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -187,6 +188,7 @@ public class NetSelect extends AppCompatActivity {
                                         checkBox1.setChecked(true);
                                     }
                                 }
+
                             }else{
                                 for(int j=0;j<qAdapter.listItem.size();j++){
                                     CheckBox checkBox1=listView.getChildAt(j).findViewById(R.id.checkBox_instru_select);
@@ -195,13 +197,14 @@ public class NetSelect extends AppCompatActivity {
                                     }
                                 }
                             }
+                            //Toast.makeText(NetSelect.this,"数量"+isSelectedList.size(),Toast.LENGTH_SHORT).show();
                         }
                     });
                     list_listview.get(i).setAdapter(list_adapter.get(i));
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    list_listview.get(i).setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            CheckBox checkBox=listView.getChildAt(position).findViewById(R.id.checkBox_instru_select);
+                            CheckBox checkBox=view.findViewById(R.id.checkBox_instru_select);
                             if (checkBox.isChecked()) {
                                 checkBox.setChecked(false);
                             } else {
@@ -252,17 +255,24 @@ public class NetSelect extends AppCompatActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
+            //if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.instrument_infomation_net, null);
                 holder.instruNum = (TextView) convertView.findViewById(R.id.text_number_instru);
                 holder.instruNam = (TextView) convertView.findViewById(R.id.text_name_instru);
                 holder.selectinstu = (CheckBox) convertView.findViewById(R.id.checkBox_instru_select);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            holder.instruNam.setText(listItem.get(position).getInstrumentType().toString());
-            holder.instruNum.setText(listItem.get(position).getInstrumentCode().toString());
+
+                //convertView.setTag(holder);
+            //} else {
+             //   holder = (ViewHolder) convertView.getTag();
+            //}
+            //if((int)convertView.getTag(1)==position){
+                holder.instruNam.setText(listItem.get(position).getInstrumentType().toString());
+                holder.instruNum.setText(listItem.get(position).getInstrumentCode().toString());
+            //}else{
+            //    holder.instruNam.setText("加载中");
+            //    holder.instruNum.setText("加载中");
+            //}
+
             holder.selectinstu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -285,20 +295,24 @@ public class NetSelect extends AppCompatActivity {
                         }
                         if (!flag) {
                             isSelectedList.add(map);
+                            isSelectedIdList.add(listItem.get(position).getInstrumentId());
                         }
                     } else {
                         for (int i = 0; i < isSelectedList.size(); i++) {
                             Map<String, String> m = isSelectedList.get(i);
                             if (m.get("instrumentId").equals(listItem.get(position).getInstrumentId().toString())) {
-                                isSelectedList.remove(i);
+                                isSelectedList.remove(m);
+                                isSelectedIdList.remove(m.get("instrumentId"));
                             }
                         }
                     }
                 }
             });
-            holder.selectinstu.setChecked(false);
+
             if (gsonContainTime.toJson(isSelectedIdList).contains(listItem.get(position).getInstrumentId())) {
                 holder.selectinstu.setChecked(true);
+            }else{
+                holder.selectinstu.setChecked(false);
             }
 
             return convertView;

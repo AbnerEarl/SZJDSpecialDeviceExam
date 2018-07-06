@@ -19,6 +19,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,8 +28,10 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.frank.jinding.ExtraPermission.Permission;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
+import com.example.frank.jinding.UI.CheckerActivity.SelectEquipment;
 import com.example.frank.jinding.UI.PublicMethodActivity.OrderDetails;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
@@ -150,6 +154,7 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
                     item.put("projectName",jsonObject.getString("projectName"));
                     item.put("projectAddress",jsonObject.getString("projectAddress"));
                     item.put("checkerExpect",jsonObject.getString("checkerExpect"));
+                    item.put("isFirstSubmission",jsonObject.getString("isFirstSubmission"));
                     orderList.add(item);
                 }
                 if (orderList!=null&&orderList.size()!=0) {
@@ -300,6 +305,7 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
                 holder = new ViewHolder();
                 /*得到各个控件的对象*/
                 holder.place = (TextView) convertView.findViewById(R.id.sendPlace);
+                holder.taskIcon=(ImageView)convertView.findViewById(R.id.task_icon);
                 holder.actualTime=(TextView)convertView.findViewById(R.id.actual_time);
                 holder.select = (CheckBox) convertView.findViewById(R.id.dispatching_checkBox);
                 holder.title = (TextView) convertView.findViewById(R.id.dispatching_unit);
@@ -318,6 +324,11 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
             holder.actualTime.setText(orderList.get(position).get("checkdateExpect").toString());
             holder.title.setText(orderList.get(position).get("orderOrg").toString());
             holder.expectChecker.setText(orderList.get(position).get("checkerExpect").toString());
+            if (orderList.get(position).get("isFirstSubmission").equals("true")){
+                holder.taskIcon.setImageResource(R.drawable.first_order);
+            }else {
+                holder.taskIcon.setImageResource(R.drawable.second_order);
+            }
             holder.select.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -330,6 +341,20 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
                 Log.i("dispatching","setINVISIBLE");
                 holder.select.setVisibility(View.INVISIBLE);
             }
+
+            holder.taskIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (orderList.get(position).get("isFirstSubmission").equals("true")){
+
+                    }else {
+                        getFailSubmission(orderList.get(position).get("orderId").toString());
+
+                    }
+                }
+            });
+
+
             return convertView;
         }
 
@@ -345,6 +370,7 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
 
     /*存放控件*/
     public final class ViewHolder {
+        public ImageView taskIcon;
         public CheckBox select;
         public TextView title;
         public TextView place;
@@ -354,6 +380,74 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    private void getFailSubmission(String orderId){
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Map<String, Object> paremetes = new HashMap<>();
+                    paremetes.put("orderId",orderId);
+                    ApiService.GetString(DepartmentHead.this, "getSubmissionFailReason", paremetes, new RxStringCallback() {
+
+
+                        @Override
+                        public void onNext(Object tag, String response) {
+
+                            String data_info[]=response.split("##");
+                            LinearLayout linearLayout=new LinearLayout(DepartmentHead.this);
+                            linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+                            for (int i=0;i<data_info.length;i=i+2){
+                                TextView t_name=new TextView(DepartmentHead.this);
+                                t_name.setText("\n    拒绝人："+data_info[i]);
+
+                                TextView t_reson=new TextView(DepartmentHead.this);
+                                t_reson.setText("    拒绝原因："+data_info[i+1]);
+
+                                linearLayout.addView(t_name);
+                                linearLayout.addView(t_reson);
+                            }
+
+
+
+                            new AlertDialog.Builder(DepartmentHead.this)
+                                    .setTitle("派工失败原因")
+                                    .setView(linearLayout)
+                                    .setPositiveButton("确定",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+
+
+                                                }
+                                            }).show();
+
+                        }
+
+                        @Override
+                        public void onError(Object tag, Throwable e) {
+                            Toast.makeText(DepartmentHead.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onCancel(Object tag, Throwable e) {
+                            Toast.makeText(DepartmentHead.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+    }
 
 }

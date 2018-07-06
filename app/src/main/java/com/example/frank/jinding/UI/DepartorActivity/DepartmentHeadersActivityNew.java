@@ -106,7 +106,7 @@ public class DepartmentHeadersActivityNew extends AppCompatActivity
                     Intent intent = new Intent(DepartmentHeadersActivityNew.this, DepartmentHead.class);
                     //startActivity(intent);
                     startActivityForResult(intent, 6666);
-                }else if (menuname_item.contains("财务状态")||menuname_item.contains("财务异动")){
+                }else if (menuname_item.contains("财务状态")||menuname_item.contains("财务异动")||menuname_item.contains("待审核异动")){
                     Intent intent=new Intent(DepartmentHeadersActivityNew.this,DepartmentHeaderFinance.class);
                     //startActivity(intent);
                     startActivityForResult(intent, 6666);

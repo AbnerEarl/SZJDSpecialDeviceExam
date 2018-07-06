@@ -64,6 +64,10 @@ public class OperationProcess extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CheckControl.sign=false;
+                CheckControl.comfirm=false;
+                CheckControl.start=false;
+                CheckControl.leave=false;
                 finish();
             }
         });
@@ -101,10 +105,10 @@ public class OperationProcess extends AppCompatActivity {
 
                 }
 
-                handler.postDelayed(this, 2000);
+                handler.postDelayed(this, 1000);
             }
         };
-        handler.postDelayed(runnable, 2000);
+        handler.postDelayed(runnable, 1000);
 
 
         sign.setOnClickListener(new View.OnClickListener() {
@@ -194,13 +198,15 @@ public class OperationProcess extends AppCompatActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(OperationProcess.this,"操作成功，正在请求数据……",Toast.LENGTH_LONG).show();
+                Toast.makeText(OperationProcess.this,"操作成功",Toast.LENGTH_SHORT).show();
                 startcheckstatus();
             }
         });
 
 
     }
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void init() {
@@ -523,6 +529,10 @@ public class OperationProcess extends AppCompatActivity {
                                                                     @Override
                                                                     public  void  onClick(DialogInterface dialog, int  which)
                                                                     {
+                                                                        CheckControl.sign=false;
+                                                                        CheckControl.comfirm=false;
+                                                                        CheckControl.start=false;
+                                                                        CheckControl.leave=false;
                                                                         finish();
 
                                                                     }

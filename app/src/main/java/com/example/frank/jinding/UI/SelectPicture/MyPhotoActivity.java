@@ -55,7 +55,8 @@ public class MyPhotoActivity extends AppCompatActivity {
                 handler.postDelayed(this, 1000);
                 if (finishPhotoSelect){
                     finishPhotoSelect=false;
-                    finish();
+                   finish();
+
                 }
 
             }

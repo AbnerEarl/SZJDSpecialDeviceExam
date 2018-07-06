@@ -8,18 +8,19 @@
 
     <Spinner
         android:id="@+id/check_scene_spinner"
-        style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+        style="@android:style/Theme.Light"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
+        android:gravity="start"
+        android:spinnerMode="dialog"
         android:textAlignment="textStart"
         app:layout_constraintHorizontal_bias="0.342"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include5"
-        android:gravity="start" />
+        app:layout_constraintTop_toBottomOf="@+id/include5" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

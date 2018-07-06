@@ -98,7 +98,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                                     {
                                         if (et.getText().toString().trim().length()>2) {
                                             Map<String, Object> paremetes = new HashMap<>();
-                                            paremetes.put("data", submission_id + "," + et.getText());
+                                            paremetes.put("data", submission_id + "## " + et.getText()+ " ##" +orderId);
                                             ApiService.GetString(CheckStartProtocl.this, "terminationTest", paremetes, new RxStringCallback() {
                                                 @Override
                                                 public void onNext(Object tag, String response) {
@@ -164,7 +164,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                                         if (et.getText().toString().trim().length()>2) {
 
                                             Map<String, Object> paremetes = new HashMap<>();
-                                            paremetes.put("data", submission_id + "," + et.getText());
+                                            paremetes.put("data", submission_id + "## " + et.getText()+ " ##" +orderId);
                                             ApiService.GetString(CheckStartProtocl.this, "reAssignment", paremetes, new RxStringCallback() {
                                                 @Override
                                                 public void onNext(Object tag, String response) {

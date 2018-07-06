@@ -200,7 +200,12 @@ public class CheckOpinion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                getOpinionPhoto();
+                Intent intent11=new Intent(CheckOpinion.this,OpinionPicturesActivity.class);
+                intent11.putExtra("consignmentId", consignmentId);
+                intent11.putExtra("orderId", orderId);
+                intent11.putExtra("deviceId",device_id);
+                startActivity(intent11);
+                //getOpinionPhoto();
 
             }
         });

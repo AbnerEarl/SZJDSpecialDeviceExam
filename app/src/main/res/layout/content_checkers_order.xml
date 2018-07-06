@@ -20,12 +20,13 @@
 
             <Spinner
                 android:id="@+id/spinner3_ch"
-                style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+                style="@android:style/Theme.Light"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
+                android:spinnerMode="dialog"
                 app:layout_constraintHorizontal_bias="0.342"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

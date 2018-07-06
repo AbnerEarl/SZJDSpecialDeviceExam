@@ -2,6 +2,7 @@ package com.example.frank.jinding.Conf;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Frank on 2017/12/7.
@@ -30,6 +31,10 @@ public class CheckInfo {
 
     public static ArrayList<HashMap<String, Object>> waitreport = new ArrayList<HashMap<String,     Object>>();
     public static ArrayList<HashMap<String, Object>> confirmreport = new ArrayList<HashMap<String,     Object>>();
+
+
+    //仪器选择信息
+    //public static ArrayList<Map<String, String>> isSelectedList = new ArrayList<>();
 
 
 

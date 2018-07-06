@@ -180,6 +180,7 @@ public class SelectEquipment extends AppCompatActivity {
                         photo_dialog.dismiss();
                         Intent intent = new Intent(SelectEquipment.this, MyPhotoActivity.class);
                         //startActivity(intent);
+                        MyPhotoActivity.finishPhotoSelect=false;
                         startActivityForResult(intent, 7777);
                     }
                 });

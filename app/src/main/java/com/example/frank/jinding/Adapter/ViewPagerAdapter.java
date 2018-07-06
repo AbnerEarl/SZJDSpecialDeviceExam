@@ -1,4 +1,4 @@
-package com.example.frank.commemorativebook;
+package com.example.frank.jinding.Adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;

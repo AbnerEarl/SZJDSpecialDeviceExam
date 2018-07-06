@@ -21,7 +21,7 @@ public class URLConfig {
     //本地测试地址
 
     //public static String ServiceURL="http://192.168.1.108:9000/WEBSYSTEM/app/";
-    //public static String ServiceURL="http://192.168.191.1:8080/WEBSYSTEM/app/";
+   // public static String ServiceURL="http://192.168.191.1:8080/WEBSYSTEM/app/";
 
     //本地测试地址上面两行
 

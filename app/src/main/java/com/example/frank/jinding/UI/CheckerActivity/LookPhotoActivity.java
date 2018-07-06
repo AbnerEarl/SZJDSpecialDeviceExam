@@ -1,13 +1,15 @@
-package com.example.frank.commemorativebook;
+package com.example.frank.jinding.UI.CheckerActivity;
 
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.frank.jinding.Adapter.ViewPagerAdapter;
+import com.example.frank.jinding.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class LookPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_look_photo);
 
-        list_show=PersonPhotoActivity.list_show_photo;
+        list_show=OpinionPicturesActivity.list_show_photo;
         initViewPager();
 
     }
