@@ -327,6 +327,7 @@ public class Verification extends AppCompatActivity {
                                 role=rr[rr.length-1];
                                 logintag="";
                                 Toast.makeText(Verification.this,result, Toast.LENGTH_SHORT).show();
+                                Log.i("result:",result.toString());
                                 Intent intent=new Intent(Verification.this,RolePermission.class);
                                 intent.putExtra("role",role);
                                 startActivityForResult(intent,5201);

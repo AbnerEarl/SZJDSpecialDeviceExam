@@ -60,6 +60,7 @@ public class RolePermission extends AppCompatActivity {
         init();
         // new AlertDialog.Builder(RolePermission.this).setTitle("xinxi").setMessage(roles.get(0).trim().substring(1,roles.get(0).trim().length()-1)).show();
         Log.i("juese:",role_list.toString());
+        Log.i("juese:",data_list.toString());
 
         gview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -179,7 +180,9 @@ public class RolePermission extends AppCompatActivity {
     }
 
     private void formatData(String origin){
+        Log.i("origin:", origin.toString());
         String r1[]=origin.split("Role");
+
         if (r1.length>1){
             for (int i=1;i<r1.length;i++){
 
@@ -192,6 +195,7 @@ public class RolePermission extends AppCompatActivity {
                 }
 
             }
+
         }
     }
 

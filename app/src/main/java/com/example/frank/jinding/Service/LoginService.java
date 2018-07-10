@@ -120,24 +120,28 @@ public class LoginService {
 		try {
 			//1打开一个浏览器
 			BasicHttpParams httpParams = new BasicHttpParams();
-			HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
-			HttpConnectionParams.setSoTimeout(httpParams, 10000);
+			HttpConnectionParams.setConnectionTimeout(httpParams, 5000);// 设置连接超时时间
+			HttpConnectionParams.setSoTimeout(httpParams, 10000);// 设置服务器响应超时时间
 			HttpClient client=new DefaultHttpClient();
+			//创建一个发送请求的客户端
 			//2输入地址
 			String path= Path.URLPATH;
 			HttpPost httpPost=new HttpPost(path);
+			//创建Post请求对象
 			httpPost.setHeader("token",token);
 			//3指定要提交的数据实体
 			List<NameValuePair> parameters=new ArrayList<NameValuePair>();
 			parameters.add(new BasicNameValuePair("loginName", username));
 			parameters.add(new BasicNameValuePair("password",password));
-			httpPost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
+			httpPost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));//把这个封装好需要发送数据的集合放进post请求的实体中
 			
 			HttpResponse httpRes=client.execute(httpPost);
+			//执行请求发给服务器端
 			int code=httpRes.getStatusLine().getStatusCode();
 			if(code==200){
 				InputStream is=httpRes.getEntity().getContent();
 				String text=StreamTool.streamtoText(is, "utf-8");
+				//得到服务器返回的对象（？？？）转为字符串
 				return text;
 			}
 		} catch (Exception e) {

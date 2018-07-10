@@ -782,6 +782,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
              @Override
              public void onNext(Object tag, String response) {
                  Log.i(TAG, "成功" + response);
+                 Log.i("PARAMENTERS",parameters.toString());
                  processDialog.dismiss();
                  submitClick=true;
                  new AlertDialog.Builder(AddOrder.this)
