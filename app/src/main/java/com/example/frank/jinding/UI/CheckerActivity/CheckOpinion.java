@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.Conf.URLConfig;
@@ -221,11 +222,18 @@ public class CheckOpinion extends AppCompatActivity {
 
                 if (opionsp.getSelectedItem().equals("需复检（待确认）")){
                     submit.setEnabled(false);
+                    HashMap<String,String> map_data=new HashMap<>();
                     exam_result = (opionsp.getSelectedItemId() - 1) + "";
                     problem_suggestion = "该设备需要复检，详情条目见表详情！";
-                    String data = submission_id + "#" + device_id + "#" + exam_result + "#" + problem_suggestion;
+                   // String data = submission_id + "#" + device_id + "#" + exam_result + "#" + problem_suggestion;
+                    map_data.put("exam_result",exam_result);
+                    map_data.put("problem_suggestion",problem_suggestion);
+                    map_data.put("submission_id",submission_id);
+                    map_data.put("device_id",device_id);
+                    map_data.put("orderId",orderId);
                     Map<String, Object> paremetes = new HashMap<>();
-                    paremetes.put("data", data);
+                    paremetes.put("data", JSON.toJSONString(map_data));
+
                     ApiService.GetString(CheckOpinion.this, "addCheckOpinionResult", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
@@ -344,12 +352,19 @@ public class CheckOpinion extends AppCompatActivity {
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                HashMap<String,String> map_data=new HashMap<>();
                                                 submit.setEnabled(false);
                                                 exam_result = (opionsp.getSelectedItemId() - 1) + "";
                                                 problem_suggestion = etcontent.getText().toString();
-                                                String data = submission_id + "#" + device_id  + "#" + exam_result + "# " + problem_suggestion+" #"+orderId;
+                                               // String data = submission_id + "#" + device_id  + "#" + exam_result + "# " + problem_suggestion+" #"+orderId;
+                                                map_data.put("exam_result",exam_result);
+                                                map_data.put("problem_suggestion",problem_suggestion);
+                                                map_data.put("submission_id",submission_id);
+                                                map_data.put("device_id",device_id);
+                                                map_data.put("orderId",orderId);
+
                                                 Map<String, Object> paremetes = new HashMap<>();
-                                                paremetes.put("data", data);
+                                                paremetes.put("data", JSON.toJSONString(map_data));
                                                 ApiService.GetString(CheckOpinion.this, "addCheckOpinionResult", paremetes, new RxStringCallback() {
                                                     boolean flag = false;
 
@@ -473,123 +488,6 @@ public class CheckOpinion extends AppCompatActivity {
         //getInstrumentCodes();
 
     }
-
-    private void getInstrumentCodes(){
-
-
-        Map<String, Object> paremetes = new HashMap<>();
-        paremetes.put("data", submission_id);
-        ApiService.GetString(CheckOpinion.this, "instrumentCodes", paremetes, new RxStringCallback() {
-            boolean flag = false;
-
-            @Override
-            public void onNext(Object tag, String response) {
-
-                if ((response.trim().split(":")[0]).equals("true")) {
-                    instrment_codes=response.trim().split(":")[1];
-                }
-            }
-
-            @Override
-            public void onError(Object tag, Throwable e) {
-                Toast.makeText(CheckOpinion.this, "" + e, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancel(Object tag, Throwable e) {
-                Toast.makeText(CheckOpinion.this, "" + e, Toast.LENGTH_SHORT).show();
-
-            }
-
-
-        });
-
-    }
-
-
-
-
-    private void getOpinionPhoto(){
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-
-                    String data=orderId+"#"+consignmentId+"#"+device_id;
-                    Map<String, Object> paremetes = new HashMap<>();
-                    paremetes.put("data",data);
-                    ApiService.GetString(CheckOpinion.this, "getDeviceCheckOpinion", paremetes, new RxStringCallback() {
-                        boolean flag = false;
-
-                        @Override
-                        public void onNext(Object tag, String response) {
-
-                            if (!response.trim().equals("没有记录")&&!response.trim().equals("上传失败！")) {
-                                //Toast.makeText(SelectEquipment.this, "获取到的数据：" + response, Toast.LENGTH_SHORT).show();
-                                //String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
-                                   //String data[]=response.split("##");
-                                    //ff.download(CheckOpinion.this,orderId+"/"+consignmentId+"/"+deviceId+"/",data[i]+".jpg");
-                                String imgurl= URLConfig.CompanyURL+orderId+"/"+consignmentId+"/"+device_id+"/"+response.trim()+".jpg";
-
-                                LayoutInflater inflater = getLayoutInflater();
-                                View layout = inflater.inflate(R.layout.dialog_report, (ViewGroup) findViewById(R.id.dalog_report));
-                                final ImageView img = (ImageView) layout.findViewById(R.id.imageView6);
-                                final TextView textv =(TextView) layout.findViewById(R.id.textView34);
-
-                                Glide.with(CheckOpinion.this).load(imgurl).into(img);
-                                //textv.setText("现场检验意见");
-                                new AlertDialog.Builder(CheckOpinion.this).setTitle("现场检验意见").setView(layout)
-                                        .setPositiveButton("确定", new  DialogInterface.OnClickListener()
-                                        {
-                                            @Override
-                                            public  void  onClick(DialogInterface dialog, int  which)
-                                            {
-
-                                            }
-                                        })
-                                        .setNegativeButton("取消", new  DialogInterface.OnClickListener()
-                                        {
-                                            @Override
-                                            public  void  onClick(DialogInterface dialog, int  which)
-                                            {
-                                            }
-                                        }).show();
-
-
-
-                            }else {
-                                Toast.makeText(CheckOpinion.this, "没有记录" , Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Object tag, Throwable e) {
-                            Toast.makeText(CheckOpinion.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
-                            //refreshLayout.setRefreshing(false);
-
-                        }
-
-                        @Override
-                        public void onCancel(Object tag, Throwable e) {
-                            Toast.makeText(CheckOpinion.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
-                            //refreshLayout.setRefreshing(false);
-                        }
-                    });
-
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-
-    }
-
-
 
 
 

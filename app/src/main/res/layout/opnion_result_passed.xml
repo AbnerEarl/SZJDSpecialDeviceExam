@@ -9,8 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1"
-        android:text="检验结论：" />
+        android:text="检验结论："
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/ro_result"
@@ -19,6 +21,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/textView50"
         android:layout_toRightOf="@+id/textView50"
         android:text="TextView"
@@ -46,6 +49,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignStart="@+id/ro_opinion"
         android:layout_below="@+id/ro_opinion"
+        android:layout_marginBottom="5dp"
         tools:text="斯蒂芬斯蒂芬\n" />
 
     <TextView
@@ -56,7 +60,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ro_result"
         android:layout_marginLeft="10dp"
-        android:text="检验意见：" />
+        android:text="检验意见："
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView114"
@@ -66,6 +71,8 @@
         android:layout_alignBottom="@+id/ro_status"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
-        android:text="审核状态：" />
+        android:text="审核状态："
+        android:textStyle="bold" />
 </RelativeLayout>

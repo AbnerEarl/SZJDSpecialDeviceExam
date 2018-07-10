@@ -18,28 +18,15 @@
         app:layout_constraintTop_toBottomOf="@+id/add_photo"
         android:id="@+id/linearLayout2"></LinearLayout>
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="1dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/editext_shape"
-        android:ems="10"
-        android:hint="关于设备的情况！"
-        android:inputType="textPersonName"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="212dp" />
-
     <Button
         android:id="@+id/add_photo"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="2dp"
         android:background="@color/colorPrimary"
         android:text="现场拍照"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/other_infomation"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -59,13 +46,15 @@
 
     <Button
         android:id="@+id/other_infomation"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="2dp"
         android:layout_marginStart="2dp"
         android:background="@color/colorPrimary"
         android:text="上传保存"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/add_opinion"
         app:layout_constraintStart_toEndOf="@+id/add_photo" />
 
     <include
@@ -120,25 +109,27 @@
         app:layout_constraintVertical_bias="0.79" />
 
 
-
     <Button
         android:id="@+id/add_opinion"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="2dp"
         android:layout_marginStart="2dp"
         android:background="@color/colorPrimary"
         android:text="填写检验意见"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/look_result"
         app:layout_constraintStart_toEndOf="@+id/other_infomation" />
 
     <Button
         android:id="@+id/look_result"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="2dp"
         android:background="@color/colorPrimary"
         android:text="查看审核结果"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/add_opinion" />
 
 </android.support.constraint.ConstraintLayout>

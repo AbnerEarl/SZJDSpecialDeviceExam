@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.example.frank.jinding.Conf.URLConfig;
 import com.example.frank.jinding.R;
@@ -259,9 +260,13 @@ public class OpinionPicturesActivity extends AppCompatActivity {
                 try {
 
 
-                    String data=order_id+"#"+consignment_id+"#"+device_id;
+                    //String data=order_id+"#"+consignment_id+"#"+device_id;
+                    HashMap<String,String> map_data=new HashMap<>();
+                    map_data.put("order_id",order_id);
+                    map_data.put("consignment_id",consignment_id);
+                    map_data.put("device_id",device_id);
                     Map<String, Object> paremetes = new HashMap<>();
-                    paremetes.put("data",data);
+                    paremetes.put("data", JSON.toJSONString(map_data));
                     ApiService.GetString(OpinionPicturesActivity.this, "getDeviceCheckOpinion", paremetes, new RxStringCallback() {
                         boolean flag = false;
 

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.frank.jinding.BuildConfig;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
@@ -127,13 +128,6 @@ public class Opinion_Recorde extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //CheckInfo.listItem.clear();
-                /*HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("ItemImage", ffilename);
-                map.put("ItemText", infomation.getText().toString());
-                map.put("Tag","0");
-                CheckInfo.listItem.add(map);*/
-
                 if (!ffilename.equals("")) {
 
                     //Toast.makeText(Opinion_Recorde.this, "保存成功", Toast.LENGTH_SHORT).show();
@@ -164,9 +158,15 @@ public class Opinion_Recorde extends AppCompatActivity {
 
                                                                 //上传文字描述到服务器
                                                                 String filename = ffilename;
-                                                                String dd = order_id + "#" + consignment_id + "#" + device_id + "#" + filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) ;
+                                                                HashMap<String,String> map_data=new HashMap<>();
+                                                                map_data.put("order_id",order_id);
+                                                                map_data.put("consignment_id",consignment_id);
+                                                                map_data.put("device_id",device_id);
+                                                                map_data.put("filename",filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")));
+
+                                                                //String dd = order_id + "#" + consignment_id + "#" + device_id + "#" + filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) ;
                                                                 Map<String, Object> paremetes = new HashMap<>();
-                                                                paremetes.put("data", dd);
+                                                                paremetes.put("data", JSON.toJSONString(map_data));
                                                                 ApiService.GetString(Opinion_Recorde.this, "addDeviceCheckOpinion", paremetes, new RxStringCallback() {
                                                                     boolean flag = false;
 

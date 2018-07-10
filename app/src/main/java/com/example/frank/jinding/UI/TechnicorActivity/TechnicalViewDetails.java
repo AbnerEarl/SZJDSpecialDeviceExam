@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.bumptech.glide.Glide;
 import com.example.frank.jinding.Conf.URLConfig;
 import com.example.frank.jinding.R;
@@ -51,7 +53,8 @@ public class TechnicalViewDetails extends AppCompatActivity {
                 StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
         StrictMode.setVmPolicy(
                 new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
-*/
+        */
+
         path=getIntent().getStringExtra("path");
 
         init();
@@ -111,24 +114,19 @@ public class TechnicalViewDetails extends AppCompatActivity {
             public void run() {
                 try {
 
-                    String data=path;
                     Map<String, Object> paremetes = new HashMap<>();
-                    paremetes.put("data",data);
+                    paremetes.put("data",path);
                     ApiService.GetString(TechnicalViewDetails.this, "checkDetails", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
                         @Override
                         public void onNext(Object tag, String response) {
 
-                            String pp[]=path.split("#");
+                            HashMap<String,String> map_info= JSON.parseObject(path,new TypeReference<HashMap<String,String>>(){});
                             if (!response.trim().equals("获取失败！")) {
-                                //Toast.makeText(TechnicalViewDetails.this, "获取到的数据：" + response, Toast.LENGTH_SHORT).show();
-
-                                //String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
-
                                 String data[]=response.split("##");
                                 for (int i=0;i+1<data.length;i+=2){
-                                   String imgurl= URLConfig.CompanyURL+pp[0]+"/"+pp[1]+"/"+pp[2]+"/"+data[i]+".jpg";
+                                   String imgurl= URLConfig.CompanyURL+map_info.get("orderId")+"/"+map_info.get("consignmentId")+"/"+map_info.get("deviceId")+"/"+data[i]+".jpg";
                                     //Toast.makeText(TechnicalViewDetails.this, "获取到："+imgurl , Toast.LENGTH_SHORT).show();
                                     Log.i("测试信息：",response.toString()+"=="+imgurl);
                                     //ff.download(TechnicalViewDetails.this,pp[0]+"/"+pp[1]+"/"+pp[2]+"/",data[i]+".jpg");
@@ -269,7 +267,7 @@ public class TechnicalViewDetails extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    LayoutInflater inflater = getLayoutInflater();
+                   /* LayoutInflater inflater = getLayoutInflater();
                     View layout = inflater.inflate(R.layout.dialog_report, (ViewGroup) findViewById(R.id.dalog_report));
                     final ImageView img = (ImageView) layout.findViewById(R.id.imageView6);
                     final TextView textv =(TextView) layout.findViewById(R.id.textView34);
@@ -283,6 +281,32 @@ public class TechnicalViewDetails extends AppCompatActivity {
                     img.setImageBitmap(bitmap);
                     holder.pic.setDrawingCacheEnabled(false);
 
+                    textv.setText(holder.name.getText());
+                    new AlertDialog.Builder(TechnicalViewDetails.this).setTitle("详细信息").setView(layout)
+                            .setPositiveButton("确定", new  DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public  void  onClick(DialogInterface dialog, int  which)
+                                {
+
+                                }
+                            })
+                            .setNegativeButton("取消", new  DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public  void  onClick(DialogInterface dialog, int  which)
+                                {
+                                }
+                            }).show();*/
+
+
+
+                    LayoutInflater inflater = getLayoutInflater();
+                    View layout = inflater.inflate(R.layout.dialog_report, (ViewGroup) findViewById(R.id.dalog_report));
+                    final ImageView img = (ImageView) layout.findViewById(R.id.imageView6);
+                    final TextView textv =(TextView) layout.findViewById(R.id.textView34);
+                    String picname=mAdapter.listItem.get(position).get("ItemImage").toString();
+                    Glide.with(TechnicalViewDetails.this).load(picname).into(img);
                     textv.setText(holder.name.getText());
                     new AlertDialog.Builder(TechnicalViewDetails.this).setTitle("详细信息").setView(layout)
                             .setPositiveButton("确定", new  DialogInterface.OnClickListener()

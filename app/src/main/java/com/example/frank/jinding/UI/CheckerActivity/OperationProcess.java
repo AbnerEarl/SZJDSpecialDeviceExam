@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
@@ -41,6 +42,7 @@ public class OperationProcess extends AppCompatActivity {
 
     private ProgressBar waitprogress;
     private String locaterecorde="";
+    private HashMap<String ,String> locate=new HashMap<>();
     private Button refresh;
     private static String submission_id="";
     String orderId;
@@ -415,14 +417,17 @@ public class OperationProcess extends AppCompatActivity {
                                 if (singtag){
                                     singtag=false;
                                     locaterecorde=submission_id+","+locaterecorde;
+                                    locate.put("submission_id",submission_id);
+
                                     Map<String,Object> paremetes=new HashMap<>();
-                                    paremetes.put("data",locaterecorde);
+                                    paremetes.put("data", JSON.toJSONString(locate));
 
                                     ApiService.GetString(OperationProcess.this, "recordeSign", paremetes, new RxStringCallback() {
                                         @Override
                                         public void onNext(Object tag, String response) {
                                             locaterecorde="";
                                             if (response.equals("签到成功！")){
+                                                locate.clear();
                                                 CheckControl.sign=true;
                                                 new  AlertDialog.Builder(OperationProcess.this)
                                                         .setTitle("系统提示")
@@ -504,15 +509,18 @@ public class OperationProcess extends AppCompatActivity {
                                 }else if (leavetag){
 
                                     leavetag=false;
-                                    locaterecorde=submission_id+","+locaterecorde;
+                                    //locaterecorde=submission_id+","+locaterecorde;
+                                    locate.put("submission_id",submission_id);
                                     Map<String,Object> paremetes=new HashMap<>();
-                                    paremetes.put("data",locaterecorde);
+                                    paremetes.put("data", JSON.toJSONString(locate));
+                                    //paremetes.put("data",locaterecorde);
 
                                     ApiService.GetString(OperationProcess.this, "recordeLeave", paremetes, new RxStringCallback() {
                                         @Override
                                         public void onNext(Object tag, String response) {
                                             locaterecorde="";
                                             if (response.equals("离开成功！")){
+                                                locate.clear();
                                                 CheckControl.leave=true;
                                                 new  AlertDialog.Builder(OperationProcess.this)
                                                         .setTitle("系统提示")
@@ -647,6 +655,7 @@ public class OperationProcess extends AppCompatActivity {
             if (null != location ) {//&& location.getLocType() != BDLocation.TypeServerError
                 StringBuffer sb = new StringBuffer(256);
                 locaterecorde="";
+                locate.clear();
                 //sb.append("时间 : ");
                 /**
                  * 时间也可以使用systemClock.elapsedRealtime()方法 获取的是自从开机以来，每次回调的时间；
@@ -662,6 +671,9 @@ public class OperationProcess extends AppCompatActivity {
                 sb.append("\n纬度 : ");// 纬度
                 sb.append(location.getLatitude());
                 locaterecorde=location.getLongitude()+","+location.getLatitude()+","+location.getAddrStr();
+                locate.put("longitude",location.getLongitude()+"");
+                locate.put("latitude",location.getLatitude()+"");
+                locate.put("addstr",location.getAddrStr());
                 //sb.append("\nradius : ");// 半径
                 //sb.append(location.getRadius());
                 //sb.append("\nCountryCode : ");// 国家码

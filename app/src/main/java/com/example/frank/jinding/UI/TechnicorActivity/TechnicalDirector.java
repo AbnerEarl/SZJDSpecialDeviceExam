@@ -43,31 +43,8 @@ public class TechnicalDirector extends AppCompatActivity {
         setContentView(R.layout.activity_technical_director);
 
 
-
-
-
-
         lv_tasksss = (ListView) this.findViewById(R.id.lv_technical_wait_opinion);
 
-
-        //测试数据
-
-       /* String taskname[]={"深圳潜孔工程有限公司","情谊工程联合有限公司","情谊工程联合有限公司","情谊工程联合有限公司","情谊工程联合有限公司","情谊工程联合有限公司","情谊工程联合有限公司","情谊工程联合有限公司"};
-        String taskaddress[]={"广东省深圳市宝安区石岩工业区"};
-        Random random=new Random();
-        *//*为动态数组添加数据*//*
-
-        for(int i=0;i<taskname.length;i++)
-        {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("ItemName", taskname[i]);
-            map.put("ItemNumber", random.nextInt(10)+1);
-            map.put("ItemAddress", taskaddress[0]);
-            map.put("ItemDate", "2017/12/20");
-            map.put("ItemOpinion", "该工程所有设备，经过检测，全部合格，请求审核！");
-            CheckInfo.waitreport.add(map);
-        }
-*/
 
         //绑定适配器
         waitAdapter = new MyAdapter(this);//得到一个MyAdapter对象
@@ -114,7 +91,6 @@ public class TechnicalDirector extends AppCompatActivity {
 
                                 Intent intent = new Intent(TechnicalDirector.this, TechnicalViewDetails.class);
                                 intent.putExtra("path", response.toString().trim());
-
                                 startActivity(intent);
 
                             }
@@ -195,7 +171,7 @@ public class TechnicalDirector extends AppCompatActivity {
 
                 @Override
                 public void onNext(Object tag, String response) {
-                    if (!response.trim().equals("没有数据")) {
+                    if (response.trim().contains("#")) {
                         String ls[] = response.split("##");
                         waitAdapter.listItem.clear();
                         for (int i = 0; i < ls.length; i++) {
@@ -226,14 +202,14 @@ public class TechnicalDirector extends AppCompatActivity {
 
                 @Override
                 public void onError(Object tag, Throwable e) {
-                    Toast.makeText(TechnicalDirector.this, "查询失败" + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechnicalDirector.this, "暂时没有数据" , Toast.LENGTH_SHORT).show();
 
 
                 }
 
                 @Override
                 public void onCancel(Object tag, Throwable e) {
-                    Toast.makeText(TechnicalDirector.this, "查询失败" + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechnicalDirector.this, "暂时没有数据" , Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -249,7 +225,7 @@ public class TechnicalDirector extends AppCompatActivity {
 
                 @Override
                 public void onNext(Object tag, String response) {
-                    if (!response.trim().equals("没有数据")) {
+                    if (response.trim().contains("#")) {
                         String ls[] = response.split("##");
                         confirmAdapter.listItem.clear();
                         for (int i = 0; i < ls.length; i++) {
@@ -273,21 +249,21 @@ public class TechnicalDirector extends AppCompatActivity {
                         }
                         confirmAdapter.notifyDataSetChanged();
                     } else {
-                        Toast.makeText(TechnicalDirector.this, "暂时没有数据", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TechnicalDirector.this,"暂时没有数据", Toast.LENGTH_SHORT).show();
 
                     }
                 }
 
                 @Override
                 public void onError(Object tag, Throwable e) {
-                    Toast.makeText(TechnicalDirector.this, "查询失败" + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechnicalDirector.this, "暂时没有数据" , Toast.LENGTH_SHORT).show();
 
 
                 }
 
                 @Override
                 public void onCancel(Object tag, Throwable e) {
-                    Toast.makeText(TechnicalDirector.this, "查询失败" + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechnicalDirector.this, "暂时没有数据" , Toast.LENGTH_SHORT).show();
 
                 }
 

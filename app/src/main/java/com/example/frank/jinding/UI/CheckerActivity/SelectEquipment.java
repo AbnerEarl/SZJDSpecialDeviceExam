@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.Conf.URLConfig;
@@ -55,12 +56,10 @@ import java.util.Random;
 public class SelectEquipment extends AppCompatActivity {
 
     private Button add_infomation,add_photo,upload,post,addopinion,lookresult;
-    //private Spinner mySpinner;
     private ArrayAdapter<String> spadapter;
     private List<String> ls = new ArrayList<String>();
     private List<String> list = new ArrayList<String>();
-    private EditText opinion;
-    //private File file;
+
     public static ArrayList<String> mDataList = new ArrayList<>();//存储选取图片路径
     private ImageButton back;
     private TextView title ,device;
@@ -240,8 +239,16 @@ public class SelectEquipment extends AppCompatActivity {
                                             String filename = mAdapter.listItem.get(arg2).get("ItemImage").toString();
                                             String datafile = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) ;
 
+                                            String picDescrip=et.getText().toString();
+                                            HashMap<String,String> map_data=new HashMap<>();
+                                            map_data.put("orderId",orderId);
+                                            map_data.put("consignmentId",consignmentId);
+                                            map_data.put("deviceId",deviceId);
+                                            map_data.put("datafile",datafile);
+                                            map_data.put("picDescrip",picDescrip);
                                             Map<String, Object> paremetes = new HashMap<>();
-                                            paremetes.put("data", orderId+"#"+consignmentId+"#"+deviceId+"#"+datafile+"#"+et.getText());
+                                            paremetes.put("data", JSON.toJSONString(map_data));
+
                                             ApiService.GetString(SelectEquipment.this, "modifyDescription", paremetes, new RxStringCallback() {
                                                 boolean flag = false;
 
@@ -322,11 +329,19 @@ public class SelectEquipment extends AppCompatActivity {
                                                                 FtpClientUpload.UploadFile(eqfilename, orderId + "/" + consignmentId + "/" + deviceId + "/", SelectEquipment.this, datafilename);
                                                                 //ff.upload(SelectEquipment.this,orderId+"/"+consignmentId+"/"+deviceId,mAdapter.listItem.get(i).get("ItemImage").toString());
 
+
                                                                 //上传文字描述到服务器
+                                                                HashMap<String,String> map_data=new HashMap<>();
                                                                 String filename = mAdapter.listItem.get(i).get("ItemImage").toString();
-                                                                String dd = orderId + "#" + consignmentId + "#" + deviceId + "#" + filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) + "#" + mAdapter.listItem.get(i).get("ItemText").toString();
+                                                               // String dd = orderId + "#" + consignmentId + "#" + deviceId + "#" + filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) + "#" + mAdapter.listItem.get(i).get("ItemText").toString();
+                                                                map_data.put("orderId",orderId);
+                                                                map_data.put("consignmentId",consignmentId);
+                                                                map_data.put("deviceId",deviceId);
+                                                                map_data.put("picName",filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")));
+                                                                map_data.put("picDescrip",mAdapter.listItem.get(i).get("ItemText").toString());
+
                                                                 Map<String, Object> paremetes = new HashMap<>();
-                                                                paremetes.put("data", dd);
+                                                                paremetes.put("data", JSON.toJSONString(map_data));
                                                                 ApiService.GetString(SelectEquipment.this, "pictureInfomation", paremetes, new RxStringCallback() {
                                                                     boolean flag = false;
 
@@ -457,131 +472,6 @@ public class SelectEquipment extends AppCompatActivity {
             }
         });
 
-        /*refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshLayout.setRefreshing(true);
-                getCheckDetails();
-
-            }
-        });*/
-
-
-       /* //第一步：添加一个下拉列表项的list，这里添加的项就是下拉列表的菜单项
-
-        list.add("请选择相应的设备：");
-        list.add("桥塔设备a324");
-        list.add("吊塔设备b3423");
-        list.add("启动电机a234");
-        list.add("挖掘机k23434");
-        list.add("控制电机a543322");
-
-
-        //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
-        spadapter  =  new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,  list);
-        //第三步：为适配器设置下拉列表下拉时的菜单样式。
-        spadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //第四步：将适配器添加到下拉列表上
-        mySpinner.setAdapter(spadapter);
-        //mySpinner.setSelection(0,false);
-        //第五步：为下拉列表设置各种事件的响应，这个事响应菜单被选中
-
-        mySpinner.setOnItemSelectedListener(new  Spinner.OnItemSelectedListener(){
-            public  void  onItemSelected(AdapterView<?> arg0, View  arg1, int  arg2, long  arg3)  {
-                //  TODO  Auto-generated  method  stub
-                *//*  将所选mySpinner  的值带入myTextView  中*//*
-                if (device.getText().toString().trim().equals("请选择检验设备型号！")){
-                    add_photo.setEnabled(false);
-                }else {
-                    add_photo.setEnabled(true);
-                }
-
-                if (mySpinner.getSelectedItemId()!=0){
-
-
-
-                new  AlertDialog.Builder(SelectEquipment.this)
-                        .setTitle("系统提示")
-                        .setMessage("\n您确定对："+mySpinner.getSelectedItem().toString()+"  现在进行检测吗？")
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .setPositiveButton("确定",
-                                new  DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public  void  onClick(DialogInterface dialog, int  which)
-                                    {
-
-                                        device.setText("正在检测设备："+mySpinner.getSelectedItem().toString().trim());
-
-                                        HashMap<String, Object> map = new HashMap<String, Object>();
-                                        map.put("ItemName", mySpinner.getSelectedItem().toString());
-                                        mAdapter.listItem.add(map);
-                                        mAdapter.notifyDataSetChanged();
-
-                                        spadapter.remove(mySpinner.getSelectedItem().toString().trim());
-                                        spadapter.notifyDataSetChanged();
-                                        mySpinner.setSelection(0,true);
-
-                                    }
-                                }).show();
-                }
-
-            }
-            public  void  onNothingSelected(AdapterView<?>  arg0)  {
-                //  TODO  Auto-generated  method  stub
-                //myTextView.setText("NONE");
-            }
-        });
-
-
-        *//*下拉菜单弹出的内容选项触屏事件处理*//*
-        mySpinner.setOnTouchListener(new  Spinner.OnTouchListener(){
-            public  boolean  onTouch(View  v,  MotionEvent event)  {
-                //  TODO  Auto-generated  method  stub
-                *//**
-                 *
-                 *//*
-                return  false;
-            }
-        });
-                        *//*下拉菜单弹出的内容选项焦点改变事件处理*//*
-        mySpinner.setOnFocusChangeListener(new  Spinner.OnFocusChangeListener(){
-            public  void  onFocusChange(View  v,  boolean  hasFocus)  {
-                //  TODO  Auto-generated  method  stub
-
-            }
-        });
-
-
-*/
-
-
-
-        /*final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
-            public void run() {
-                *//*HashMap<String, Object> map=new HashMap<>();
-                map.put("ItemImage", da[1]);
-                map.put("ItemText", da[2]);
-                map.put("Tag",da[3]);*//*
-                if (CheckInfo.listItem.size()>0) {
-                    HashMap<String, Object> map=CheckInfo.listItem.get(0);
-                    mAdapter.listItem.add(CheckInfo.listItem.get(0));
-                    mAdapter.notifyDataSetChanged();
-                    CheckInfo.listItem.clear();
-                    //new AlertDialog.Builder(SelectEquipment.this).setMessage(map.get("ItemImage")+"=="+map.get("")+"=="+map.get("Tag")).show();
-
-                }
-                handler.postDelayed(this, 4000);
-            }
-        };
-        handler.postDelayed(runnable, 4000);*/
-
 
 
 
@@ -661,7 +551,7 @@ public class SelectEquipment extends AppCompatActivity {
         lookresult=(Button)this.findViewById(R.id.look_result);
         upload=(Button)this.findViewById(R.id.other_infomation);
         post=(Button)this.findViewById(R.id.work_end);
-        opinion=(EditText)this.findViewById(R.id.editText);
+
 
 
         back=(ImageButton)this.findViewById(R.id.titleback);
@@ -690,9 +580,13 @@ public class SelectEquipment extends AppCompatActivity {
                 try {
 
 
-                    String data=orderId+"#"+consignmentId+"#"+deviceId;
+                    HashMap<String,String> map_data=new HashMap<>();
+
+                    map_data.put("orderId",orderId);
+                    map_data.put("consignmentId",consignmentId);
+                    map_data.put("deviceId",deviceId);
                     Map<String, Object> paremetes = new HashMap<>();
-                    paremetes.put("data",data);
+                    paremetes.put("data",JSON.toJSONString(map_data));
                     ApiService.GetString(SelectEquipment.this, "checkDetails", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
@@ -757,8 +651,12 @@ public class SelectEquipment extends AppCompatActivity {
             public void run() {
                 try {
 
+                    HashMap<String,String> map_data=new HashMap<>();
+                    map_data.put("orderId",orderId);
+                    map_data.put("url",URLConfig.CompanyURL+orderId+"/");
                     Map<String, Object> paremetes = new HashMap<>();
-                    paremetes.put("data", orderId+","+ URLConfig.CompanyURL+orderId+"/");
+                    paremetes.put("data", JSON.toJSONString(map_data));
+
                     ApiService.GetString(SelectEquipment.this, "orderDetailsUrl", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
@@ -778,14 +676,14 @@ public class SelectEquipment extends AppCompatActivity {
 
                         @Override
                         public void onError(Object tag, Throwable e) {
-                            Toast.makeText(SelectEquipment.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载，返回上一步，再进入即可" , Toast.LENGTH_SHORT).show();
 
 
                         }
 
                         @Override
                         public void onCancel(Object tag, Throwable e) {
-                            Toast.makeText(SelectEquipment.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载，返回上一步，再进入即可", Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -978,10 +876,17 @@ public class SelectEquipment extends AppCompatActivity {
                                             }else if (mAdapter.listItem.get(position).get("Tag").equals("1")){
                                                 try {
 
+                                                    HashMap<String,String> map_data=new HashMap<>();
+
                                                     String picname=mAdapter.listItem.get(position).get("ItemImage").toString();
                                                     String datafilename = picname.substring(picname.lastIndexOf("/") + 1, picname.lastIndexOf("."));
+                                                    map_data.put("orderId",orderId);
+                                                    map_data.put("consignmentId",consignmentId);
+                                                    map_data.put("deviceId",deviceId);
+                                                    map_data.put("datafilename",datafilename);
                                                     Map<String, Object> paremetes = new HashMap<>();
-                                                    paremetes.put("data", orderId+"#"+consignmentId+"#"+deviceId+"#"+datafilename);
+                                                    paremetes.put("data", JSON.toJSONString(map_data));
+
                                                     ApiService.GetString(SelectEquipment.this, "deletePicture", paremetes, new RxStringCallback() {
                                                         boolean flag = false;
 
@@ -1067,8 +972,17 @@ public class SelectEquipment extends AppCompatActivity {
                                                 String filename = mAdapter.listItem.get(position).get("ItemImage").toString();
                                                 String datafile = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) ;
 
+                                                String picDescrip=et.getText().toString();
+                                                HashMap<String,String> map_data=new HashMap<>();
+                                                map_data.put("orderId",orderId);
+                                                map_data.put("consignmentId",consignmentId);
+                                                map_data.put("deviceId",deviceId);
+                                                map_data.put("datafile",datafile);
+                                                map_data.put("picDescrip",picDescrip);
+
                                                 Map<String, Object> paremetes = new HashMap<>();
-                                                paremetes.put("data", orderId+"#"+consignmentId+"#"+deviceId+"#"+datafile+"#"+et.getText());
+                                                paremetes.put("data", JSON.toJSONString(map_data));
+
                                                 ApiService.GetString(SelectEquipment.this, "modifyDescription", paremetes, new RxStringCallback() {
                                                     boolean flag = false;
 
