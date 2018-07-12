@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,7 @@ public class OrderAdapter extends BaseAdapter {
             holder.title = (TextView) convertView.findViewById(R.id.dispatching_unit);
             holder.projectName = (TextView) convertView.findViewById(R.id.dispatching_projectName);
             holder.expectCheckerLayout = (LinearLayout) convertView.findViewById(R.id.expect_checker_layout);
+            holder.taskIcon=(ImageView)convertView.findViewById(R.id.task_icon);
             holder.expectCheckerLayout.setVisibility(View.GONE);
             holder.select.setVisibility(View.GONE);
             convertView.setTag(holder);
@@ -66,9 +68,13 @@ public class OrderAdapter extends BaseAdapter {
             holder = (ViewHolder_Order) convertView.getTag();
         }
 
+
         holder.projectName.setText(listItem.get(position).getProjectName());
         holder.place.setText(listItem.get(position).getProvince() + listItem.get(position).getCity() + listItem.get(position).getArea() + listItem.get(position).getProjectAddress());
         holder.actualTime.setText(listItem.get(position).getOrderStatus());
+        if(listItem.get(position).getOrderStatus().indexOf("复检")!=-1)
+            holder.taskIcon.setImageResource(R.drawable.third_order);
+        else holder.taskIcon.setImageResource(R.drawable.first_order);
         holder.title.setText(listItem.get(position).getOrderOrg());
         return convertView;
     }
@@ -80,6 +86,7 @@ public class OrderAdapter extends BaseAdapter {
         public TextView actualTime;
         public TextView projectName;
         public LinearLayout expectCheckerLayout;
+        public ImageView taskIcon;
     }
 
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -68,6 +69,7 @@ public class OrderMapAdapter extends BaseAdapter {
             holder.projectName=(TextView)convertView.findViewById(R.id.dispatching_projectName);
             holder.expectChecker=(TextView)convertView.findViewById(R.id.expect_checker_item);
             holder.expectCheckerLayout=(LinearLayout)convertView.findViewById(R.id.expect_checker_layout);
+            holder.taskIcon=(ImageView)convertView.findViewById(R.id.task_icon);
             holder.expectCheckerLayout.setVisibility(View.GONE);
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -82,6 +84,9 @@ public class OrderMapAdapter extends BaseAdapter {
         holder.actualTime.setText(orderList.get(position).get("actrualDate").toString());
         Log.i("检验时间",holder.actualTime.getText().toString());
         holder.title.setText(orderList.get(position).get("status").toString());
+        if(orderList.get(position).get("status").toString().indexOf("(复检)")!=-1)
+            holder.taskIcon.setImageResource(R.drawable.third_order);
+        else holder.taskIcon.setImageResource(R.drawable.first_order);
 
         holder.select.setVisibility(View.INVISIBLE);
         return convertView;
@@ -95,5 +100,6 @@ public class OrderMapAdapter extends BaseAdapter {
         public TextView projectName;
         public TextView expectChecker;
         public LinearLayout expectCheckerLayout;
+        public ImageView taskIcon;
     }
 }

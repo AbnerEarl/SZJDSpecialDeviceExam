@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -291,6 +292,7 @@ public class SelectOrder extends AppCompatActivity {
                 holder.pdate = (TextView) convertView.findViewById(R.id.actual_time);//时间
                 holder.paddress = (TextView) convertView.findViewById(R.id.sendPlace);//地址
                 holder.more = (TextView) convertView.findViewById(R.id.dispatching_more);//更多
+                holder.ptaskIcon=(ImageView)convertView.findViewById(R.id.task_icon);
                 //holder.bt_chakan = (Button) convertView.findViewById(R.id.button27);
                 //holder.bt_beizhu=(Button) convertView.findViewById(R.id.button_beizhu);
 
@@ -306,6 +308,10 @@ public class SelectOrder extends AppCompatActivity {
             holder.pname.setText(listItem.get(position).get("projectName").toString());
             holder.paddress.setText(listItem.get(position).get("projectAddress").toString());
             holder.pdate.setText(listItem.get(position).get("checkTime").toString());
+            String project_name=listItem.get(position).get("projectName").toString();
+            if(project_name.indexOf("(复检)")!=-1)  holder.ptaskIcon.setImageResource(R.drawable.third_order);
+            else    holder.ptaskIcon.setImageResource(R.drawable.first_order);
+            //如果传过来的工程名字中有复检则为复检
             Log.i("SelectOrder","是否是主检验员："+listItem.get(position).getBoolean("isMainChecker"));
 //            holder.bt_beizhu.setTag(position);
 
@@ -332,6 +338,7 @@ public class SelectOrder extends AppCompatActivity {
     /*存放控件*/
     public final class ViewHolder{
         public TextView pno,pname,pdate,paddress,more;
+        private ImageView ptaskIcon;
 
     }
 

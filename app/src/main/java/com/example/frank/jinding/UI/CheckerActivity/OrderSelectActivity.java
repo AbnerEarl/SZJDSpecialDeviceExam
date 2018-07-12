@@ -304,6 +304,7 @@ public class OrderSelectActivity extends AppCompatActivity {
                 holder.title = (TextView) convertView.findViewById(R.id.dispatching_unit);
                 holder.projectName = (TextView) convertView.findViewById(R.id.dispatching_projectName);
                 holder.orderStatus = (TextView) convertView.findViewById(R.id.order_check_status);
+                holder.taskIcon=(ImageView)convertView.findViewById(R.id.task_icon);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder_Order) convertView.getTag();
@@ -317,6 +318,10 @@ public class OrderSelectActivity extends AppCompatActivity {
             holder.place.setText(address);
             holder.actualTime.setText(listItem.get(position).get("actualDate").toString());
             holder.title.setText(listItem.get(position).get("orderOrg").toString());
+            if(listItem.get(position).get("projectName").toString().indexOf("(复检)")!=-1)
+            holder.taskIcon.setImageResource(R.drawable.third_order);
+            else holder.taskIcon.setImageResource(R.drawable.first_order);
+
             /*if(orderStatusMap.get(listItem.get(position).get("submissionId").toString()).equals("0")){
                 holder.orderStatus.setText("初检");
             }else{
@@ -352,6 +357,7 @@ public class OrderSelectActivity extends AppCompatActivity {
         public TextView actualTime;
         public TextView projectName;
         public TextView orderStatus;
+        public ImageView taskIcon;
     }
 
 }

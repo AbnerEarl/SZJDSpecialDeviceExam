@@ -38,6 +38,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import me.iwf.photopicker.PhotoPicker;
+
+
 //import top.zibin.luban.Luban;
 //import top.zibin.luban.OnCompressListener;
 
@@ -53,6 +55,7 @@ public class PictureCompress extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_picture_compress);
+
 
     RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

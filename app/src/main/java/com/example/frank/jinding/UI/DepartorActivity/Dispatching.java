@@ -257,6 +257,7 @@ public class Dispatching extends AppCompatActivity implements View.OnClickListen
             map.put("data", JSON.toJSONString(data));
             Log.i("添加派工数据", map.get("data").toString());
             ApiService.GetString(this, "setSubmission", map, new RxStringCallback() {
+                //复检此时变为0401
                 @Override
                 public void onNext(Object tag, String response) {
                     Log.i("提交成功",response);

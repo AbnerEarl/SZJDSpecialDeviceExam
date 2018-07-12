@@ -22,7 +22,7 @@ public class ApiService {
     public static void GetString(final Activity activity, final String url, final Map<String, Object> parameter, final RxStringCallback rxStringCallback) {
         //返回string
 
-        header = new HashMap<>();
+            header = new HashMap<>();
             header.put("token", Token.getTOKEN(activity));
             Novate novate = new Novate.Builder(activity)
                     .addCache(false)

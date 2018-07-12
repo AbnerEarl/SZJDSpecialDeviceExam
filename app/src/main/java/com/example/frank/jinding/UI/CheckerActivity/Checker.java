@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -371,6 +372,7 @@ public class Checker extends AppCompatActivity {
                 holder.pdate = (TextView) convertView.findViewById(R.id.actual_time);//工程时间
                 holder.bt_chakan = (Button) convertView.findViewById(R.id.btn_refuse);//拒绝
                 holder.bt_beizhu=(Button) convertView.findViewById(R.id.btn_accept);//接受
+                holder.ptaskIcon = (ImageView)convertView.findViewById(R.id.task_icon);
                 if (currentList!=1){
                     holder.bt_chakan.setVisibility(View.GONE);
                     holder.bt_beizhu.setVisibility(View.GONE);
@@ -386,6 +388,11 @@ public class Checker extends AppCompatActivity {
             holder.pnumber.setText(listItem.get(position).get("projectName").toString());
             holder.paddress.setText(listItem.get(position).get("projectAddress").toString());
             holder.pdate.setText(listItem.get(position).get("checkTime").toString());
+            String ptaskname=listItem.get(position).get("projectName").toString();
+            if(ptaskname.indexOf("(复检)")!=-1)
+            holder.ptaskIcon.setImageResource(R.drawable.third_order);
+            else
+                holder.ptaskIcon.setImageResource(R.drawable.first_order);
 
             holder.bt_chakan.setTag(position);
             holder.bt_beizhu.setTag(position);
@@ -467,6 +474,7 @@ public class Checker extends AppCompatActivity {
         public TextView pname,pnumber,paddress,pdate;
         public Button bt_chakan;
         public Button bt_beizhu;
+        public ImageView ptaskIcon;
     }
     //其他任务信息加载
 
@@ -514,6 +522,7 @@ public class Checker extends AppCompatActivity {
                 holder.pnumber = (TextView) convertView.findViewById(R.id.dispatching_projectName);//工程名字
                 holder.paddress = (TextView) convertView.findViewById(R.id.sendPlace);//工程地址
                 holder.pdate = (TextView) convertView.findViewById(R.id.actual_time);//时间
+                holder.ptaskIcon=(ImageView)convertView.findViewById(R.id.task_icon);//图标
 //                holder.bt_chakan = (Button) convertView.findViewById(R.id.button_chakan);
 //                holder.bt_beizhu=(Button) convertView.findViewById(R.id.button_beizhu);
 
@@ -528,6 +537,10 @@ public class Checker extends AppCompatActivity {
             holder.pnumber.setText(listItem.get(position).get("projectName").toString());
             holder.paddress.setText(listItem.get(position).get("projectAddress").toString());
             holder.pdate.setText(listItem.get(position).get("checkTime").toString());
+            String ppprojectname=listItem.get(position).get("projectName").toString();
+            if(ppprojectname.indexOf("(复检)")!=-1)
+                holder.ptaskIcon.setImageResource(R.drawable.third_order);
+            else holder.ptaskIcon.setImageResource(R.drawable.first_order);
 //            holder.bt_chakan.setTag(position);
 //            holder.bt_beizhu.setTag(position);
 
@@ -542,6 +555,7 @@ public class Checker extends AppCompatActivity {
     /*存放控件*/
     public final class ViewHolderO{
         public TextView pname,pnumber,paddress,pdate;
+        public ImageView ptaskIcon;
 //        public Button bt_chakan;
 //        public Button bt_beizhu;
     }

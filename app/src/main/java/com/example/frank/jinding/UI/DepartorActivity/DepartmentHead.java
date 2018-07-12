@@ -325,6 +325,10 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
             holder.title.setText(orderList.get(position).get("orderOrg").toString());
             holder.expectChecker.setText(orderList.get(position).get("checkerExpect").toString());
             if (orderList.get(position).get("isFirstSubmission").equals("true")){
+                String project_name=orderList.get(position).get("projectName").toString();
+                if(project_name.indexOf("(复检)")!=-1)
+                    holder.taskIcon.setImageResource(R.drawable.third_order);
+                else
                 holder.taskIcon.setImageResource(R.drawable.first_order);
             }else {
                 holder.taskIcon.setImageResource(R.drawable.second_order);
