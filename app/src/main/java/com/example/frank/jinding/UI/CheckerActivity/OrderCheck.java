@@ -112,10 +112,6 @@ public class OrderCheck extends AppCompatActivity implements CallBack{
                                     @Override
                                     public  void  onClick(DialogInterface dialog, int  which)
                                     {
-                                        //OrderInfoCheck.tag=true;
-
-                                        /*Intent intent=new Intent(OrderCheck.this,SelectEquipment.class);
-                                        startActivity(intent);*/
                                         submit();
                                     }
                                 }).show();
@@ -358,7 +354,7 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
     private void submit(){
         Map<String,Object> map=new HashMap<>();
         map.put("orderId",orderId);
-        map.put("statusCode","23");
+        map.put("orderStatusCode","23");
         map.put("submissionId",submissionId);
         ApiService.GetString(this, "orderCheck", map, new RxStringCallback() {
         @Override
