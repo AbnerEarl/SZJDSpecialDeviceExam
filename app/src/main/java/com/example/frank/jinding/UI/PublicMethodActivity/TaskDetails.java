@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TaskDetails extends AppCompatActivity implements View.OnClickListener,CallBack {
+public class TaskDetails extends AppCompatActivity implements View.OnClickListener, CallBack {
 
     private String content;
 
@@ -60,8 +60,8 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     private OrderDeviceDetail device;
     private ConsignmentDetail consignmentDetail;
     private ListView checkTypeLv;
-    private List<CheckType> checkTypeList=new ArrayList<>();
-    private Boolean showMonitor=false;
+    private List<CheckType> checkTypeList = new ArrayList<>();
+    private Boolean showMonitor = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +74,14 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
             Bundle bundle = intent.getExtras();
             consignmentDetail = (ConsignmentDetail) bundle.getSerializable("consignment");
-            consignmentType=consignmentDetail.getDeviceTypeId();
+            consignmentType = consignmentDetail.getDeviceTypeId();
         } else {
             consignmentId = intent.getStringExtra("consignmentId");
             consignmentType = intent.getStringExtra("deviceType");
         }
-      if (consignmentType.equals("塔式起重机")||consignmentType.equals("门式起重机")||consignmentType.equals("桥式起重机")){
-            showMonitor=true;
-      }
+        if (consignmentType.equals("塔式起重机") || consignmentType.equals("门式起重机") || consignmentType.equals("桥式起重机")) {
+            showMonitor = true;
+        }
         initView();
         if (!permissioned)
             titleright.setVisibility(titleright.INVISIBLE);
@@ -93,18 +93,18 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     private void getDeviceList(String consignmentId) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("consignmentId", consignmentId);
-        ApiService.GetString(this, "orderDeviceDetail", parameters, new RxStringCallback(){
+        ApiService.GetString(this, "orderDeviceDetail", parameters, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
                 Log.i(TAG, "获取设备成功");
-                List<OrderDeviceDetail> list=new ArrayList<>();
+                List<OrderDeviceDetail> list = new ArrayList<>();
                 if (response != null) {
 
-                   list=(List<OrderDeviceDetail>) JSON.parseArray(response,OrderDeviceDetail.class);
-                   for (int i=0;i<list.size();i++){
-                       deviceList.add(list.get(i));
-                   }
-                   adapter.notifyDataSetChanged();
+                    list = (List<OrderDeviceDetail>) JSON.parseArray(response, OrderDeviceDetail.class);
+                    for (int i = 0; i < list.size(); i++) {
+                        deviceList.add(list.get(i));
+                    }
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -120,24 +120,25 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
 
         });
     }
-    private void checkType(){
-        Map<String ,Object> map=new HashMap<>();
+
+    private void checkType() {
+        Map<String, Object> map = new HashMap<>();
         ApiService.GetString(this, "checkType", map, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
-                if (response!=null){
-                    Log.i("response",""+response);
-                    JSONArray jsonArray= JSONObject.parseArray(response);
-                    for (Object object:jsonArray){
-                         JSONObject jsonObject=(JSONObject)object;
-                        checkTypeList.add(new CheckType(jsonObject.getString("check_type_id"),jsonObject.getString("check_type_code"),jsonObject.getString("check_type_name")));
+                if (response != null) {
+                    Log.i("response", "" + response);
+                    JSONArray jsonArray = JSONObject.parseArray(response);
+                    for (Object object : jsonArray) {
+                        JSONObject jsonObject = (JSONObject) object;
+                        checkTypeList.add(new CheckType(jsonObject.getString("check_type_id"), jsonObject.getString("check_type_code"), jsonObject.getString("check_type_name")));
                     }
-                    checkTypeLv=new ListView(TaskDetails.this);
-                    ArrayAdapter adapter=new ArrayAdapter(TaskDetails.this,android.R.layout.simple_list_item_1, checkTypeList);
+                    checkTypeLv = new ListView(TaskDetails.this);
+                    ArrayAdapter adapter = new ArrayAdapter(TaskDetails.this, android.R.layout.simple_list_item_1, checkTypeList);
                     checkTypeLv.setAdapter(adapter);
 
                 }
-                Log.i(TAG,"检验类型"+checkTypeList.get(0).getCheck_type_name());
+                Log.i(TAG, "检验类型" + checkTypeList.get(0).getCheck_type_name());
             }
 
             @Override
@@ -165,10 +166,10 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
 
         adapter = new MyAdapter(this, this, deviceList);
         if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
-            if (consignmentDetail.getDeviceNum() != 0){
-                       for (int i=0;i<consignmentDetail.getOrderDeviceDetailList().size();i++)
-                           deviceList.add(consignmentDetail.getOrderDeviceDetailList().get(i));
-                       adapter.notifyDataSetChanged();
+            if (consignmentDetail.getDeviceNum() != 0) {
+                for (int i = 0; i < consignmentDetail.getOrderDeviceDetailList().size(); i++)
+                    deviceList.add(consignmentDetail.getOrderDeviceDetailList().get(i));
+                adapter.notifyDataSetChanged();
             }
         } else {
             getDeviceList(consignmentId);
@@ -186,23 +187,21 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                     final EditText et3 = (EditText) layout.findViewById(R.id.check_type);
                     final EditText et4 = (EditText) layout.findViewById(R.id.height);
                     final EditText et5 = (EditText) layout.findViewById(R.id.auto_number);
-                    final EditText et6=(EditText)layout.findViewById(R.id.prize);
-                    final RadioGroup radioGroup=(RadioGroup)layout.findViewById(R.id.add_device_rg);
-                    final LinearLayout monitorLayout=(LinearLayout)layout.findViewById(R.id.monitor_layout);
-                    final RadioButton monitorTrueRb=(RadioButton)layout.findViewById(R.id.monitor_true);
-                    final RadioButton monitorFalseRb=(RadioButton)layout.findViewById(R.id.monitor_false);
-                     monitorLayout.setVisibility(View.GONE);
-                    if (showMonitor){
+                    final EditText et6 = (EditText) layout.findViewById(R.id.prize);
+                    final RadioGroup radioGroup = (RadioGroup) layout.findViewById(R.id.add_device_rg);
+                    final LinearLayout monitorLayout = (LinearLayout) layout.findViewById(R.id.monitor_layout);
+                    final RadioButton monitorTrueRb = (RadioButton) layout.findViewById(R.id.monitor_true);
+                    final RadioButton monitorFalseRb = (RadioButton) layout.findViewById(R.id.monitor_false);
+                    monitorLayout.setVisibility(View.GONE);
+                    if (showMonitor) {
                         monitorLayout.setVisibility(View.VISIBLE);
-                    if (deviceList.get(position).getMonitorStatus()==null||deviceList.get(position).getMonitorStatus().equals("0"))
-                    {
-                        monitorFalseRb.setChecked(true);
-                        monitorTrueRb.setChecked(false);
-                    }
-                    else {
-                        monitorFalseRb.setChecked(false);
-                        monitorTrueRb.setChecked(true);
-                    }
+                        if (deviceList.get(position).getMonitorStatus() == null || deviceList.get(position).getMonitorStatus().equals("0")) {
+                            monitorFalseRb.setChecked(true);
+                            monitorTrueRb.setChecked(false);
+                        } else {
+                            monitorFalseRb.setChecked(false);
+                            monitorTrueRb.setChecked(true);
+                        }
 
                     }
                     et1.setText(deviceList.get(position).getDeviceManufacCode());
@@ -210,7 +209,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                     et3.setText(deviceList.get(position).getCheckTypeId());
                     et4.setText(deviceList.get(position).getInstallHeight() + "");
                     et5.setText(deviceList.get(position).getSelfCode());
-                    et6.setText(deviceList.get(position).getDeviceCharge()+"");
+                    et6.setText(deviceList.get(position).getDeviceCharge() + "");
 
                     new AlertDialog.Builder(TaskDetails.this).setTitle("修改设备信息").setView(layout)
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -218,9 +217,9 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (et1.getText() == null || TextUtils.isEmpty(et1.getText()) || et2.getText() == null || TextUtils.isEmpty(et2.getText()) || et3.getText() == null || TextUtils.isEmpty(et3.getText()) || et4.getText() == null || TextUtils.isEmpty(et4.getText()) || et5.getText() == null || TextUtils.isEmpty(et5.getText())) {
                                         Toast.makeText(TaskDetails.this, "请输入完整设备信息", Toast.LENGTH_SHORT).show();
-                                    } else if (checkLegal(et1.getText().toString(),et5.getText().toString(),position)){
-                                        Toast.makeText(TaskDetails.this,"设备出厂编号或自编号与其他设备相同，请重新输入",Toast.LENGTH_SHORT).show();
-                                    }else {
+                                    } else if (checkLegal(et1.getText().toString(), et5.getText().toString(), position)) {
+                                        Toast.makeText(TaskDetails.this, "设备出厂编号或自编号与其他设备相同，请重新输入", Toast.LENGTH_SHORT).show();
+                                    } else {
                                         device = deviceList.get(position);
                                         Log.i("deviceCheckType", device.getCheckTypeId());
                                         device.setDeviceManufacCode(et1.getText().toString());
@@ -229,10 +228,10 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                                         device.setInstallHeight(Float.parseFloat(et4.getText().toString()));
                                         device.setSelfCode(et5.getText().toString());
                                         device.setDeviceCharge(Float.valueOf(et6.getText().toString()));
-                                        if (showMonitor){
-                                            if (radioGroup.getCheckedRadioButtonId()==R.id.monitor_true){
+                                        if (showMonitor) {
+                                            if (radioGroup.getCheckedRadioButtonId() == R.id.monitor_true) {
                                                 device.setMonitorStatus("1");
-                                            }else {
+                                            } else {
                                                 device.setMonitorStatus("0");
                                             }
                                         }
@@ -251,20 +250,20 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                                    dialog.dismiss();
                                 }
                             }).show();
                     et3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            final AlertDialog dialog=new AlertDialog.Builder(TaskDetails.this)
+                            final AlertDialog dialog = new AlertDialog.Builder(TaskDetails.this)
                                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ((ViewGroup) checkTypeLv.getParent()).removeView(checkTypeLv);
-                                    dialog.dismiss();
-                                }
-                            }).setView(checkTypeLv).create();
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ((ViewGroup) checkTypeLv.getParent()).removeView(checkTypeLv);
+                                            dialog.dismiss();
+                                        }
+                                    }).setView(checkTypeLv).create();
                             dialog.setTitle("选择检验类别");
                             checkTypeLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
@@ -283,16 +282,17 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         });
 
     }
- private boolean checkLegal(String manufacCode,String selfCode,int position){
-        for (int i=0;i<deviceList.size();i++){
-            if (position!=i&&(deviceList.get(i).getDeviceManufacCode().equals(manufacCode)||deviceList.get(i).getSelfCode().equals(selfCode)))
-            {
+
+    private boolean checkLegal(String manufacCode, String selfCode, int position) {
+        for (int i = 0; i < deviceList.size(); i++) {
+            if (position != i && (deviceList.get(i).getDeviceManufacCode().equals(manufacCode) || deviceList.get(i).getSelfCode().equals(selfCode))) {
                 //设备出厂编号和自编号与其他设备相同
                 return true;
             }
         }
-   return false;
- }
+        return false;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -304,6 +304,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                 finish();
         }
     }
+
     private void addDivice() {
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.add_divice, (ViewGroup) findViewById(R.id.add_device));
@@ -313,9 +314,9 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         final EditText et3 = (EditText) layout.findViewById(R.id.check_type);
         final EditText et4 = (EditText) layout.findViewById(R.id.height);
         final EditText et5 = (EditText) layout.findViewById(R.id.auto_number);
-        final EditText et6=(EditText)layout.findViewById(R.id.prize);
-        final RadioGroup radioGroup=(RadioGroup)layout.findViewById(R.id.add_device_rg);
-        final LinearLayout monitorLayout=(LinearLayout)layout.findViewById(R.id.monitor_layout);
+        final EditText et6 = (EditText) layout.findViewById(R.id.prize);
+        final RadioGroup radioGroup = (RadioGroup) layout.findViewById(R.id.add_device_rg);
+        final LinearLayout monitorLayout = (LinearLayout) layout.findViewById(R.id.monitor_layout);
         monitorLayout.setVisibility(View.GONE);
         if (showMonitor)
             monitorLayout.setVisibility(View.VISIBLE);
@@ -323,20 +324,22 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (et1.getText() == null || TextUtils.isEmpty(et1.getText()) || et2.getText() == null || TextUtils.isEmpty(et2.getText()) || et3.getText() == null || TextUtils.isEmpty(et3.getText()) || et4.getText() == null || TextUtils.isEmpty(et4.getText()) || et5.getText() == null || TextUtils.isEmpty(et5.getText())||et6.getText() == null || TextUtils.isEmpty(et6.getText())) {
+                        if (et1.getText() == null || TextUtils.isEmpty(et1.getText()) || et2.getText() == null || TextUtils.isEmpty(et2.getText()) || et3.getText() == null || TextUtils.isEmpty(et3.getText()) || et4.getText() == null || TextUtils.isEmpty(et4.getText()) || et5.getText() == null || TextUtils.isEmpty(et5.getText()) || et6.getText() == null || TextUtils.isEmpty(et6.getText())) {
                             Toast.makeText(TaskDetails.this, "请输入完整设备信息", Toast.LENGTH_SHORT).show();
-                        } else if (checkLegal(et1.getText().toString(),et5.getText().toString(),-1)){
-                            Toast.makeText(TaskDetails.this,"设备出厂编号或自编号与其他设备相同，请重新输入",Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else if (checkLegal(et1.getText().toString(), et5.getText().toString(), -1)) {
+                            Toast.makeText(TaskDetails.this, "设备出厂编号或自编号与其他设备相同，请重新输入", Toast.LENGTH_SHORT).show();
+                        } else if (Float.parseFloat(et4.getText().toString().trim()) > 1000) {
+                            Toast.makeText(TaskDetails.this, "安装高度不能大于1000", Toast.LENGTH_SHORT).show();
+                            et4.setText("");
+                        } else {
                             Log.i("添加设备", "" + Log.i("id", et1.getText().toString() + "2" + et2.getText().toString() + "3" + et3.getText().toString() + "4" + et4.getText().toString() + "5" + et5.getText().toString()));
                             OrderDeviceDetail orderDeviceDetail = new OrderDeviceDetail(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(), Float.parseFloat(et4.getText().toString()), et5.getText().toString());
                             orderDeviceDetail.setStatusCode("01");
                             orderDeviceDetail.setDeviceCharge(Float.valueOf(et6.getText().toString()));
-                            if (showMonitor)
-                            {
-                                if (radioGroup.getCheckedRadioButtonId()==R.id.monitor_true){
+                            if (showMonitor) {
+                                if (radioGroup.getCheckedRadioButtonId() == R.id.monitor_true) {
                                     orderDeviceDetail.setMonitorStatus("1");
-                                }else {
+                                } else {
                                     orderDeviceDetail.setMonitorStatus("0");
                                 }
                             }
@@ -358,13 +361,13 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                        dialog.dismiss();
                     }
                 }).show();
         et3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final AlertDialog dialog=new AlertDialog.Builder(TaskDetails.this)
+                final AlertDialog dialog = new AlertDialog.Builder(TaskDetails.this)
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -396,7 +399,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                     dialogInterface.dismiss();
+                        dialogInterface.dismiss();
                     }
                 })
                 .setPositiveButton("确定",
@@ -404,13 +407,12 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 int position = (Integer) view.getTag();
-                                if (REQUEST_CODE== AddOrder.ADDORDER_REQUEST_CODE){
+                                if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
 
                                     deviceList.remove(position);
                                     adapter.notifyDataSetChanged();
                                     Toast.makeText(TaskDetails.this, "设备删除成功", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
+                                } else {
                                     deleteDevice(position);
                                 }
                             }
@@ -420,47 +422,47 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void deleteDevice(final int position) {
-        Map<String ,Object>map=new HashMap<>();
-        map.put("orderDeviceDetail",JSON.toJSONString(deviceList.get(position)));
-      ApiService.GetString(this, "orderDeviceDelete", map, new RxStringCallback() {
-          @Override
-          public void onNext(Object tag, String response) {
-              if (response.equals("success")){
-                  Log.i(TAG,"删除成功");
-                  deviceList.remove(position);
-                  adapter.notifyDataSetChanged();
-                  Toast.makeText(TaskDetails.this,"删除成功",Toast.LENGTH_SHORT).show();
-              }else {
-                  Log.i(TAG,"删除失败");
-                  Toast.makeText(TaskDetails.this,"删除失败",Toast.LENGTH_SHORT).show();
-              }
-          }
+        Map<String, Object> map = new HashMap<>();
+        map.put("orderDeviceDetail", JSON.toJSONString(deviceList.get(position)));
+        ApiService.GetString(this, "orderDeviceDelete", map, new RxStringCallback() {
+            @Override
+            public void onNext(Object tag, String response) {
+                if (response.equals("success")) {
+                    Log.i(TAG, "删除成功");
+                    deviceList.remove(position);
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(TaskDetails.this, "删除成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.i(TAG, "删除失败");
+                    Toast.makeText(TaskDetails.this, "删除失败", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-          @Override
-          public void onError(Object tag, Throwable e) {
-          Log.i(TAG,"删除失败");
-          Toast.makeText(TaskDetails.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-          }
+            @Override
+            public void onError(Object tag, Throwable e) {
+                Log.i(TAG, "删除失败");
+                Toast.makeText(TaskDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
-          @Override
-          public void onCancel(Object tag, Throwable e) {
+            @Override
+            public void onCancel(Object tag, Throwable e) {
 
-          }
-      });
+            }
+        });
     }
 
-    private void updateDevice(final int position ) {
-        OrderDeviceDetail orderDeviceDetail=deviceList.get(position);
+    private void updateDevice(final int position) {
+        OrderDeviceDetail orderDeviceDetail = deviceList.get(position);
 
-        Log.i("device",device.getCheckTypeId());
+        Log.i("device", device.getCheckTypeId());
         Map<String, Object> map = new HashMap<>();
         map.put("orderDeviceDetail", JSON.toJSONString(orderDeviceDetail));
-        map.put("requestCode",2);
+        map.put("requestCode", 2);
         ApiService.GetString(this, "orderDeviceUpdate", map, new RxStringCallback() {
 
             @Override
             public void onError(Object tag, Throwable e) {
-                Toast.makeText(TaskDetails.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(TaskDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -473,7 +475,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                 Log.i(TAG, "获取成功");
                 if (response.equals("success")) {
                     Log.i(TAG, "更新成功");
-                    Toast.makeText(TaskDetails.this,"修改成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaskDetails.this, "修改成功", Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
                 } else {
                     Log.i(TAG, response);
@@ -483,14 +485,14 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void addDevice(final OrderDeviceDetail orderDeviceDetail) {
-        OrderDeviceDetail orderdeviceDetail=orderDeviceDetail;
-        if (REQUEST_CODE== OrderCheck.REQUEST_CODE)
+        OrderDeviceDetail orderdeviceDetail = orderDeviceDetail;
+        if (REQUEST_CODE == OrderCheck.REQUEST_CODE)
             orderdeviceDetail.setStatusCode("06");
-        if (REQUEST_CODE== OrderSearch.UPDATE_REQUEST_CODE)
+        if (REQUEST_CODE == OrderSearch.UPDATE_REQUEST_CODE)
             orderdeviceDetail.setStatusCode("01");
         Map<String, Object> map = new HashMap<>();
         map.put("orderDeviceDetail", JSON.toJSONString(orderdeviceDetail));
-        map.put("requestCode",1);
+        map.put("requestCode", 1);
         ApiService.GetString(this, "orderDeviceUpdate", map, new RxStringCallback() {
                     @Override
                     public void onError(Object tag, Throwable e) {
@@ -517,17 +519,17 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
     private class MyAdapter extends BaseAdapter implements View.OnClickListener {
 
         private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
         private CallBack callBack;
         private List<OrderDeviceDetail> list;
+
         /*构造函数*/
         public MyAdapter(Context context, CallBack callBack, List<OrderDeviceDetail> devices) {
             this.mInflater = LayoutInflater.from(context);
-            this.list=devices;
-            this.callBack=callBack;
+            this.list = devices;
+            this.callBack = callBack;
         }
 
         @Override
@@ -544,6 +546,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         public long getItemId(int position) {
             return position;
         }
+
         /*书中详细解释该方法*/
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -551,33 +554,32 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
             //观察convertView随ListView滚动情况
             Log.v("MyListViewBase", "getView " + position + " " + convertView);
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.item_order_divice,null);
+                convertView = mInflater.inflate(R.layout.item_order_divice, null);
                 holder = new ViewHolder();
                 /*得到各个控件的对象*/
                 //xe
-                holder.monitorLayout=(LinearLayout)convertView.findViewById(R.id.monitor_show);
+                holder.monitorLayout = (LinearLayout) convertView.findViewById(R.id.monitor_show);
                 holder.number = (TextView) convertView.findViewById(R.id.device_number);
-                holder.numberType=(TextView)convertView.findViewById(R.id.number_type);
-                holder.height=(TextView)convertView.findViewById(R.id.height);
-                holder.prize=(TextView)convertView.findViewById(R.id.prize);
-                holder.monitorTv=(TextView)convertView.findViewById(R.id.monitor_status);
-                holder.checkType=(TextView)convertView.findViewById(R.id.check_type);
-                holder.autoNumber=(TextView)convertView.findViewById(R.id.auto_number);
-                holder.delete_img=(ImageView) convertView.findViewById(R.id.delete_agree);
+                holder.numberType = (TextView) convertView.findViewById(R.id.number_type);
+                holder.height = (TextView) convertView.findViewById(R.id.height);
+                holder.prize = (TextView) convertView.findViewById(R.id.prize);
+                holder.monitorTv = (TextView) convertView.findViewById(R.id.monitor_status);
+                holder.checkType = (TextView) convertView.findViewById(R.id.check_type);
+                holder.autoNumber = (TextView) convertView.findViewById(R.id.auto_number);
+                holder.delete_img = (ImageView) convertView.findViewById(R.id.delete_agree);
                 convertView.setTag(holder);//绑定ViewHolder对象
+            } else {
+                holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
             }
-            else{
-                holder = (ViewHolder)convertView.getTag();//取出ViewHolder对象
-            }
-            if (showMonitor){
+            if (showMonitor) {
                 holder.monitorLayout.setVisibility(View.VISIBLE);
-                if (list.get(position).getMonitorStatus()!=null) {
+                if (list.get(position).getMonitorStatus() != null) {
                     if (list.get(position).getMonitorStatus().equals("0"))
                         holder.monitorTv.setText("无监控");
                     else
                         holder.monitorTv.setText("有监控");
                 }
-            }else {
+            } else {
                 holder.monitorLayout.setVisibility(View.GONE);
             }
 
@@ -585,15 +587,15 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
             holder.number.setText(list.get(position).getDeviceManufacCode());
             holder.numberType.setText(list.get(position).getTypeSpecification());
             holder.checkType.setText(list.get(position).getCheckTypeId());
-            holder.height.setText(list.get(position).getInstallHeight()+"");
+            holder.height.setText(list.get(position).getInstallHeight() + "");
             holder.autoNumber.setText(list.get(position).getSelfCode());
-            holder.prize.setText(list.get(position).getDeviceCharge()+"元");
+            holder.prize.setText(list.get(position).getDeviceCharge() + "元");
             // ItemListener itemListener = new ItemListener(position);//监听器记录了所在行，于是绑定到各个控件后能够返回具体的行，以及触发的控件
             /*为Button添加点击事件*/
 
 
             if (!permissioned)
-            holder.delete_img.setVisibility( holder.delete_img.INVISIBLE);
+                holder.delete_img.setVisibility(holder.delete_img.INVISIBLE);
             holder.delete_img.setOnClickListener(this);
             holder.delete_img.setTag(position);
 
@@ -604,9 +606,10 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         public void onClick(View v) {
             callBack.callBack(v);
         }
+
         /*存放控件*/
-         class ViewHolder{
-            public TextView number,numberType,checkType,height,prize,autoNumber,monitorTv;
+        class ViewHolder {
+            public TextView number, numberType, checkType, height, prize, autoNumber, monitorTv;
             public ImageView delete_img;
             public LinearLayout monitorLayout;
         }
@@ -615,29 +618,29 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-     if(permissioned) {
-         Intent intent = new Intent();
-         intent.putExtra("ItemPosition", ITEM_POSITION);
-         if (deviceList == null || deviceList.size() == 0) {
-             intent.putExtra("DeviceNumber", 0);
-             intent.putExtra("checkCharge", new Float(0));
-         } else {
-             intent.putExtra("DeviceNumber", deviceList.size());
-             Float checkCharge = new Float(0);
-             for (OrderDeviceDetail orderDeviceDetail : deviceList)
-                 if(orderDeviceDetail.getDeviceCharge()!=null)
-                 checkCharge += orderDeviceDetail.getDeviceCharge();
-             intent.putExtra("checkCharge", checkCharge);
-         }
-         if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
-             Bundle bundle = new Bundle();
-             consignmentDetail.setOrderDeviceDetailList(deviceList);
-             Log.i("TaskDetail", "deviceList" + deviceList.size());
-             bundle.putSerializable("consignment", consignmentDetail);
-             intent.putExtras(bundle);
-         }
-         setResult(REQUEST_CODE, intent);
-     }
+        if (permissioned) {
+            Intent intent = new Intent();
+            intent.putExtra("ItemPosition", ITEM_POSITION);
+            if (deviceList == null || deviceList.size() == 0) {
+                intent.putExtra("DeviceNumber", 0);
+                intent.putExtra("checkCharge", new Float(0));
+            } else {
+                intent.putExtra("DeviceNumber", deviceList.size());
+                Float checkCharge = new Float(0);
+                for (OrderDeviceDetail orderDeviceDetail : deviceList)
+                    if (orderDeviceDetail.getDeviceCharge() != null)
+                        checkCharge += orderDeviceDetail.getDeviceCharge();
+                intent.putExtra("checkCharge", checkCharge);
+            }
+            if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
+                Bundle bundle = new Bundle();
+                consignmentDetail.setOrderDeviceDetailList(deviceList);
+                Log.i("TaskDetail", "deviceList" + deviceList.size());
+                bundle.putSerializable("consignment", consignmentDetail);
+                intent.putExtras(bundle);
+            }
+            setResult(REQUEST_CODE, intent);
+        }
         finish();
     }
 }

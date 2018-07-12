@@ -7,6 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -268,6 +269,7 @@ public class NetSelect extends AppCompatActivity {
             //if((int)convertView.getTag(1)==position){
                 holder.instruNam.setText(listItem.get(position).getInstrumentType().toString());
                 holder.instruNum.setText(listItem.get(position).getInstrumentCode().toString());
+                Log.i("adad:",listItem.get(position).getIsUsing());
             //}else{
             //    holder.instruNam.setText("加载中");
             //    holder.instruNum.setText("加载中");

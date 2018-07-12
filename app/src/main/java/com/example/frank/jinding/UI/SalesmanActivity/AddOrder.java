@@ -264,7 +264,12 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
                     intent.putExtra("checkOrder",checkOrder);
                     intent.putExtra("requestCode",0x01);
                     startActivityForResult(intent, 0x01);
-                }else {
+                }
+                else if(consignmentList.size()!=0){
+                    Toast.makeText(AddOrder.this,"只能添加一种协议",Toast.LENGTH_SHORT).show();
+                }
+
+                else {
                     addConsignment(null,-1);
                 }
                 break;

@@ -308,6 +308,8 @@ public class ApplyInstrument extends AppCompatActivity {
                 if(response.equals("success")){
                     Toast.makeText(ApplyInstrument.this, response, Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(ApplyInstrument.this, OrderSelectActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 }else{
                     Toast.makeText(ApplyInstrument.this, response, Toast.LENGTH_LONG).show();

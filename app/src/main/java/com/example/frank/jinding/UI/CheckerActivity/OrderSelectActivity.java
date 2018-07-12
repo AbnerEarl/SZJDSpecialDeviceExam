@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,11 +52,13 @@ public class OrderSelectActivity extends AppCompatActivity {
     private ArrayList<JSONObject> submissionOrderList = new ArrayList<>();
     private ArrayList<String> selectOrderId = new ArrayList<>();
     private Spinner spinner_order;
+    private int ISnull=1;//判断返回键
     private List<String> list_spinner_data = new ArrayList<>();
     private ArrayAdapter<String> adapter_spinner;
     //private HashMap<String,String> orderStatusMap=new HashMap<>();
     private Gson gson = new Gson();
-    private String submission_id="";
+    private static String submission_id="";
+
     private Gson gsonContainTime = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
     @Override
@@ -65,6 +68,13 @@ public class OrderSelectActivity extends AppCompatActivity {
         init();
         initListener();
     }
+    @Override       //这里实现了自动更新
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        init();
+    }
+
 
     private void init() {
         if (getIntent().getStringExtra("flag") != null) {
@@ -110,6 +120,9 @@ public class OrderSelectActivity extends AppCompatActivity {
                     orderIdList.add(submissionOrderList.get(i).get("orderId").toString());
                     //orderStatusMap.put(submissionOrderList.get(i).get("submissionId").toString(),submissionOrderList.get(i).get("recheck_status").toString());
                 }
+                if(orderIdList.size()==0)
+                    ISnull=0;
+
                 establishAdapter.listItem = submissionOrderList;
                 listView_order.setAdapter(establishAdapter);
 
@@ -129,6 +142,7 @@ public class OrderSelectActivity extends AppCompatActivity {
     }
 
     private void getHasApplyOrder() {
+        ISnull=0;
         View processView = View.inflate(this, R.layout.simple_processbar, null);
         final AlertDialog processDialog = new AlertDialog.Builder(this).create();
         processDialog.setView(processView);
@@ -150,6 +164,7 @@ public class OrderSelectActivity extends AppCompatActivity {
                     orderIdList.add(submissionOrderList.get(i).get("orderId").toString());
                     //orderStatusMap.put(submissionOrderList.get(i).get("submissionId").toString(),submissionOrderList.get(i).get("recheck_status").toString());
                 }
+
                 establishAdapter.listItem = submissionOrderList;
                 listView_order.setAdapter(establishAdapter);
 
@@ -199,6 +214,7 @@ public class OrderSelectActivity extends AppCompatActivity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //Toast.makeText(OrderSelectActivity.this,selectOrderId.toString(),Toast.LENGTH_LONG).show();
                 if (selectOrderId.size() > 0) {
 
@@ -258,6 +274,7 @@ public class OrderSelectActivity extends AppCompatActivity {
                     submissionOrderList.clear();
                     getNotApplyOrder();
                     selectOrderId.clear();
+
                 }
             }
 
@@ -359,5 +376,7 @@ public class OrderSelectActivity extends AppCompatActivity {
         public TextView orderStatus;
         public ImageView taskIcon;
     }
+
+
 
 }

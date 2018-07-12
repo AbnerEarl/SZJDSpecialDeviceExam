@@ -57,6 +57,7 @@
         android:layout_below="@+id/editText8"
         android:layout_marginLeft="8dp"
         android:ems="10"
+        android:maxLines="4"
         android:hint="请输入安装高度！"
         android:inputType="number" />
 
