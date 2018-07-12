@@ -288,25 +288,27 @@ public class CheckOpinion extends AppCompatActivity {
                                     @Override
                                     public void onNext(Object tag, String response) {
 
-                                        if (response.trim().equals("")){
+                                        if (response.trim().equals("true")){
                                             etcontent.setText("");
                                             CheckControl.start = true;
                                             submit.setEnabled(false);
                                             Toast.makeText(CheckOpinion.this, "检测意见提交成功，请等待审核结果", Toast.LENGTH_SHORT).show();
                                             finish();
+                                        }else if (response.trim().equals("false")){
+                                            Toast.makeText(CheckOpinion.this, "服务连接问题，请重新尝试提交", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
                                     @Override
                                     public void onError(Object tag, Throwable e) {
-                                        Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CheckOpinion.this, "提交失败" , Toast.LENGTH_SHORT).show();
                                         submit.setEnabled(true);
 
                                     }
 
                                     @Override
                                     public void onCancel(Object tag, Throwable e) {
-                                        Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CheckOpinion.this, "提交失败", Toast.LENGTH_SHORT).show();
                                         submit.setEnabled(true);
                                     }
 

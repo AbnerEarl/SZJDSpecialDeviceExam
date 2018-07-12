@@ -587,7 +587,7 @@ public class SelectEquipment extends AppCompatActivity {
                     map_data.put("deviceId",deviceId);
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data",JSON.toJSONString(map_data));
-                    ApiService.GetString(SelectEquipment.this, "checkDetails", paremetes, new RxStringCallback() {
+                    ApiService.GetString(SelectEquipment.this, "getOrderCheckDetails", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
                         @Override

@@ -1,6 +1,7 @@
 package com.example.frank.jinding.UI.CheckerActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -117,11 +118,6 @@ public class OperationProcess extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-               /* Random random=new Random();
-
-                String subid="yangyiyangyiyangyi"+random.nextInt(100);
-                submission_id=subid;*/
-
                singtag=true;
                 waitprogress.setVisibility(waitprogress.VISIBLE);
                 try {
@@ -201,7 +197,7 @@ public class OperationProcess extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(OperationProcess.this,"操作成功",Toast.LENGTH_SHORT).show();
-                startcheckstatus();
+                startCheckStatus();
             }
         });
 
@@ -227,12 +223,12 @@ public class OperationProcess extends AppCompatActivity {
         start.setEnabled(false);
         leave.setEnabled(false);
 
-        orderstatu();
+        getOrderStatu();
 
 
     }
 
-    private void orderstatu(){
+    private void getOrderStatu(){
 
         new Thread(new Runnable() {
             @Override
@@ -240,37 +236,37 @@ public class OperationProcess extends AppCompatActivity {
                 try {
 
                     Map<String, Object> paremetes = new HashMap<>();
-        paremetes.put("data", orderId);
-        ApiService.GetString(OperationProcess.this, "orderStatu", paremetes, new RxStringCallback() {
-            boolean flag = false;
+                    paremetes.put("data", orderId);
+                    ApiService.GetString(OperationProcess.this, "getOrderStatu", paremetes, new RxStringCallback() {
+                        boolean flag = false;
 
-            @Override
-            public void onNext(Object tag, String response) {
+                        @Override
+                        public void onNext(Object tag, String response) {
 
-                if (response.trim().equals("1")) {
-                    flag =true;
-                    CheckControl.sign=true;
-                    CheckControl.comfirm=true;
-                    CheckControl.start=true;
-                    CheckControl.leave=true;
-                }else {
-                    arriveInfomation();
-                }
-            }
+                            if (response.trim().equals("1")) {
+                                flag =true;
+                                CheckControl.sign=true;
+                                CheckControl.comfirm=true;
+                                CheckControl.start=true;
+                                CheckControl.leave=true;
+                            }else {
+                                arriveInfomation();
+                            }
+                        }
 
-            @Override
-            public void onError(Object tag, Throwable e) {
-                Toast.makeText(OperationProcess.this, "" + e, Toast.LENGTH_SHORT).show();
-            }
+                        @Override
+                        public void onError(Object tag, Throwable e) {
+                            Toast.makeText(OperationProcess.this, "" + e, Toast.LENGTH_SHORT).show();
+                        }
 
-            @Override
-            public void onCancel(Object tag, Throwable e) {
-                Toast.makeText(OperationProcess.this, "" + e, Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onCancel(Object tag, Throwable e) {
+                            Toast.makeText(OperationProcess.this, "" + e, Toast.LENGTH_SHORT).show();
 
-            }
+                        }
 
 
-        });
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -329,7 +325,7 @@ public class OperationProcess extends AppCompatActivity {
 
 
 
-    private void startcheckstatus(){
+    private void startCheckStatus(){
 
 
         Map<String, Object> paremetes = new HashMap<>();
@@ -751,106 +747,6 @@ public class OperationProcess extends AppCompatActivity {
             //getlocation();
         }
     };
-
-
-
-
-
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       if (requestCode == 1001) {
-
-            if (SignLeaveTag.locate!=null&&!SignLeaveTag.locate.equals("")){
-
-                new  AlertDialog.Builder(OperationProcess.this)
-                        .setTitle("系统提示")
-                        .setMessage("\n签到成功！\n\n"+SignLeaveTag.locate)
-                        .setPositiveButton("确定",
-                                new  DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public  void  onClick(DialogInterface dialog, int  which)
-                                    {
-                                        //Toast.makeText(Op .this,"派工成功！",Toast.LENGTH_SHORT).show();
-                                        CheckControl.sign=true;
-                                        SignLeaveTag.locate="";
-
-                                    }
-                                }).show();
-
-
-            }else {
-                new  AlertDialog.Builder(OperationProcess.this)
-                        .setTitle("系统提示")
-                        .setMessage("\n签到失败！\n\n请检查网络环境是否连接正确，手机是否有信号！"+result)
-                        .setPositiveButton("确定",
-                                new  DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public  void  onClick(DialogInterface dialog, int  which)
-                                    {
-
-
-                                    }
-                                }).show();
-            }
-
-
-        } else if (requestCode == 1002) {
-
-            if (SignLeaveTag.locate!=null&&!SignLeaveTag.locate.equals("")){
-
-                new  AlertDialog.Builder(OperationProcess.this)
-                        .setTitle("系统提示")
-                        .setMessage("\n离开成功！\n\n"+SignLeaveTag.locate+
-                                "\n\n恭喜您，所有检测已经全部完成，是否现在离开现场？")
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                CheckControl.leave=true;
-                                CheckControl.sign=false;
-                                CheckControl.comfirm=false;
-                                CheckControl.start=false;
-                            }
-                        })
-                        .setPositiveButton("确定",
-                                new  DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public  void  onClick(DialogInterface dialog, int  which)
-                                    {
-
-                                        CheckControl.leave=true;
-                                        CheckControl.sign=false;
-                                        CheckControl.comfirm=false;
-                                        CheckControl.start=false;
-
-                                        SignLeaveTag.locate="";
-                                        finish();
-                                    }
-                                }).show();
-
-
-            }else {
-                new  AlertDialog.Builder(OperationProcess.this)
-                        .setTitle("系统提示")
-                        .setMessage("\n离开失败！\n\n请检查网络环境是否连接正确，手机是否有信号！"+result)
-                        .setPositiveButton("确定",
-                                new  DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public  void  onClick(DialogInterface dialog, int  which)
-                                    {
-
-
-                                    }
-                                }).show();
-            }
-        }
-    }*/
-
-
 
 
 

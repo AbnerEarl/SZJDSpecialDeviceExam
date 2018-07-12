@@ -116,7 +116,7 @@ public class TechnicalViewDetails extends AppCompatActivity {
 
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data",path);
-                    ApiService.GetString(TechnicalViewDetails.this, "checkDetails", paremetes, new RxStringCallback() {
+                    ApiService.GetString(TechnicalViewDetails.this, "getOrderCheckDetails", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
                         @Override
