@@ -97,8 +97,13 @@ public class CheckStartProtocl extends AppCompatActivity {
                                     public  void  onClick(DialogInterface dialog, int  which)
                                     {
                                         if (et.getText().toString().trim().length()>2) {
+                                            HashMap<String,String> map_data=new HashMap<>();
+                                            map_data.put("submission_id",submission_id);
+                                            map_data.put("orderId",orderId);
+                                            map_data.put("reason",et.getText().toString());
                                             Map<String, Object> paremetes = new HashMap<>();
-                                            paremetes.put("data", submission_id + "## " + et.getText()+ " ##" +orderId);
+                                            //paremetes.put("data", submission_id + "## " + et.getText()+ " ##" +orderId);
+                                            paremetes.put("data",JSON.toJSONString(map_data));
                                             ApiService.GetString(CheckStartProtocl.this, "terminationTest", paremetes, new RxStringCallback() {
                                                 @Override
                                                 public void onNext(Object tag, String response) {
@@ -162,9 +167,12 @@ public class CheckStartProtocl extends AppCompatActivity {
                                     public  void  onClick(DialogInterface dialog, int  which)
                                     {
                                         if (et.getText().toString().trim().length()>2) {
-
+                                            HashMap<String,String> map_data=new HashMap<>();
+                                            map_data.put("submission_id",submission_id);
+                                            map_data.put("orderId",orderId);
+                                            map_data.put("reason",et.getText().toString());
                                             Map<String, Object> paremetes = new HashMap<>();
-                                            paremetes.put("data", submission_id + "## " + et.getText()+ " ##" +orderId);
+                                            paremetes.put("data", JSON.toJSONString(map_data));
                                             ApiService.GetString(CheckStartProtocl.this, "reAssignment", paremetes, new RxStringCallback() {
                                                 @Override
                                                 public void onNext(Object tag, String response) {
