@@ -11,6 +11,7 @@ import com.example.frank.jinding.Service.LoginService;
 import com.example.frank.jinding.UI.AuthorActivity.AuthorizedPersonsActivity;
 import com.example.frank.jinding.UI.CheckerActivity.CheckReport;
 import com.example.frank.jinding.UI.CheckerActivity.CheckersActivity;
+import com.example.frank.jinding.UI.CheckerActivity.CheckersActivityNew;
 import com.example.frank.jinding.UI.DepartorActivity.DepartmentHeadersActivity;
 import com.example.frank.jinding.UI.CheckerActivity.OrderSelectActivity;
 import com.example.frank.jinding.UI.CheckerActivity.SelectOrder;
@@ -195,7 +196,7 @@ public class MyReceiver extends BroadcastReceiver {
 				intent=new Intent(context, com.example.frank.jinding.UI.MainActivity.class);
 				break;
 			case "0101":
-				intent=new Intent(context,CheckersActivity.class);
+				intent=new Intent(context,CheckersActivityNew.class);
 				break;
 			case "0102":
 				intent=new Intent(context, OrderSelectActivity.class);
