@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,8 +70,10 @@ public class SelectEquipment extends AppCompatActivity {
     private String deviceinfo="",isMainChecker="",consignmentId="",orderId="",deviceId="",submission_id="";
 
     private static boolean dirurl=false;
+    public static int sum_tag=0,file_tag=0,text_tag=0;
     private MyAdapter mAdapter;
     FtpUpload ff=new FtpUpload();
+    private ProgressBar upload_wait;
     private  String path = Environment.getExternalStorageDirectory() + "/Luban/image/"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"/";
 
 
@@ -83,13 +87,7 @@ public class SelectEquipment extends AppCompatActivity {
         StrictMode.setVmPolicy(
                 new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
 */
-        Intent intent=getIntent();
-        deviceinfo=intent.getStringExtra("device");
-        isMainChecker=intent.getStringExtra("isMainChecker");
-        orderId=intent.getStringExtra("orderId");
-        deviceId=intent.getStringExtra("deviceId");
-        submission_id=intent.getStringExtra("submission_id");
-        consignmentId=intent.getStringExtra("consignmentId");
+
 
         init();
         device.setText("正在检测设备："+deviceinfo);
@@ -189,11 +187,6 @@ public class SelectEquipment extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
         // /*为ListView添加点击事件*/
 
 
@@ -202,8 +195,10 @@ public class SelectEquipment extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-
-                final EditText et=new EditText(SelectEquipment.this);
+                String pic_description=mAdapter.listItem.get(arg2).get("ItemText").toString();
+                String pic_url = mAdapter.listItem.get(arg2).get("ItemImage").toString();
+                String pic_tag = mAdapter.listItem.get(arg2).get("Tag").toString();
+                EditText et=new EditText(SelectEquipment.this);
                 et.setText(mAdapter.listItem.get(arg2).get("ItemText").toString());
                 new  AlertDialog.Builder(SelectEquipment.this)
                         .setTitle("系统提示")
@@ -222,20 +217,16 @@ public class SelectEquipment extends AppCompatActivity {
                                     public  void  onClick(DialogInterface dialog, int  which)
                                     {
 
-                                        String datatext=mAdapter.listItem.get(arg2).get("ItemText").toString();
-                                        final String temimg = mAdapter.listItem.get(arg2).get("ItemImage").toString();
-                                        final String tagtag = mAdapter.listItem.get(arg2).get("Tag").toString();
-
                                         if (mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("0")) {
                                             HashMap<String, Object> map = new HashMap<String, Object>();
-                                            map.put("ItemImage", temimg);
+                                            map.put("ItemImage", pic_url);
                                             map.put("ItemText", et.getText());
-                                            map.put("Tag", tagtag);
+                                            map.put("Tag", pic_tag);
                                             mAdapter.listItem.remove(arg2);
                                             mAdapter.listItem.add(map);
                                             mAdapter.notifyDataSetChanged();
                                             Toast.makeText(SelectEquipment.this, "修改成功", Toast.LENGTH_SHORT).show();
-                                        }else if (!et.getText().toString().equals(datatext)&&mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("1")){
+                                        }else if (!et.getText().toString().equals(pic_description)&&mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("1")){
                                             String filename = mAdapter.listItem.get(arg2).get("ItemImage").toString();
                                             String datafile = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) ;
 
@@ -256,9 +247,9 @@ public class SelectEquipment extends AppCompatActivity {
                                                 public void onNext(Object tag, String response) {
                                                     if (response.trim().equals("修改成功！")) {
                                                         HashMap<String, Object> map = new HashMap<String, Object>();
-                                                        map.put("ItemImage", temimg);
+                                                        map.put("ItemImage", pic_url);
                                                         map.put("ItemText", et.getText());
-                                                        map.put("Tag", tagtag);
+                                                        map.put("Tag", pic_tag);
                                                         mAdapter.listItem.remove(arg2);
                                                         mAdapter.listItem.add(map);
                                                         mAdapter.notifyDataSetChanged();
@@ -314,70 +305,88 @@ public class SelectEquipment extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        //文件测试
+                                            sum_tag=0;file_tag=0;text_tag=0;
+                                            for (int i = 0; i < mAdapter.listItem.size(); i++) {
 
-                                                        for (int i = 0; i < mAdapter.listItem.size(); i++) {
+                                                if (mAdapter.listItem.get(i).get("Tag").toString().equals("0")) {
+                                                    sum_tag++;
+                                                }
+                                            }
+                                            if (sum_tag>0){
+                                                //如果是本地图片，就开始向服务器上传照片
+                                                upload_wait.setVisibility(View.VISIBLE);
 
-                                                            if (mAdapter.listItem.get(i).get("Tag").toString().equals("0")) {
-                                                                //上传文件到服务器
-                                                                String eqfilename = mAdapter.listItem.get(i).get("ItemImage").toString();
-                                                                String datafilename = eqfilename.substring(eqfilename.lastIndexOf("/") + 1, eqfilename.length());
-                                                                FtpClientUpload.UploadFile(eqfilename, orderId + "/" + consignmentId + "/" + deviceId + "/", SelectEquipment.this, datafilename);
-                                                                //ff.upload(SelectEquipment.this,orderId+"/"+consignmentId+"/"+deviceId,mAdapter.listItem.get(i).get("ItemImage").toString());
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
 
 
-                                                                //上传文字描述到服务器
-                                                                HashMap<String,String> map_data=new HashMap<>();
-                                                                String filename = mAdapter.listItem.get(i).get("ItemImage").toString();
-                                                               // String dd = orderId + "#" + consignmentId + "#" + deviceId + "#" + filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) + "#" + mAdapter.listItem.get(i).get("ItemText").toString();
-                                                                map_data.put("orderId",orderId);
-                                                                map_data.put("consignmentId",consignmentId);
-                                                                map_data.put("deviceId",deviceId);
-                                                                map_data.put("picName",filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")));
-                                                                map_data.put("picDescrip",mAdapter.listItem.get(i).get("ItemText").toString());
+                                                            for (int i = 0; i < mAdapter.listItem.size(); i++) {
 
-                                                                Map<String, Object> paremetes = new HashMap<>();
-                                                                paremetes.put("data", JSON.toJSONString(map_data));
-                                                                ApiService.GetString(SelectEquipment.this, "pictureInfomation", paremetes, new RxStringCallback() {
-                                                                    boolean flag = false;
+                                                                if (mAdapter.listItem.get(i).get("Tag").toString().equals("0")) {
+                                                                    //上传文件到服务器
+                                                                    String eqfilename = mAdapter.listItem.get(i).get("ItemImage").toString();
+                                                                    String datafilename = eqfilename.substring(eqfilename.lastIndexOf("/") + 1, eqfilename.length());
+                                                                    FtpClientUpload.UploadFile(eqfilename, orderId + "/" + consignmentId + "/" + deviceId + "/", SelectEquipment.this, datafilename);
+                                                                    //ff.upload(SelectEquipment.this,orderId+"/"+consignmentId+"/"+deviceId,mAdapter.listItem.get(i).get("ItemImage").toString());
 
-                                                                    @Override
-                                                                    public void onNext(Object tag, String response) {
 
-                                                                        if (response.trim().equals("上传成功！")) {
-                                                                            Toast.makeText(SelectEquipment.this, "上传成功", Toast.LENGTH_SHORT).show();
+                                                                    //上传文字描述到服务器
+                                                                    HashMap<String,String> map_data=new HashMap<>();
+                                                                    String filename = mAdapter.listItem.get(i).get("ItemImage").toString();
+                                                                    // String dd = orderId + "#" + consignmentId + "#" + deviceId + "#" + filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) + "#" + mAdapter.listItem.get(i).get("ItemText").toString();
+                                                                    map_data.put("orderId",orderId);
+                                                                    map_data.put("consignmentId",consignmentId);
+                                                                    map_data.put("deviceId",deviceId);
+                                                                    map_data.put("picName",filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")));
+                                                                    map_data.put("picDescrip",mAdapter.listItem.get(i).get("ItemText").toString());
+
+                                                                    Map<String, Object> paremetes = new HashMap<>();
+                                                                    paremetes.put("data", JSON.toJSONString(map_data));
+                                                                    ApiService.GetString(SelectEquipment.this, "pictureInfomation", paremetes, new RxStringCallback() {
+                                                                        boolean flag = false;
+
+                                                                        @Override
+                                                                        public void onNext(Object tag, String response) {
+
+                                                                            if (response.trim().equals("上传成功！")) {
+                                                                                text_tag++;
+                                                                                //  Toast.makeText(SelectEquipment.this, "上传成功", Toast.LENGTH_SHORT).show();
+
+                                                                            }
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onError(Object tag, Throwable e) {
+                                                                            Toast.makeText(SelectEquipment.this, "" + e, Toast.LENGTH_SHORT).show();
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onCancel(Object tag, Throwable e) {
+                                                                            Toast.makeText(SelectEquipment.this, "" + e, Toast.LENGTH_SHORT).show();
 
                                                                         }
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onError(Object tag, Throwable e) {
-                                                                        Toast.makeText(SelectEquipment.this, "" + e, Toast.LENGTH_SHORT).show();
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onCancel(Object tag, Throwable e) {
-                                                                        Toast.makeText(SelectEquipment.this, "" + e, Toast.LENGTH_SHORT).show();
-
-                                                                    }
 
 
-                                                                });
+                                                                    });
+
+                                                                }
 
                                                             }
 
+
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
                                                         }
-
-
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
                                                     }
-                                                }
-                                            }).start();
+                                                }).start();
+
+                                            }else {
+                                                //如果是网络图片就不再上传
+                                                Toast.makeText(SelectEquipment.this, "图片均已上传成功", Toast.LENGTH_SHORT).show();
+                                            }
+
                                         }
                                     }).show();
 
@@ -472,6 +481,19 @@ public class SelectEquipment extends AppCompatActivity {
             }
         });
 
+        Handler handler=new Handler();
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                if (sum_tag>0&&sum_tag==file_tag&&sum_tag==text_tag){
+                    upload_wait.setVisibility(View.INVISIBLE);
+                    Toast.makeText(SelectEquipment.this, "上传成功", Toast.LENGTH_SHORT).show();
+                    sum_tag=0;file_tag=0;text_tag=0;
+                }
+                handler.postDelayed(this,2000);
+            }
+        };
+        handler.postDelayed(runnable,2000);
 
 
 
@@ -546,6 +568,14 @@ public class SelectEquipment extends AppCompatActivity {
 
     private void init(){
 
+        Intent intent=getIntent();
+        deviceinfo=intent.getStringExtra("device");
+        isMainChecker=intent.getStringExtra("isMainChecker");
+        orderId=intent.getStringExtra("orderId");
+        deviceId=intent.getStringExtra("deviceId");
+        submission_id=intent.getStringExtra("submission_id");
+        consignmentId=intent.getStringExtra("consignmentId");
+
         add_photo=(Button)this.findViewById(R.id.add_photo);
         addopinion=(Button)this.findViewById(R.id.add_opinion);
         lookresult=(Button)this.findViewById(R.id.look_result);
@@ -557,6 +587,7 @@ public class SelectEquipment extends AppCompatActivity {
         back=(ImageButton)this.findViewById(R.id.titleback);
         title=(TextView)this.findViewById(R.id.titleplain);
 
+        upload_wait=(ProgressBar)this.findViewById(R.id.prgress_file_upload_wait);
         device=(TextView)this.findViewById(R.id.textView49);
 
         lv_tasksss=(ListView)this.findViewById(R.id.lv_equipment_situation);

@@ -115,6 +115,7 @@ public class ResultOpinion extends TabActivity {
             public void onTabChanged(String tabId) {
                 if (tabId.trim().equals("tab1")){
                     getData("1");
+
                 }else if (tabId.trim().equals("tab2")){
                     getData("2");
                 }else if (tabId.trim().equals("tab3")){
@@ -599,12 +600,18 @@ public class ResultOpinion extends TabActivity {
                                                                             public void onNext(Object tag, String response) {
 
                                                                                 if (response.trim().equals("重复提交")){
-                                                                                    Toast.makeText(ResultOpinion.this,"该台设备已经提交过检测意见，请查看审核结果",Toast.LENGTH_SHORT).show();
+                                                                                    //Toast.makeText(ResultOpinion.this,"该台设备已经提交过检测意见，请查看审核结果",Toast.LENGTH_SHORT).show();
+                                                                                    Toast.makeText(ResultOpinion.this,"该台设备的检测意见修改成功",Toast.LENGTH_SHORT).show();
+                                                                                    notAdapter.listItem.remove(position);
+                                                                                    notAdapter.notifyDataSetChanged();
 
+                                                                                }else if (response.trim().equals("拒绝修改")){
+                                                                                    Toast.makeText(ResultOpinion.this, "该台设备的检测意见已经审核通过，拒绝再次修改", Toast.LENGTH_SHORT).show();
                                                                                 }
                                                                                 else if (response.trim().equals("提交成功！")&& CheckControl.sign) {
                                                                                     etcontent.setText("");
                                                                                     CheckControl.start=true;
+
                                                                                     Toast.makeText(ResultOpinion.this,"检测意见提交成功，请等待审核结果",Toast.LENGTH_SHORT).show();
 
                                                                                 }else {

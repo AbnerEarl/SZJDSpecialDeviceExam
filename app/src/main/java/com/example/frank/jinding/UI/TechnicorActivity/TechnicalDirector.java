@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.tamic.novate.Throwable;
@@ -238,7 +239,7 @@ public class TechnicalDirector extends AppCompatActivity {
                             } else if (info[2].trim().equals("1")) {
                                 map.put("ItemAddress", "合格");
                             } else {
-                                map.put("ItemAddress", "需复检（待确认）");
+                                map.put("ItemAddress", "需复检(待确认)");
                             }
 
                             map.put("ItemDate", info[3].trim());
@@ -349,6 +350,7 @@ public class TechnicalDirector extends AppCompatActivity {
             // ItemListener itemListener = new ItemListener(position);//监听器记录了所在行，于是绑定到各个控件后能够返回具体的行，以及触发的控件
             /*为Button添加点击事件*/
 
+            // 1 代表是接受检验意见，2 代表是拒绝接受检验意见
 
             holder.bt_refuse.setOnClickListener(new View.OnClickListener() {
 
@@ -370,15 +372,21 @@ public class TechnicalDirector extends AppCompatActivity {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+
+                                            HashMap<String ,String> map_data=new HashMap<>();
+                                            map_data.put("operateTag","2");
+                                            map_data.put("deviceRecordId",waitAdapter.listItem.get(position).get("DeviceRecordId").toString() );
+                                            map_data.put("reason",et.getText().toString().trim());
+
                                             Map<String, Object> paremetes = new HashMap<>();
-                                            paremetes.put("data", 2 + "#" + waitAdapter.listItem.get(position).get("DeviceRecordId").toString() + "#" + et.getText().toString().trim());
+                                            paremetes.put("data",JSON.toJSONString(map_data) );
                                             ApiService.GetString(TechnicalDirector.this, "examCheckOpinionResult", paremetes, new RxStringCallback() {
                                                 boolean flag = false;
 
                                                 @Override
                                                 public void onNext(Object tag, String response) {
 
-                                                    if (response.trim().equals("审批成功！")) {
+                                                    if (response.trim().equals("true")) {
                                                         Toast.makeText(TechnicalDirector.this, "审批成功", Toast.LENGTH_SHORT).show();
 
                                                     }
@@ -415,16 +423,19 @@ public class TechnicalDirector extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //打印Button的点击信息
+                    HashMap<String ,String> map_data=new HashMap<>();
+                    map_data.put("operateTag","1");
+                    map_data.put("deviceRecordId",waitAdapter.listItem.get(position).get("DeviceRecordId").toString());
 
                     Map<String, Object> paremetes = new HashMap<>();
-                    paremetes.put("data", 1 + "#" + waitAdapter.listItem.get(position).get("DeviceRecordId").toString());
+                    paremetes.put("data", JSON.toJSONString(map_data));
                     ApiService.GetString(TechnicalDirector.this, "examCheckOpinionResult", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
                         @Override
                         public void onNext(Object tag, String response) {
 
-                            if (response.trim().equals("审批成功！")) {
+                            if (response.trim().equals("true")) {
                                 waitAdapter.listItem.remove(position);
                                 waitAdapter.notifyDataSetChanged();
                                 Toast.makeText(TechnicalDirector.this, "审批成功", Toast.LENGTH_SHORT).show();

@@ -154,18 +154,6 @@ public class Verification extends AppCompatActivity {
         }
 
 
-       /* new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();*/
-
        if (logintag.trim().equals("100")) {
            logintag="";
            new Thread(new Runnable() {
@@ -199,7 +187,8 @@ public class Verification extends AppCompatActivity {
                                String rr[] = result.split(":");
                                role = rr[rr.length - 1];
                                logintag="";
-                               Toast.makeText(Verification.this, result, Toast.LENGTH_SHORT).show();
+                               //Toast.makeText(Verification.this, result, Toast.LENGTH_SHORT).show();
+                               Toast.makeText(Verification.this, "登录成功", Toast.LENGTH_SHORT).show();
                                Intent intent = new Intent(Verification.this, RolePermission.class);
                                intent.putExtra("role", role);
                                startActivityForResult(intent,5201);
@@ -285,13 +274,6 @@ public class Verification extends AppCompatActivity {
                 boolean flag;
                 flag=LoginService.saveInfo(this,username, password);
 
-               /* if(flag)
-                {
-                    Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
-                }
-                else
-                    Toast.makeText(this, "保存失败", Toast.LENGTH_SHORT).show();*/
-
             //发送消息给服务器 服务器判断是否存在用户名和密码是否正确
             new Thread(new Runnable() {
 
@@ -340,15 +322,11 @@ public class Verification extends AppCompatActivity {
                         public void run() {
 
                             if(result!=null&&result.contains("token")||result.contains("msg1")){
-                               /* try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }*/
                                 String rr[]=result.split(":");
                                 role=rr[rr.length-1];
                                 logintag="";
-                                Toast.makeText(Verification.this,result, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(Verification.this,result, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Verification.this,"登录成功", Toast.LENGTH_SHORT).show();
                                 Log.i("result:",result.toString());
                                 Intent intent=new Intent(Verification.this,RolePermission.class);
                                 intent.putExtra("role",role);

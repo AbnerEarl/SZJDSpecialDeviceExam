@@ -36,6 +36,7 @@ public class MyPhotoFragment extends Fragment {
     private ShowImageAdapter mAdapter;
     private SelectPicWayPop mSelectPic;//选取图片方式
 
+    public static boolean finish_selected=false;
 
     private String mFilePath;// 拍照文件名
     private String mCropPath;// 裁剪文件名
@@ -44,6 +45,11 @@ public class MyPhotoFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initSelectPop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Nullable
@@ -81,8 +87,11 @@ public class MyPhotoFragment extends Fragment {
         btn_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"操作成功，正在读取数据……",Toast.LENGTH_LONG).show();
+                finish_selected=true;
+                Toast.makeText(getContext(),"操作成功，正在读取数据",Toast.LENGTH_LONG).show();
                MyPhotoActivity.finishPhotoSelect=true;
+               onDestroy();
+
             }
         });
     }

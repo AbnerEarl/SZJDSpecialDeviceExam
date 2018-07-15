@@ -142,7 +142,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
         MultiActionsNotificationBuilder builder = new MultiActionsNotificationBuilder(PushSetActivity.this);
         builder.addJPushAction(R.drawable.jpush_ic_richpush_actionbar_back, "first", "my_extra1");
         builder.addJPushAction(R.drawable.jpush_ic_richpush_actionbar_back, "second", "my_extra2");
-        builder.addJPushAction(R.drawable.jpush_ic_richpush_actionbar_back, "third", "my_extra3");
+        builder.addJPushAction(R.drawable.jpush_ic_richpush_actionbar_back, "third_order", "my_extra3");
         JPushInterface.setPushNotificationBuilder(10, builder);
 
         Toast.makeText(PushSetActivity.this, "AddActions Builder - 10", Toast.LENGTH_SHORT).show();

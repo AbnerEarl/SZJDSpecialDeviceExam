@@ -443,7 +443,7 @@ public class Checker extends AppCompatActivity {
                     //打印Button的点击信息
                     new  AlertDialog.Builder(Checker.this)
                             .setTitle("系统提示")
-                            .setMessage("确认接受"+listItem.get(position).getString("projectName")+"?")
+                            .setMessage("确认接受："+listItem.get(position).getString("projectName")+"？")
                             .setPositiveButton("确定",
                                     new  DialogInterface.OnClickListener()
                                     {

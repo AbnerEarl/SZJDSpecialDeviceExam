@@ -12,7 +12,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
+        android:focusable="false"
+        android:layout_marginTop="3dp"
         android:text="修改" />
 
     <TextView
@@ -25,19 +26,23 @@
         android:layout_toLeftOf="@+id/or_modify"
         android:layout_toRightOf="@+id/textView116"
         android:layout_toStartOf="@+id/or_modify"
+        android:ellipsize="none"
+        android:maxLines="5"
         android:text="TextView"
         tools:text="信息\n" />
 
     <TextView
         android:id="@+id/or_opinionn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/or_modify"
+        android:layout_below="@+id/or_resultt"
         android:layout_toEndOf="@+id/textView118"
         android:layout_toLeftOf="@+id/or_modify"
         android:layout_toRightOf="@+id/textView118"
         android:layout_toStartOf="@+id/or_modify"
-        android:singleLine="true"
+        android:ellipsize="none"
+        android:maxLines="5"
+        android:singleLine="false"
         android:text="TextView"
         tools:text="信息\n" />
 
@@ -50,6 +55,8 @@
         android:layout_below="@+id/or_opinionn"
         android:layout_toEndOf="@+id/textView122"
         android:layout_toRightOf="@+id/textView122"
+        android:ellipsize="none"
+        android:maxLines="5"
         android:text="TextView"
         tools:text="信息\n" />
 
@@ -63,6 +70,8 @@
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/textView123"
         android:layout_toRightOf="@+id/textView123"
+        android:ellipsize="none"
+        android:maxLines="20"
         android:text="TextView"
         tools:text="信息\n" />
 

@@ -242,10 +242,13 @@ public class CheckOpinion extends AppCompatActivity {
 
                             if (response.trim().equals("重复提交")) {
                                 CheckControl.start=true;
-                                Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CheckOpinion.this, "该台设备的检测意见更新成功", Toast.LENGTH_SHORT).show();
 
+                            }else if (response.trim().equals("拒绝修改")){
+                                Toast.makeText(CheckOpinion.this, "该台设备的检测意见已经审核通过，拒绝再次修改", Toast.LENGTH_SHORT).show();
                             }
-                            if (response.trim().equals("提交失败！")){
+                            else if (response.trim().equals("提交失败！")){
                                 Toast.makeText(CheckOpinion.this, "提交失败，请检查网络连接", Toast.LENGTH_SHORT).show();
                             }
                             else if (response.trim().equals("session为空")){
@@ -374,8 +377,11 @@ public class CheckOpinion extends AppCompatActivity {
                                                     public void onNext(Object tag, String response) {
 
                                                         if (response.trim().equals("重复提交")) {
-                                                            Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
+                                                            //Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(CheckOpinion.this, "该台设备的检测意见更新成功", Toast.LENGTH_SHORT).show();
                                                             CheckControl.start=true;
+                                                        }else if (response.trim().equals("拒绝修改")){
+                                                            Toast.makeText(CheckOpinion.this, "该台设备的检测意见已经审核通过，拒绝再次修改", Toast.LENGTH_SHORT).show();
                                                         }
                                                         else if (response.trim().equals("提交失败！")){
                                                             Toast.makeText(CheckOpinion.this, "提交失败，请检查网络连接", Toast.LENGTH_SHORT).show();

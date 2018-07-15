@@ -53,9 +53,11 @@ public class MyPhotoActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             public void run() {
                 handler.postDelayed(this, 1000);
-                if (finishPhotoSelect){
+                if (finishPhotoSelect||MyPhotoFragment.finish_selected){
+                    MyPhotoFragment.finish_selected=false;
                     finishPhotoSelect=false;
                    finish();
+                  // onDestroy();
 
                 }
 
@@ -64,6 +66,11 @@ public class MyPhotoActivity extends AppCompatActivity {
         handler.postDelayed(runnable, 1000);
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

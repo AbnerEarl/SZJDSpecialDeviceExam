@@ -3,6 +3,7 @@ package com.example.frank.jinding.Upload;
 import android.app.Activity;
 
 import com.example.frank.jinding.Conf.URLConfig;
+import com.example.frank.jinding.UI.CheckerActivity.SelectEquipment;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -77,8 +78,7 @@ public class FtpClientUpload {
                             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
                             boolean isSuccess = ftpClient.storeFile(remoteFileName, fis);
                             returnMessage = 1; // 上传成功
-
-
+                            SelectEquipment.file_tag++;
                             fis.close();
                         }
                         else {
