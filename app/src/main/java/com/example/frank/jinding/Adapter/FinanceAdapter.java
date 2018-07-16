@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.example.frank.jinding.R;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by DELL on 2018/5/25.
@@ -75,11 +77,12 @@ public class FinanceAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder_Order) convertView.getTag();
         }
-        if (mode==0)
-        holder.deviceType.setText(listItem.get(position).get("devigetDeviceFinancialStatusceTypeName").toString());
-       else{
-           holder.deviceType.setText(listItem.get(position).get("deviceTypeName").toString());
-        }
+
+        holder.deviceType.setText(listItem.get(position).get("deviceTypeName").toString());
+
+
+
+
         if (listItem.get(position).get("deviceDetailCode")!=null)
         holder.reportNumber.setText(listItem.get(position).get("deviceDetailCode").toString());
         if (listItem.get(position).get("orderOrg")!=null)
@@ -144,6 +147,7 @@ public class FinanceAdapter extends BaseAdapter{
         public TextView checkCharge,payCharge;
         public Button checkBtn;
     }
+
 
 }
 
