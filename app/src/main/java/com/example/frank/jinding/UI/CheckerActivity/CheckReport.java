@@ -50,6 +50,8 @@ public class CheckReport extends AppCompatActivity {
     private SwipeRefreshLayout refreshLayout;
     private ListView lv_tasksss;
     private int option;
+    private int newoption;
+    private String url;//接口
     private ReportAdapter mAdapter;
     private List<HashMap<String, Object>> mapList;
 
@@ -59,8 +61,30 @@ public class CheckReport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_report);
+
+
         ButterKnife.bind(this);
-        option = getIntent().getIntExtra("option", 1);
+        Intent intent=getIntent();
+        option = intent.getIntExtra("option", 0);
+        newoption = intent.getIntExtra("newoption",0);
+
+        Log.i("option",Integer.toString(option));
+        if (intent!=null) {
+            if (option == 2) {
+                titleplain.setText("待审核订单");
+            } else if(option==1){
+                titleplain.setText("待校验订单");
+            } else if(option==3){
+                if(newoption==1)
+                titleplain.setText("已审核订单");
+                else if(newoption==2)
+                    titleplain.setText("待审批订单");
+            }else if(option==4){
+                titleplain.setText("已审批订单");
+            }
+        }
+        Log.i("option",Integer.toString(option));
+
         init();
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -99,11 +123,11 @@ public class CheckReport extends AppCompatActivity {
 
 
     private void init() {
-        titleplain.setText("检验报告管理");
+
         refreshLayout = (SwipeRefreshLayout) this.findViewById(R.id.refresh_report_list);
         lv_tasksss = (ListView) this.findViewById(R.id.lv_check_report_checker);
         mapList = new ArrayList<>();
-        mAdapter = new ReportAdapter(this,CheckReport.this, option, mapList);
+        mAdapter = new ReportAdapter(this,CheckReport.this, option,newoption, mapList);
         lv_tasksss.setAdapter(mAdapter);//为ListView绑定Adapter
 
 
@@ -121,6 +145,8 @@ public class CheckReport extends AppCompatActivity {
         if (enddate.getText()!=null){
             paremetes.put("endDate",enddate.getText().toString());
         }
+
+
         ApiService.GetString(CheckReport.this, "getReportList", paremetes, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {

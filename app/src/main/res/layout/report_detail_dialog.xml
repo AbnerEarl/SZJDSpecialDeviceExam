@@ -190,6 +190,60 @@
             android:textColor="@color/__picker_black_40"
             android:textSize="16sp" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/fourth_person_layout"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/report_fourth_person_front"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_perm_identity_green_800_18dp"
+            android:gravity="center_vertical"
+            android:text="报告审批人："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/report_fourth_person"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/fourth_time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/report_fourth_time_front"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_access_time_green_800_18dp"
+            android:gravity="center_vertical"
+            android:text="提交时间："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/fourth_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/divider_line_bottom"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:textColor="@color/__picker_black_40"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

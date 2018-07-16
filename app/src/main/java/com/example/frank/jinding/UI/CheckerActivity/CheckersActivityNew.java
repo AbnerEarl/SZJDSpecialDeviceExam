@@ -92,6 +92,7 @@ public class CheckersActivityNew extends AppCompatActivity
                     startActivityForResult(intent, 6666);
                 }else if (menuname_item.contains("校核检验报告")||menuname_item.contains("校核报告")){
                     Intent intent = new Intent(CheckersActivityNew.this, CheckReport.class);
+                    intent.putExtra("option",1);
                     startActivityForResult(intent, 6666);
                 }
 

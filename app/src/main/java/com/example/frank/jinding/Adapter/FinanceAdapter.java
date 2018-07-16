@@ -80,7 +80,17 @@ public class FinanceAdapter extends BaseAdapter{
 
         holder.deviceType.setText(listItem.get(position).get("deviceTypeName").toString());
 
+        for(int i=0;i<listItem.size();i++) {
+            Set<Map.Entry<String, Object>> set = listItem.get(i).entrySet();
+            // 遍历键值对对象的集合，得到每一个键值对对象
+            for (Map.Entry<String, Object> me : set) {
+                // 根据键值对对象获取键和值
+                String key = me.getKey();
+                Object value = me.getValue();
+                System.out.println(key + "---" + value);
+            }
 
+        }
 
 
         if (listItem.get(position).get("deviceDetailCode")!=null)

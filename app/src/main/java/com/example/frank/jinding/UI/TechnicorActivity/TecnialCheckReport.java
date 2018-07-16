@@ -28,10 +28,13 @@ public class TecnialCheckReport extends AppCompatActivity {
     private SwipeRefreshLayout refreshLayout;
     private MyAdapter mAdapter;
     private ListView lv_tasksss;
+    private String a="100000000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tecnial_check_report);
+        Log.i("打开了已批准",a);
+
 
         init();
 
@@ -40,8 +43,7 @@ public class TecnialCheckReport extends AppCompatActivity {
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 getReportData();
-
-            }
+                }
         });
 
     }
@@ -53,6 +55,7 @@ public class TecnialCheckReport extends AppCompatActivity {
         lv_tasksss=(ListView)this.findViewById(R.id.lv_tecnical_check_report);
         mAdapter = new MyAdapter(this);//得到一个MyAdapter对象
         lv_tasksss.setAdapter(mAdapter);//为ListView绑定Adapter
+
 
 
         getReportData();
@@ -132,6 +135,8 @@ public class TecnialCheckReport extends AppCompatActivity {
         private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
 
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
+
+
         /*构造函数*/
         public MyAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);

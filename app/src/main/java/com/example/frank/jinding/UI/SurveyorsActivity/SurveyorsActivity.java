@@ -287,9 +287,12 @@ public class SurveyorsActivity extends AppCompatActivity
 
             //lv_tasksss.setAdapter(confirmAdapter);//为ListView绑定Adapter
 
-            Intent intent=new Intent(SurveyorsActivity.this,TecnialCheckReport.class);
+            Intent intent=new Intent(SurveyorsActivity.this,CheckReport.class);
             //intent.putExtra("userid",userid);
             //startActivity(intent);
+            intent.putExtra("option",3);
+            intent.putExtra("newoption",1);
+
             startActivityForResult(intent, 6666);
 
         } else if (id == R.id.nav_messageinfo1) {
