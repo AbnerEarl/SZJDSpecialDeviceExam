@@ -309,8 +309,10 @@ public class SelectOrder extends AppCompatActivity {
             holder.paddress.setText(listItem.get(position).get("projectAddress").toString());
             holder.pdate.setText(listItem.get(position).get("checkTime").toString());
             String project_name=listItem.get(position).get("projectName").toString();
-            if(project_name.indexOf("(复检)")!=-1)  holder.ptaskIcon.setImageResource(R.drawable.third_order);
-            else    holder.ptaskIcon.setImageResource(R.drawable.first_order);
+            if(project_name.indexOf("(复检)")!=-1)
+                holder.ptaskIcon.setImageResource(R.drawable.third_order);
+            else
+                holder.ptaskIcon.setImageResource(R.drawable.first_order);
             //如果传过来的工程名字中有复检则为复检
             Log.i("SelectOrder","是否是主检验员："+listItem.get(position).getBoolean("isMainChecker"));
 //            holder.bt_beizhu.setTag(position);
