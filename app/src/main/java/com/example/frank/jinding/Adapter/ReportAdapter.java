@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.frank.jinding.Conf.ThreadAndFileTag;
 import com.example.frank.jinding.Conf.URLConfig;
 import com.example.frank.jinding.R;
@@ -241,8 +242,12 @@ public class ReportAdapter extends BaseAdapter{
         String report=ReportRule.deviceReportCorrespondence(deviceTypeId,checkTypeId,monitorStatus,projectCity);
         //String reportTypeCode=listItem.get(position).get("reportCode").toString();
         datainfo= report+"#"+deviceDetailId+"#"+reportId;
+        HashMap<String,String> map_data=new HashMap<>();
+        map_data.put("report",report);
+        map_data.put("deviceDetailId",deviceDetailId);
+        map_data.put("reportId",reportId);
         System.out.println("原始数据的信息："+datainfo);
-        getData(datainfo);
+        getData(JSON.toJSONString(map_data),datainfo);
 
         exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,8 +308,13 @@ public class ReportAdapter extends BaseAdapter{
                 actionBtnPass.setEnabled(false);
                 actionBtnRefuse.setEnabled(false);
                 String temd[]=datainfo.split("#");
-                String dd=temd[1]+"#1#  #"+temd[2];
-                checkReport(dd,position);
+                //String dd=temd[1]+"#1#  #"+temd[2];
+                HashMap<String,String> map_data=new HashMap<>();
+                map_data.put("deviceId",temd[1]);
+                map_data.put("status","1");
+                map_data.put("reason","");
+                map_data.put("reportId",temd[2]);
+                checkReport(JSON.toJSONString(map_data),position);
                 actionBtnRefuse.setEnabled(true);
                 actionBtnPass.setEnabled(true);
             }
@@ -333,10 +343,14 @@ public class ReportAdapter extends BaseAdapter{
                                         actionBtnRefuse.setEnabled(false);
                                         actionBtnPass.setEnabled(false);
                                         String temd[]=datainfo.split("#");
-                                        String dd=temd[1]+"#0#"+et.getText().toString()+" #"+temd[2];
+                                        //String dd=temd[1]+"#0#"+et.getText().toString()+" #"+temd[2];
+                                        HashMap<String,String> map_data=new HashMap<>();
+                                        map_data.put("deviceId",temd[1]);
+                                        map_data.put("status","0");
+                                        map_data.put("reason",et.getText().toString());
+                                        map_data.put("reportId",temd[2]);
 
-                                        //String dd=data.split("#")[1]+"#0#"+et.getText().toString()+" ";
-                                        checkReport(dd,position);
+                                        checkReport(JSON.toJSONString(map_data),position);
                                         actionBtnRefuse.setEnabled(true);
                                         actionBtnPass.setEnabled(true);
                                     }
@@ -360,7 +374,7 @@ public class ReportAdapter extends BaseAdapter{
 
 
 
-    private void getData(String dd) {
+    private void getData(String map_data,String dd) {
 
         String savedir = Environment.getExternalStorageDirectory() + "/Luban/Doc/";
 
@@ -369,7 +383,7 @@ public class ReportAdapter extends BaseAdapter{
         alertDialog.show();
 
             Map<String, Object> paremetes = new HashMap<>();
-            paremetes.put("data", dd);
+            paremetes.put("data", map_data);
             ApiService.GetString(activity, "exportReport"+(dd.split("#")[0]), paremetes, new RxStringCallback() {
                 @Override
                 public void onError(Object tag, Throwable e) {
