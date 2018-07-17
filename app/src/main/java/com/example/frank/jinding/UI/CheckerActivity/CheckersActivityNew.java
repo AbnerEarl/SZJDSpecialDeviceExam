@@ -409,6 +409,7 @@ public class CheckersActivityNew extends AppCompatActivity
             Intent intent = new Intent(CheckersActivityNew.this, CheckReport.class);
             //intent.putExtra("userid",userid);
             //startActivity(intent);
+            intent.putExtra("option",1);
             startActivityForResult(intent, 6666);
             // finish();
         } else if (id == R.id.nav_messageinfo) {

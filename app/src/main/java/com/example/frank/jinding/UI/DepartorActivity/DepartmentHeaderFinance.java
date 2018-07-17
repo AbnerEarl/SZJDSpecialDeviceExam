@@ -226,12 +226,18 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
             @Override
             public void onNext(Object tag, String response) {
                 if (response!=null&&!response.equals("")){
-                    if (response.equals("审核成功")){
-                        mapList.remove(checkItemPosition);
-                        checkItemPosition=-1;
-                        mAdapter.notifyDataSetChanged();
+                    try {
+                        if (response.equals("审核成功")) {
+                            mapList.remove(checkItemPosition);
+                            checkItemPosition = -1;
+                            mAdapter.notifyDataSetChanged();
+                        }
+                        showToastShort(response);
                     }
-                    showToastShort(response);
+                    catch (JSONException e) {
+                        Log.i(TAG, "onNext: "+e.getMessage());
+                        showToastShort(response);
+                    }
                 }
             }
 
