@@ -236,6 +236,10 @@ public class Dispatching extends AppCompatActivity implements View.OnClickListen
     }*/
     }
     private void submit(){
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
         if (checkTime.getText()==null||mainCheckerTv.getText()==null||otherem.getText()==null||checkTime.getText().toString().isEmpty()||mainCheckerTv.getText().toString().isEmpty()||otherem.getText().toString().isEmpty()){
             Toast.makeText(Dispatching.this,"请完善派工信息",Toast.LENGTH_LONG).show();
         }else {
@@ -261,6 +265,7 @@ public class Dispatching extends AppCompatActivity implements View.OnClickListen
                 @Override
                 public void onNext(Object tag, String response) {
                     Log.i("提交成功",response);
+                    processDialog.dismiss();
                     if (response.equals("success")) {
                         Toast.makeText(Dispatching.this, "派工成功", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();

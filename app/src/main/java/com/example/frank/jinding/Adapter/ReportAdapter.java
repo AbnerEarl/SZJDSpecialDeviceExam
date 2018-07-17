@@ -55,13 +55,15 @@ public class ReportAdapter extends BaseAdapter{
     private int option=-1;
     private String datainfo="";
     private AlertDialog alertDialog;
+    private int newoption;
 
-    public ReportAdapter(Context context,Activity activity,int option,List<HashMap<String,Object>> list) {
+    public ReportAdapter(Context context,Activity activity,int option,int newoption,List<HashMap<String,Object>> list) {
         this.context=context;
         this.activity=activity;
         this.mInflater = LayoutInflater.from(context);
         listItem = new ArrayList<>();
         this.option=option;
+        this.newoption=newoption;
         listItem=list;
     }
     public void setClickListener(View.OnClickListener clickListener){
@@ -137,9 +139,12 @@ public class ReportAdapter extends BaseAdapter{
          LinearLayout thirdTimeLayout=view.findViewById(R.id.third_time_layout);
         TextView thirdPerson=view.findViewById(R.id.report_third_person);
         TextView thirdTime=view.findViewById(R.id.third_time);
+        LinearLayout fourthPersonLayout=view.findViewById(R.id.fourth_person_layout);
+        LinearLayout fourthTimeLayout=view.findViewById(R.id.fourth_time_layout);
+        TextView fourthPerson=view.findViewById(R.id.report_fourth_person);
+        TextView fourthTime=view.findViewById(R.id.fourth_time);
         Button actionBtnPass=view.findViewById(R.id.action_pass);
         Button actionBtnRefuse=view.findViewById(R.id.action_refuse);
-
         ImageButton exitBtn=view.findViewById(R.id.exit_report_detail);
 
 
@@ -149,6 +154,8 @@ public class ReportAdapter extends BaseAdapter{
         if (option==1){
             thirdPersonLayout.setVisibility(View.GONE);
             thirdTimeLayout.setVisibility(View.GONE);
+            fourthPersonLayout.setVisibility(View.GONE);
+            fourthTimeLayout.setVisibility(View.GONE);
             firstPerson.setText(listItem.get(position).get("mainchecker").toString());
             firstTime.setText(listItem.get(position).get("checkDate").toString());
             secondPerson.setText(listItem.get(position).get("modifiedPeople").toString());
@@ -158,6 +165,8 @@ public class ReportAdapter extends BaseAdapter{
             if (option==2) {
                 thirdPersonLayout.setVisibility(View.GONE);
                 thirdTimeLayout.setVisibility(View.GONE);
+                fourthPersonLayout.setVisibility(View.GONE);
+                fourthTimeLayout.setVisibility(View.GONE);
                 firstPerson.setText(listItem.get(position).get("createPeople").toString());
                 firstTime.setText(listItem.get(position).get("createTime").toString());
                 //actionBtn.setText("前往审核");
@@ -168,13 +177,48 @@ public class ReportAdapter extends BaseAdapter{
             secondPerson.setText(listItem.get(position).get("checkPeople").toString());
             secondTime.setText(listItem.get(position).get("checkTime").toString());
             if (option==3){
-                //actionBtn.setText("前往审批");
-                firstPerson.setText(listItem.get(position).get("modifiedPeople").toString());
-                firstTime.setText(listItem.get(position).get("modifiedTime").toString());
-                System.out.println("适配器取得审核人："+listItem.get(position).get("auditPeople").toString());
-                thirdPerson.setText(listItem.get(position).get("auditPeople").toString());
-                thirdTime.setText(listItem.get(position).get("auditTime").toString());
+                if(newoption==1) {
+                    //actionBtn.setText("前往审批");
+                    actionBtnPass.setVisibility(View.GONE);
+                    actionBtnRefuse.setVisibility(View.GONE);
+                    fourthPersonLayout.setVisibility(View.GONE);
+                    fourthTimeLayout.setVisibility(View.GONE);
+                    firstPerson.setText(listItem.get(position).get("modifiedPeople").toString());
+                    firstTime.setText(listItem.get(position).get("modifiedTime").toString());
+                    System.out.println("适配器取得审核人：" + listItem.get(position).get("auditPeople").toString());
+                    thirdPerson.setText(listItem.get(position).get("auditPeople").toString());
+                    thirdTime.setText(listItem.get(position).get("auditTime").toString());
+                }
+                else if(newoption==2){
+
+                    //actionBtn.setText("前往审批");
+                    fourthPersonLayout.setVisibility(View.GONE);
+                    fourthTimeLayout.setVisibility(View.GONE);
+                    firstPerson.setText(listItem.get(position).get("modifiedPeople").toString());
+                    firstTime.setText(listItem.get(position).get("modifiedTime").toString());
+                    System.out.println("适配器取得审核人：" + listItem.get(position).get("auditPeople").toString());
+                    thirdPerson.setText(listItem.get(position).get("auditPeople").toString());
+                    thirdTime.setText(listItem.get(position).get("auditTime").toString());
+                    secondPerson.setText(listItem.get(position).get("checkPeople").toString());
+                    secondTime.setText(listItem.get(position).get("checkTime").toString());
+
+
+                }
             }
+        }
+        else if(option==4){
+            actionBtnPass.setVisibility(View.GONE);
+            actionBtnRefuse.setVisibility(View.GONE);
+            firstPerson.setText(listItem.get(position).get("modifiedPeople").toString());
+            firstTime.setText(listItem.get(position).get("modifiedTime").toString());
+            System.out.println("适配器取得审核人：" + listItem.get(position).get("auditPeople").toString());
+            secondPerson.setText(listItem.get(position).get("checkPeople").toString());
+            secondTime.setText(listItem.get(position).get("checkTime").toString());
+            thirdPerson.setText(listItem.get(position).get("auditPeople").toString());
+            thirdTime.setText(listItem.get(position).get("auditTime").toString());
+            fourthPerson.setText(listItem.get(position).get("approvePeople").toString());
+            fourthTime.setText(listItem.get(position).get("approveTime").toString());
+
         }
          alertDialog=new AlertDialog.Builder(context).setView(view).create();
         alertDialog.show();

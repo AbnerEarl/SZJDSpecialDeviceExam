@@ -91,6 +91,7 @@ public class AuthorizedPersonsActivity extends AppCompatActivity
                     Intent intent=new Intent(AuthorizedPersonsActivity.this,CheckReport.class);
                     //intent.putExtra("userid",userid);
                     intent.putExtra("option",3);
+                    intent.putExtra("newoption",2);
                     startActivityForResult(intent,6666);
                 }
                 //Toast.makeText(AuthorizedPersonsActivity.this, "快捷事件处理方式正在研发中……" , Toast.LENGTH_SHORT).show();
@@ -256,10 +257,14 @@ public class AuthorizedPersonsActivity extends AppCompatActivity
             Intent intent=new Intent(AuthorizedPersonsActivity.this,CheckReport.class);
             //intent.putExtra("userid",userid);
             intent.putExtra("option",3);
+            intent.putExtra("newoption",2);
             startActivityForResult(intent,6666);
         } else if (id == R.id.nav_hadcheck4) {
-            Intent intent=new Intent(AuthorizedPersonsActivity.this,AuthorizedHadCheckActivity.class);
+            Intent intent=new Intent(AuthorizedPersonsActivity.this,CheckReport.class);
             //intent.putExtra("userid",userid);
+            intent.putExtra("option",4);
+            intent.putExtra("newoption",3);
+
             startActivity(intent);
         } else if (id == R.id.nav_messageinfo4) {
             Intent intent=new Intent(AuthorizedPersonsActivity.this,MessageInform.class);

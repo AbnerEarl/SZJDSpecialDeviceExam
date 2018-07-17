@@ -332,6 +332,7 @@ public class OrderSelectActivity extends AppCompatActivity {
                     listItem.get(position).get("city").toString()+
                     listItem.get(position).get("area").toString()+
                     listItem.get(position).get("projectAddress").toString();
+            holder.orderStatus.setVisibility(View.GONE);
             holder.place.setText(address);
             holder.actualTime.setText(listItem.get(position).get("actualDate").toString());
             holder.title.setText(listItem.get(position).get("orderOrg").toString());
