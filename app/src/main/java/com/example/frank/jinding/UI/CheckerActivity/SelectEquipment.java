@@ -128,6 +128,24 @@ public class SelectEquipment extends AppCompatActivity {
         });*/
 
 
+        Handler handler=new Handler();
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                if (sum_tag>0&&sum_tag==file_tag&&sum_tag==text_tag){
+                    upload_wait.setVisibility(View.INVISIBLE);
+                    Toast.makeText(SelectEquipment.this, "上传成功", Toast.LENGTH_SHORT).show();
+                    sum_tag=0;file_tag=0;text_tag=0;
+
+                }else {
+                    handler.postDelayed(this,2000);
+                }
+
+            }
+        };
+
+
+
         add_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -315,7 +333,7 @@ public class SelectEquipment extends AppCompatActivity {
                                             if (sum_tag>0){
                                                 //如果是本地图片，就开始向服务器上传照片
                                                 upload_wait.setVisibility(View.VISIBLE);
-
+                                                handler.postDelayed(runnable,2000);
                                                 new Thread(new Runnable() {
                                                     @Override
                                                     public void run() {
@@ -481,19 +499,7 @@ public class SelectEquipment extends AppCompatActivity {
             }
         });
 
-        Handler handler=new Handler();
-        Runnable runnable=new Runnable() {
-            @Override
-            public void run() {
-                if (sum_tag>0&&sum_tag==file_tag&&sum_tag==text_tag){
-                    upload_wait.setVisibility(View.INVISIBLE);
-                    Toast.makeText(SelectEquipment.this, "上传成功", Toast.LENGTH_SHORT).show();
-                    sum_tag=0;file_tag=0;text_tag=0;
-                }
-                handler.postDelayed(this,2000);
-            }
-        };
-        handler.postDelayed(runnable,2000);
+
 
 
 

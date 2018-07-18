@@ -17,14 +17,14 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="90dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="0.3">
 
             <TextView
                 android:id="@+id/dispatching_projectName"
@@ -45,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:singleLine="true"
                 android:paddingRight="5dp"
+                android:singleLine="true"
                 android:text="TextView"
                 android:textSize="13sp" />
         </RelativeLayout>
@@ -55,7 +55,7 @@
             android:id="@+id/dispatching_unit"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.2"
             android:gravity="left|center_vertical"
             android:singleLine="true"
             android:text="TextView\nb"
@@ -65,7 +65,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="0.5">
 
             <ImageView
                 android:id="@+id/icon_address"
@@ -79,22 +79,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/dispatching_checkBox"
+                android:layout_toEndOf="@+id/icon_address"
+                android:layout_toLeftOf="@+id/dispatching_more"
                 android:layout_toRightOf="@+id/icon_address"
+                android:layout_toStartOf="@+id/dispatching_more"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:singleLine="false"
                 android:text="TextView\nb"
                 android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/dispatching_more"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:textSize="16sp"
-                android:text="更多" />
+                android:text="更多>>"
+                android:textSize="16sp" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

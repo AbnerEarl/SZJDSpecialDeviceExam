@@ -27,6 +27,8 @@ import com.example.frank.jinding.View.Picture.SelectPicWayPop;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.example.frank.jinding.UI.SelectPicture.MyPhotoActivity.runnable;
+
 
 public class MyPhotoFragment extends Fragment {
     private Button btn_finish;
@@ -88,6 +90,7 @@ public class MyPhotoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 finish_selected=true;
+                MyPhotoActivity.handler.postDelayed(runnable, 1000);
                 Toast.makeText(getContext(),"操作成功，正在读取数据",Toast.LENGTH_LONG).show();
                MyPhotoActivity.finishPhotoSelect=true;
                onDestroy();

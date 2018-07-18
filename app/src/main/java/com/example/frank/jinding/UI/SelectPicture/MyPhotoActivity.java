@@ -30,6 +30,9 @@ public class MyPhotoActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public static boolean finishPhotoSelect=false;
 
+    public static  final Handler handler = new Handler();
+
+    public static Runnable runnable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,21 +52,25 @@ public class MyPhotoActivity extends AppCompatActivity {
         mViewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
         mIndicator.setViewPager(mViewPager, 0);
 
-        final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
+
+         runnable = new Runnable() {
             public void run() {
-                handler.postDelayed(this, 1000);
+
                 if (finishPhotoSelect||MyPhotoFragment.finish_selected){
                     MyPhotoFragment.finish_selected=false;
                     finishPhotoSelect=false;
-                   finish();
+                   MyPhotoActivity.this.finish();
                   // onDestroy();
 
+                }else {
+                    handler.postDelayed(this, 1000);
                 }
+
+
 
             }
         };
-        handler.postDelayed(runnable, 1000);
+//        handler.postDelayed(runnable, 1000);
 
 
     }
