@@ -92,6 +92,7 @@ public class TechnicalDirector extends AppCompatActivity {
 
                                 Intent intent = new Intent(TechnicalDirector.this, TechnicalViewDetails.class);
                                 intent.putExtra("path", response.toString().trim());
+                                intent.putExtra("TitleDecide",0);
                                 startActivity(intent);
 
                             }
@@ -123,6 +124,7 @@ public class TechnicalDirector extends AppCompatActivity {
 
                                 Intent intent = new Intent(TechnicalDirector.this, TechnicalViewDetails.class);
                                 intent.putExtra("path", response.toString().trim());
+                                intent.putExtra("TitleDecide",1);
 
                                 startActivity(intent);
 

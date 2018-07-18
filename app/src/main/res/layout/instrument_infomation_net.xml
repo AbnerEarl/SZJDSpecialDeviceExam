@@ -6,6 +6,7 @@
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
+        android:id="@+id/image_view_instrument"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
