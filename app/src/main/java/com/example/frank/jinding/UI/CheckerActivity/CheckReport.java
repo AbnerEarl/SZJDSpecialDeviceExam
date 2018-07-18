@@ -145,6 +145,10 @@ public class CheckReport extends AppCompatActivity {
         if (enddate.getText()!=null){
             paremetes.put("endDate",enddate.getText().toString());
         }
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
 
 
         ApiService.GetString(CheckReport.this, "getReportList", paremetes, new RxStringCallback() {
@@ -170,9 +174,11 @@ public class CheckReport extends AppCompatActivity {
                         mapList.add(item);
                     }
                     mAdapter.notifyDataSetChanged();
+
                 } else {
                     Toast.makeText(CheckReport.this, "暂时没有报告，请稍后再查看", Toast.LENGTH_SHORT).show();
                 }
+                processDialog.dismiss();
             }
 
             @Override

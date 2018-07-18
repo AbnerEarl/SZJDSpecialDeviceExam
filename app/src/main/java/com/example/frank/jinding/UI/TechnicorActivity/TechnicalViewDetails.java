@@ -41,6 +41,7 @@ public class TechnicalViewDetails extends AppCompatActivity {
     private TextView title;
     private ListView lv_tasksss;
     private String path="";
+    private int TitleDecide;
     private MyAdapter mAdapter;
     FtpUpload ff=new FtpUpload();
     
@@ -56,11 +57,16 @@ public class TechnicalViewDetails extends AppCompatActivity {
         */
 
         path=getIntent().getStringExtra("path");
+        TitleDecide = getIntent().getIntExtra("TitleDecide",0);
 
         init();
 
 
-        title.setText("待审核检测意见");
+
+        if(TitleDecide==0)
+            title.setText("待审核检测意见");
+        else
+            title.setText("已审核检测意见");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
