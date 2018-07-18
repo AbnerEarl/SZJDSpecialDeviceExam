@@ -371,12 +371,22 @@ public class CheckStartProtocl extends AppCompatActivity {
                     Log.i(TAG,consignmentList.toString());
                     waitAdapter.notifyDataSetChanged();
                     Log.i(TAG, consignmentList.size() + "个");
+                    if (consignmentList.size()>0&&refreshcode.equals("23")){
+                        backwork.setEnabled(true);
+                        endtest.setEnabled(true);
+                    }else {
+                        backwork.setEnabled(false);
+                        endtest.setEnabled(false);
+                    }
                 }else {
                     String toastStr=null;
-                    if (statusCode.equals("23"))
-                        toastStr="协议全部检验完成";
-                    else if (statusCode.equals("07"))
-                        toastStr="还没有已检验完成的协议";
+                    if (statusCode.equals("23")) {
+                        toastStr = "协议全部检验完成";
+
+                    }
+                    else if (statusCode.equals("07")) {
+                        toastStr = "还没有已检验完成的协议";
+                    }
                     new AlertDialog.Builder(CheckStartProtocl.this).setTitle(toastStr).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

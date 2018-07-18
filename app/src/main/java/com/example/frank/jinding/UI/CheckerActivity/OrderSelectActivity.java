@@ -327,11 +327,23 @@ public class OrderSelectActivity extends AppCompatActivity {
                 holder = (ViewHolder_Order) convertView.getTag();
             }
 
-            holder.projectName.setText(listItem.get(position).get("projectName").toString());
-            String address=listItem.get(position).get("province").toString()+
-                    listItem.get(position).get("city").toString()+
-                    listItem.get(position).get("area").toString()+
-                    listItem.get(position).get("projectAddress").toString();
+            if (listItem.get(position).get("projectName")!=null&&!listItem.get(position).get("projectName").equals("")){
+                holder.projectName.setText(listItem.get(position).get("projectName").toString());
+            }else {
+                holder.projectName.setText("暂无");
+            }
+            String address="";
+            if (listItem.get(position).get("projectAddress")!=null&&!listItem.get(position).get("projectAddress").equals("")){
+                address=listItem.get(position).get("province").toString()+
+                        listItem.get(position).get("city").toString()+
+                        listItem.get(position).get("area").toString()+
+                        listItem.get(position).get("projectAddress").toString();
+            }else {
+                address=listItem.get(position).get("province").toString()+
+                        listItem.get(position).get("city").toString()+
+                        listItem.get(position).get("area").toString();
+            }
+
             holder.orderStatus.setVisibility(View.GONE);
             holder.place.setText(address);
             holder.actualTime.setText(listItem.get(position).get("actualDate").toString());

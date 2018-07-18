@@ -691,6 +691,8 @@ public class SelectEquipment extends AppCompatActivity {
                     HashMap<String,String> map_data=new HashMap<>();
                     map_data.put("orderId",orderId);
                     map_data.put("url",URLConfig.CompanyURL+orderId+"/");
+                    map_data.put("device_id",deviceId);
+                    map_data.put("submission_id",submission_id);
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data", JSON.toJSONString(map_data));
 
@@ -700,28 +702,50 @@ public class SelectEquipment extends AppCompatActivity {
                         @Override
                         public void onNext(Object tag, String response) {
 
-                            if (response.trim().equals("提交成功！")) {
+                            if (response.trim().contains("#")) {
 
+                                String result[]=response.trim().split("#");
                                 dirurl=true;
                                 Toast.makeText(SelectEquipment.this,"检验环境设置成功",Toast.LENGTH_SHORT).show();
+                                if (result[1].trim().equals("true")){
+                                    add_photo.setEnabled(false);
+                                    addopinion.setEnabled(false);
+                                    upload.setEnabled(false);
+                                }else {
+                                    add_photo.setEnabled(true);
+                                    addopinion.setEnabled(true);
+                                    upload.setEnabled(true);
+                                }
 
-                            }else {
+                            }else if (response.trim().equals("false")){
                                 dirurl=false;
-                              //  Toast.makeText(SelectEquipment.this, "检验环境设置失败！" , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SelectEquipment.this, "查询失败，请返回上一步重新进入" , Toast.LENGTH_SHORT).show();
+                                add_photo.setEnabled(false);
+                                addopinion.setEnabled(false);
+                                upload.setEnabled(false);
+                            }else {
+                                Toast.makeText(SelectEquipment.this, "查询失败，需要重新登录账号" , Toast.LENGTH_SHORT).show();
+                                add_photo.setEnabled(false);
+                                addopinion.setEnabled(false);
+                                upload.setEnabled(false);
                             }
                         }
 
                         @Override
                         public void onError(Object tag, Throwable e) {
-                            Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载，返回上一步，再进入即可" , Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载。\n请返回上一步，再进入即可" , Toast.LENGTH_SHORT).show();
+                            add_photo.setEnabled(false);
+                            addopinion.setEnabled(false);
+                            upload.setEnabled(false);
 
                         }
 
                         @Override
                         public void onCancel(Object tag, Throwable e) {
-                            Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载，返回上一步，再进入即可", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载。\n请返回上一步，再进入即可", Toast.LENGTH_SHORT).show();
+                            add_photo.setEnabled(false);
+                            addopinion.setEnabled(false);
+                            upload.setEnabled(false);
                         }
                     });
 
