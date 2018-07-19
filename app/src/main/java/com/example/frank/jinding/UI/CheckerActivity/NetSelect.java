@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -204,36 +205,75 @@ public class NetSelect extends AppCompatActivity {
 
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if(isChecked){
+
+                                    if(isChecked){
+                                        for(int j=0;j<list_adapter.get(p).listItem.size();j++){
+
+                                            list_adapter.get(p).listItem.get(j).setChoose(true);
+                                            Log.i("ssss",list_adapter.get(p).listItem.get(j).getChoose().toString());
+                                            boolean flag = false;
+                                            Map<String, String> map = new HashMap<>();
+                                            map.put("Index", ++index + "");
+                                            map.put("instrumentId", list_adapter.get(p).listItem.get(j).getInstrumentId());
+                                            map.put("instrumentCode", list_adapter.get(p).listItem.get(j).getInstrumentCode().toString());
+                                            map.put("instrumentType", list_adapter.get(p).listItem.get(j).getInstrumentType().toString());
+                                            map.put("validateDate", list_adapter.get(p).listItem.get(j).getValidateDate().toString());
+                                            map.put("instrumentBoxCode", list_adapter.get(p).listItem.get(j).getInstrumentBoxCode().toString());
+                                            map.put("isUsing", list_adapter.get(p).listItem.get(j).getIsUsing().toString());
+                                            map.put("isSubmitted", list_adapter.get(p).listItem.get(j).getIsSubmitted().toString());
+                                            map.put("isBroken", list_adapter.get(p).listItem.get(j).getIsBroken().toString());
+                                            for (Map<String, String> m : isSelectedList) {
+                                                if (m.get("instrumentId").equals(map.get("instrumentId"))) {
+                                                    flag = true;
+                                                }
+                                            }
+                                            if (!flag) {
+                                                isSelectedList.add(map);
+                                                isSelectedIdList.add(list_adapter.get(p).listItem.get(j).getInstrumentId());
+                                            }
 
 
-                                for(int j=0;j<list_adapter.get(p).listItem.size();j++){
 
-                                list_adapter.get(p).listItem.get(j).setChoose(true);
-                                    Log.i("ssss",list_adapter.get(p).listItem.get(1).getChoose().toString());
-
-                                }
-                                    list_adapter.get(p).notifyDataSetChanged();
+                                        }
+                                        list_adapter.get(p).notifyDataSetChanged();
 
 
 
-                            }else{
+                                    }else{
 
-                                for(int j=0;j<list_adapter.get(p).listItem.size();j++){
+                                        for(int j=0;j<list_adapter.get(p).listItem.size();j++){
 
-                                    list_adapter.get(p).listItem.get(j).setChoose(false);
+                                            list_adapter.get(p).listItem.get(j).setChoose(false);
+
+                                            for (int i = 0; i < isSelectedList.size(); i++) {
+                                                Map<String, String> m = isSelectedList.get(i);
+                                                if (m.get("instrumentId").equals(list_adapter.get(p).listItem.get(j).getInstrumentId().toString())) {
+                                                    isSelectedList.remove(m);
+                                                    isSelectedIdList.remove(m.get("instrumentId"));
+                                                }
+                                            }
+
+                                        }
+                                        list_adapter.get(p).notifyDataSetChanged();
 
                                     }
-                                    list_adapter.get(p).notifyDataSetChanged();
 
-                            }
+
                             //Toast.makeText(NetSelect.this,"数量"+isSelectedList.size(),Toast.LENGTH_SHORT).show();
-
                         }
+
                     });
 
 
 
+                   /* listView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+
+                            list_adapter.get(p).notifyDataSetChanged();
+                            return false;
+                        }
+                    });*/
 
 
 
@@ -404,7 +444,7 @@ public class NetSelect extends AppCompatActivity {
             holder.instruNam.setText(listItem.get(position).getInstrumentType().toString());
             holder.instruNum.setText(listItem.get(position).getInstrumentCode().toString());
             Log.i("adad:",listItem.get(position).getIsUsing());
-            holder.selectinstu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           /* holder.selectinstu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked){
@@ -450,7 +490,7 @@ public class NetSelect extends AppCompatActivity {
                         }
                     }
                 }
-            });
+            });*/
             if(listItem.get(position).getChoose()==false){
                 holder.selectinstu.setChecked(false);
             }
