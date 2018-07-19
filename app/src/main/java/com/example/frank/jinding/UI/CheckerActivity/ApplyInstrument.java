@@ -231,7 +231,8 @@ public class ApplyInstrument extends AppCompatActivity {
                                                     String isUsing = isSelectedList.get(i).get("isUsing");
                                                     String isSubmitted = isSelectedList.get(i).get("isSubmitted");
                                                     String isBroken = isSelectedList.get(i).get("isBroken");
-                                                    InstrumentStatus instrumentStatus = new InstrumentStatus(instrumentId,instrumentCode, instrumentType, validateDate, instrumentBoxCode, isUsing, isSubmitted, isBroken);
+                                                    String deleteFlag = isSelectedList.get(i).get("deleteFlag");
+                                                    InstrumentStatus instrumentStatus = new InstrumentStatus(instrumentId,instrumentCode, instrumentType, validateDate, instrumentBoxCode, isUsing, isSubmitted, isBroken,deleteFlag,true);
                                                     list.add(instrumentStatus);
                                                 }
                                             }

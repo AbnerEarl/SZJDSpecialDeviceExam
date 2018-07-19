@@ -36,8 +36,8 @@
             android:focusable="false"/>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listview_q1"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_q1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_layout" />

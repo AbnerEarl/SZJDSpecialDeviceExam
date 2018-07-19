@@ -7,20 +7,19 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.example.frank.jinding.Bean.Instrument.InstrumentStatus;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
@@ -29,7 +28,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,25 +39,23 @@ public class NetSelect extends AppCompatActivity {
 
     private ImageView image_back;
     private TextView textview_submit;
-
-
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private List<Integer> favorList=new ArrayList<>();
     private ArrayList<View> viewContainter = new ArrayList<>();
     private ArrayList<String> titleContainer = new ArrayList<>();
     private MyPagerAdapter adapter;
-
     private ArrayList<Map<String, String>> isSelectedList = new ArrayList<>();
     private List<String> isSelectedIdList = new ArrayList<>();
     private int index = 0;
     private Gson gsonContainTime = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
     private Gson gson = new Gson();
-
-
-    private List<QAdapter> list_adapter = new ArrayList<>();
-    private List<ListView> list_listview = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
+    private List<ReAdapter> list_adapter = new ArrayList<>();
+    private List<RecyclerView> list_listview = new ArrayList<>();
     private List<CheckBox> list_checkbox = new ArrayList<>();
     private List<List<InstrumentStatus>> list_listinstrument = new ArrayList<>();
+    private RecyclerView listView;
 
 
     @Override
@@ -73,6 +69,7 @@ public class NetSelect extends AppCompatActivity {
     }
 
     private void initData() {
+
         if (getIntent().getStringExtra("selectList") != null) {
             ArrayList<Map<String, String>> list = gson.fromJson(getIntent().getStringExtra("selectList"), new TypeToken<ArrayList<Map<String, String>>>() {
             }.getType());
@@ -179,77 +176,66 @@ public class NetSelect extends AppCompatActivity {
             public void onNext(Object tag, String response) {
                 Map<String, List<InstrumentStatus>> map = gsonContainTime.fromJson(response, new TypeToken<Map<String, List<InstrumentStatus>>>() {
                 }.getType());
-
-
-
                 for (int i = 0; i < titleContainer.size(); i++) {
                     list_listinstrument.add(map.get(titleContainer.get(i)));
                 }
 
                 for (int i = 0; i < list_listinstrument.size(); i++) {
+                    int p=i;
                     List<InstrumentStatus> list = list_listinstrument.get(i);
-                    final ListView listView = viewContainter.get(i).findViewById(R.id.listview_q1);
+                    listView = viewContainter.get(i).findViewById(R.id.recycler_view_q1);
                     final CheckBox checkBox = viewContainter.get(i).findViewById(R.id.checkbox_all);
-                    final QAdapter qAdapter = new QAdapter(NetSelect.this);
+                    final ReAdapter reAdapter = new ReAdapter(NetSelect.this,list);
+                    for(int m=0;m<list.size();m++){
+                        list.get(m).setChoose(false);
+                    }
                     list_listview.add(listView);
                     list_checkbox.add(checkBox);
-                    list_adapter.add(qAdapter);
-                    for (InstrumentStatus instrumentStatus : list) {
-                        list_adapter.get(i).listItem.add(instrumentStatus);
-                    }
+                    list_adapter.add(reAdapter);
+
+                    list_listview.get(i).setAdapter(list_adapter.get(i));
+                    linearLayoutManager = new LinearLayoutManager(NetSelect.this);
+                    list_listview.get(i).setLayoutManager(linearLayoutManager);
+
                     //全选按钮
 
                     checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    CheckBox checkBox1;
                             if(isChecked){
 
-                                for(int j=0;j<qAdapter.listItem.size();j++){
-                                     checkBox1=listView.getChildAt(j).findViewById(R.id.checkBox_instru_select);
-                                    if(!checkBox1.isChecked()){
-                                        checkBox1.setChecked(true);
 
-                                    }
+                                for(int j=0;j<list_adapter.get(p).listItem.size();j++){
+
+                                list_adapter.get(p).listItem.get(j).setChoose(true);
+                                    Log.i("ssss",list_adapter.get(p).listItem.get(1).getChoose().toString());
+
                                 }
+                                    list_adapter.get(p).notifyDataSetChanged();
+
 
 
                             }else{
-                                for(int j=0;j<qAdapter.listItem.size();j++){
-                                   checkBox1=listView.getChildAt(j).findViewById(R.id.checkBox_instru_select);
-                                    if(checkBox1.isChecked()){
-                                        checkBox1.setChecked(false);
+
+                                for(int j=0;j<list_adapter.get(p).listItem.size();j++){
+
+                                    list_adapter.get(p).listItem.get(j).setChoose(false);
+
                                     }
-                                }
+                                    list_adapter.get(p).notifyDataSetChanged();
 
                             }
                             //Toast.makeText(NetSelect.this,"数量"+isSelectedList.size(),Toast.LENGTH_SHORT).show();
-                                }
-                            }).start();
+
                         }
                     });
 
 
 
-                    list_listview.get(i).setAdapter(list_adapter.get(i));
-                    list_listview.get(i).setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            CheckBox checkBox=view.findViewById(R.id.checkBox_instru_select);
-                            if (checkBox.isChecked()) {
-                                checkBox.setChecked(false);
-                            } else {
-                                checkBox.setChecked(true);
-                            }
-                        }
-                    });
+
+
 
 
 
@@ -272,56 +258,167 @@ public class NetSelect extends AppCompatActivity {
 
     }
 
-    public class QAdapter extends BaseAdapter {
+//    public class QAdapter extends BaseAdapter {
+//
+//        private LayoutInflater mInflater;
+//        private ArrayList<InstrumentStatus> listItem = new ArrayList<>();
+//        public ViewHolder holder = new ViewHolder();
+//
+//
+//        public QAdapter(Context context) {
+//            this.mInflater = LayoutInflater.from(context);
+//            for(int i=0;i<listItem.size();i++){
+//                listItem.get(i).setChoose(false);
+//            }
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return listItem.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return listItem.get(position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(final int position, View convertView, ViewGroup parent) {
+//            View view;
+//            ViewHolder holder;
+//            if(null==convertView){
+//                view=View.inflate(NetSelect.this,R.layout.instrument_infomation_net,null);
+//                holder=new ViewHolder();
+//                holder.instruNum = (TextView) view.findViewById(R.id.text_number_instru);
+//                holder.instruNam = (TextView) view.findViewById(R.id.text_name_instru);
+//                holder.selectinstu = (CheckBox) view.findViewById(R.id.checkBox_instru_select);
+//
+//                view.setTag(holder);
+//            }
+//            else {
+//                view =convertView;
+//                holder = (ViewHolder) view.getTag();
+//            }
+//
+//                holder.instruNam.setText(listItem.get(position).getInstrumentType().toString());
+//                holder.instruNum.setText(listItem.get(position).getInstrumentCode().toString());
+//                Log.i("adad:",listItem.get(position).getIsUsing());
+//                holder.selectinstu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    if (isChecked == true) {
+//                        boolean flag = false;
+//                        Map<String, String> map = new HashMap<>();
+//                        map.put("Index", ++index + "");
+//                        map.put("instrumentId", listItem.get(position).getInstrumentId());
+//                        map.put("instrumentCode", listItem.get(position).getInstrumentCode().toString());
+//                        map.put("instrumentType", listItem.get(position).getInstrumentType().toString());
+//                        map.put("validateDate", listItem.get(position).getValidateDate().toString());
+//                        map.put("instrumentBoxCode", listItem.get(position).getInstrumentBoxCode().toString());
+//                        map.put("isUsing", listItem.get(position).getIsUsing().toString());
+//                        map.put("isSubmitted", listItem.get(position).getIsSubmitted().toString());
+//                        map.put("isBroken", listItem.get(position).getIsBroken().toString());
+//                        for (Map<String, String> m : isSelectedList) {
+//                            if (m.get("instrumentId").equals(map.get("instrumentId"))) {
+//                                flag = true;
+//                            }
+//                        }
+//                        if (!flag) {
+//                            isSelectedList.add(map);
+//                            isSelectedIdList.add(listItem.get(position).getInstrumentId());
+//                        }
+//                    } else {
+//                        for (int i = 0; i < isSelectedList.size(); i++) {
+//                            Map<String, String> m = isSelectedList.get(i);
+//                            if (m.get("instrumentId").equals(listItem.get(position).getInstrumentId().toString())) {
+//                                isSelectedList.remove(m);
+//                                isSelectedIdList.remove(m.get("instrumentId"));
+//                            }
+//                        }
+//                    }
+//                }
+//            });
+//
+//            if (gsonContainTime.toJson(isSelectedIdList).contains(listItem.get(position).getInstrumentId())) {
+//                holder.selectinstu.setChecked(true);
+//            }else{
+//                holder.selectinstu.setChecked(false);
+//            }
+//
+//            return view;
+//        }
+//    }
+
+//    public final class ViewHolder {
+//        public TextView instruNum, instruNam;
+//        public CheckBox selectinstu;
+//
+//    }
+    public  class ReAdapter extends RecyclerView.Adapter<ReAdapter.VH>{
 
         private LayoutInflater mInflater;
-        private ArrayList<InstrumentStatus> listItem = new ArrayList<>();
-        public ViewHolder holder = new ViewHolder();
+        private List<InstrumentStatus> listItem;
+        private AdapterView.OnItemClickListener mClickListener;
 
-        public QAdapter(Context context) {
+        public class VH extends RecyclerView.ViewHolder{
+
+            public  View contentView;
+            public  TextView instruNum,instruNam;
+            public  CheckBox selectinstu;
+
+            public VH(View v){
+                super(v);
+                contentView =  v;
+                instruNum = (TextView)v.findViewById(R.id.text_number_instru);
+                instruNam = (TextView)v.findViewById(R.id.text_name_instru);
+                selectinstu = (CheckBox)v.findViewById(R.id.checkBox_instru_select);
+
+            }
+
+        }
+
+        public ReAdapter(Context context,List<InstrumentStatus> listItem) {
             this.mInflater = LayoutInflater.from(context);
+            this.listItem=listItem;
         }
 
         @Override
-        public int getCount() {
-            return listItem.size();
+        public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.instrument_infomation_net, parent, false);
+            return new VH(v);
         }
 
         @Override
-        public Object getItem(int position) {
-            return listItem.get(position);
-        }
+        public void onBindViewHolder(VH holder, int position) {
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            View view;
-            ViewHolder holder;
-            if(null==convertView){
-                view=View.inflate(NetSelect.this,R.layout.instrument_infomation_net,null);
-                holder=new ViewHolder();
-                holder.instruNum = (TextView) view.findViewById(R.id.text_number_instru);
-                holder.instruNam = (TextView) view.findViewById(R.id.text_name_instru);
-                holder.selectinstu = (CheckBox) view.findViewById(R.id.checkBox_instru_select);
-
-                view.setTag(holder);
-            }
-            else {
-                view =convertView;
-                holder = (ViewHolder) view.getTag();
-            }
-
-                holder.instruNam.setText(listItem.get(position).getInstrumentType().toString());
-                holder.instruNum.setText(listItem.get(position).getInstrumentCode().toString());
-                Log.i("adad:",listItem.get(position).getIsUsing());
-                holder.selectinstu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            holder.selectinstu.setTag(new Integer(position));
+            if(favorList.contains(holder.selectinstu.getTag()))
+                holder.selectinstu.setChecked(true);
+            else
+                holder.selectinstu.setChecked(false);
+            holder.instruNam.setText(listItem.get(position).getInstrumentType().toString());
+            holder.instruNum.setText(listItem.get(position).getInstrumentCode().toString());
+            Log.i("adad:",listItem.get(position).getIsUsing());
+            holder.selectinstu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked == true) {
+                    if (isChecked){
+                        if(!favorList.contains(holder.selectinstu.getTag())){
+                            favorList.add(new Integer(position));
+                        }
+                    }else {
+                        if (favorList.contains(holder.selectinstu.getTag())) {
+                            favorList.remove(new Integer(position));
+                        }
+                    }
+
+                    if (listItem.get(position).getChoose()==false) {
+                        listItem.get(position).setChoose(true);
                         boolean flag = false;
                         Map<String, String> map = new HashMap<>();
                         map.put("Index", ++index + "");
@@ -343,6 +440,7 @@ public class NetSelect extends AppCompatActivity {
                             isSelectedIdList.add(listItem.get(position).getInstrumentId());
                         }
                     } else {
+                        listItem.get(position).setChoose(false);
                         for (int i = 0; i < isSelectedList.size(); i++) {
                             Map<String, String> m = isSelectedList.get(i);
                             if (m.get("instrumentId").equals(listItem.get(position).getInstrumentId().toString())) {
@@ -353,22 +451,27 @@ public class NetSelect extends AppCompatActivity {
                     }
                 }
             });
-
-            if (gsonContainTime.toJson(isSelectedIdList).contains(listItem.get(position).getInstrumentId())) {
-                holder.selectinstu.setChecked(true);
-            }else{
+            if(listItem.get(position).getChoose()==false){
                 holder.selectinstu.setChecked(false);
             }
-
-            return view;
+            else
+                holder.selectinstu.setChecked(true);
         }
+
+
+
+
+
+
+
+        @Override
+        public int getItemCount() {
+            return listItem.size();
+        }
+
     }
 
-    public final class ViewHolder {
-        public TextView instruNum, instruNam;
-        public CheckBox selectinstu;
 
-    }
 
     public class MyPagerAdapter extends PagerAdapter {
 

@@ -1,5 +1,7 @@
 package com.example.frank.jinding.Bean.Instrument;
 
+
+
 import java.util.Date;
 
 public class InstrumentStatus {
@@ -20,15 +22,16 @@ public class InstrumentStatus {
 
     private String isBroken;
 
-    public InstrumentStatus(String instrumentId, String instrumentCode, String instrumentType, Date validateDate, String instrumentBoxCode, String isUsing, String isSubmitted, String isBroken) {
-        this.instrumentId = instrumentId;
-        this.instrumentCode = instrumentCode;
-        this.instrumentType = instrumentType;
-        this.validateDate = validateDate;
-        this.instrumentBoxCode = instrumentBoxCode;
-        this.isUsing = isUsing;
-        this.isSubmitted = isSubmitted;
-        this.isBroken = isBroken;
+    private String deleteFlag;//删除标志：0 未删除/1 已删除
+
+    private Boolean isChoose;
+
+    public String getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(String deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 
     public String getInstrumentId() {
@@ -93,5 +96,26 @@ public class InstrumentStatus {
 
     public void setIsBroken(String isBroken) {
         this.isBroken = isBroken == null ? null : isBroken.trim();
+    }
+
+    public Boolean getChoose() {
+        return isChoose;
+    }
+
+    public void setChoose(Boolean choose) {
+        isChoose = choose;
+    }
+
+    public InstrumentStatus(String instrumentId, String instrumentCode, String instrumentType, Date validateDate, String instrumentBoxCode, String isUsing, String isSubmitted, String isBroken, String deleteFlag, Boolean isChoose) {
+        this.instrumentId = instrumentId;
+        this.instrumentCode = instrumentCode;
+        this.instrumentType = instrumentType;
+        this.validateDate = validateDate;
+        this.instrumentBoxCode = instrumentBoxCode;
+        this.isUsing = isUsing;
+        this.isSubmitted = isSubmitted;
+        this.isBroken = isBroken;
+        this.deleteFlag = deleteFlag;
+        this.isChoose = isChoose;
     }
 }

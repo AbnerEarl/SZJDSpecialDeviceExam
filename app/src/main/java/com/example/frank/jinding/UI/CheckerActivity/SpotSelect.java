@@ -85,7 +85,7 @@ public class SpotSelect extends AppCompatActivity {
 
             ArrayList<InstrumentStatus> list = new ArrayList<>();
             for (Map map : isSelectedList) {
-                InstrumentStatus instrumentStatus = new InstrumentStatus(map.get("instrumentId").toString(),map.get("instrumentCode").toString(), map.get("instrumentType").toString(), sdf.parse(sdf.format(sdf1.parse(map.get("validateDate").toString()))), map.get("instrumentBoxCode").toString(), map.get("isUsing").toString(), map.get("isSubmitted").toString(), map.get("isBroken").toString());
+                InstrumentStatus instrumentStatus = new InstrumentStatus(map.get("instrumentId").toString(),map.get("instrumentCode").toString(), map.get("instrumentType").toString(), sdf.parse(sdf.format(sdf1.parse(map.get("validateDate").toString()))), map.get("instrumentBoxCode").toString(), map.get("isUsing").toString(), map.get("isSubmitted").toString(), map.get("isBroken").toString(),"0",true);
                 list.add(instrumentStatus);
             }
             instrumentAdapter.listItem = list;
