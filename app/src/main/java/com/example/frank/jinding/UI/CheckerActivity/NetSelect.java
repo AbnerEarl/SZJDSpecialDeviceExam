@@ -444,6 +444,54 @@ public class NetSelect extends AppCompatActivity {
             holder.instruNam.setText(listItem.get(position).getInstrumentType().toString());
             holder.instruNum.setText(listItem.get(position).getInstrumentCode().toString());
             Log.i("adad:",listItem.get(position).getIsUsing());
+
+            holder.selectinstu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.selectinstu.isChecked()){
+                        if(!favorList.contains(holder.selectinstu.getTag())){
+                            favorList.add(new Integer(position));
+                        }
+                    }else {
+                        if (favorList.contains(holder.selectinstu.getTag())) {
+                            favorList.remove(new Integer(position));
+                        }
+                    }
+
+                    if (listItem.get(position).getChoose()==false) {
+                        listItem.get(position).setChoose(true);
+                        boolean flag = false;
+                        Map<String, String> map = new HashMap<>();
+                        map.put("Index", ++index + "");
+                        map.put("instrumentId", listItem.get(position).getInstrumentId());
+                        map.put("instrumentCode", listItem.get(position).getInstrumentCode().toString());
+                        map.put("instrumentType", listItem.get(position).getInstrumentType().toString());
+                        map.put("validateDate", listItem.get(position).getValidateDate().toString());
+                        map.put("instrumentBoxCode", listItem.get(position).getInstrumentBoxCode().toString());
+                        map.put("isUsing", listItem.get(position).getIsUsing().toString());
+                        map.put("isSubmitted", listItem.get(position).getIsSubmitted().toString());
+                        map.put("isBroken", listItem.get(position).getIsBroken().toString());
+                        for (Map<String, String> m : isSelectedList) {
+                            if (m.get("instrumentId").equals(map.get("instrumentId"))) {
+                                flag = true;
+                            }
+                        }
+                        if (!flag) {
+                            isSelectedList.add(map);
+                            isSelectedIdList.add(listItem.get(position).getInstrumentId());
+                        }
+                    } else {
+                        listItem.get(position).setChoose(false);
+                        for (int i = 0; i < isSelectedList.size(); i++) {
+                            Map<String, String> m = isSelectedList.get(i);
+                            if (m.get("instrumentId").equals(listItem.get(position).getInstrumentId().toString())) {
+                                isSelectedList.remove(m);
+                                isSelectedIdList.remove(m.get("instrumentId"));
+                            }
+                        }
+                    }
+                }
+            });
            /* holder.selectinstu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -496,6 +544,14 @@ public class NetSelect extends AppCompatActivity {
             }
             else
                 holder.selectinstu.setChecked(true);
+
+
+            if (gsonContainTime.toJson(isSelectedIdList).contains(listItem.get(position).getInstrumentId())) {
+                holder.selectinstu.setChecked(true);
+            }else{
+                holder.selectinstu.setChecked(false);
+            }
+
         }
 
 

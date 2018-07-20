@@ -38,7 +38,7 @@ public class UploadImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_upload_image);
 
         mGridView = (GridView) findViewById(R.id.gridView);
-        mAdapter = new ShowImageAdapter(this,mDataList);
+        mAdapter = new ShowImageAdapter(this,mDataList,false);
         mGridView.setAdapter(mAdapter);
 
         initSelectPop();

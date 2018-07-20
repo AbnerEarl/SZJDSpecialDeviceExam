@@ -23,6 +23,7 @@ public class ShowImageAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<String> mDataList;
+    private boolean deleteFlag=false;
 
     private OnClickImageListener mListener;
     public interface OnClickImageListener{
@@ -33,10 +34,11 @@ public class ShowImageAdapter extends BaseAdapter {
         this.mListener = listener;
     }
 
-    public ShowImageAdapter(Context context, List<String> datas) {
+    public ShowImageAdapter(Context context, List<String> datas,boolean deleteFlag) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mDataList = datas;
+        this.deleteFlag=deleteFlag;
     }
 
     @Override
@@ -72,6 +74,7 @@ public class ShowImageAdapter extends BaseAdapter {
         }
 
         if (position == mDataList.size()) {
+
             Glide.with(mContext).load(R.drawable.img_image_add).into(holder.image);
             holder.button.setVisibility(View.INVISIBLE);
             holder.image.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +85,11 @@ public class ShowImageAdapter extends BaseAdapter {
             });
         } else {
             Glide.with(mContext).load(mDataList.get(position)).into(holder.image);
+            if (deleteFlag){
+                holder.button.setBackgroundResource(R.drawable.delete_picture);
+            }else {
+                holder.button.setBackgroundResource(R.drawable.pic_check_no);
+            }
             holder.button.setVisibility(View.VISIBLE);
             holder.image.setOnClickListener(new View.OnClickListener() {
                 @Override

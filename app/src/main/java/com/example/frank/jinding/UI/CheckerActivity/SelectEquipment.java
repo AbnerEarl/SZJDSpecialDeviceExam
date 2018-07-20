@@ -1,5 +1,6 @@
 package com.example.frank.jinding.UI.CheckerActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,10 +8,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.bumptech.glide.Glide;
 import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.Conf.URLConfig;
@@ -67,6 +72,7 @@ public class SelectEquipment extends AppCompatActivity {
     private TextView title ,device;
     private ListView lv_tasksss;
 
+    private int environTag=0;
     private String deviceinfo="",isMainChecker="",consignmentId="",orderId="",deviceId="",submission_id="";
 
     private static boolean dirurl=false;
@@ -603,9 +609,14 @@ public class SelectEquipment extends AppCompatActivity {
         File filecname = new File(path);
         filecname.mkdirs();// 创建文件夹
 
-        dir_url();
+        if (isNetworkAvalible(SelectEquipment.this)){
+            dir_url();
+        }else {
+           checkNetwork(SelectEquipment.this);
+        }
+
         //ff.download(SelectEquipment.this,orderId+"/"+deviceId+"/","20180103_040520"+".jpg");
-        getCheckDetails();
+
     }
 
 
@@ -695,59 +706,113 @@ public class SelectEquipment extends AppCompatActivity {
                     map_data.put("submission_id",submission_id);
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data", JSON.toJSONString(map_data));
-
+                    upload_wait.setVisibility(View.VISIBLE);
                     ApiService.GetString(SelectEquipment.this, "orderDetailsUrl", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
                         @Override
                         public void onNext(Object tag, String response) {
 
-                            if (response.trim().contains("#")) {
+                            HashMap<String,String> map_data=JSON.parseObject(response,new TypeReference<HashMap<String,String>>(){});
 
-                                String result[]=response.trim().split("#");
-                                dirurl=true;
-                                Toast.makeText(SelectEquipment.this,"检验环境设置成功",Toast.LENGTH_SHORT).show();
-                                if (result[1].trim().equals("true")){
+                            if (map_data!=null) {
+
+                                String dir_url =map_data.get("dir_url");
+                                String exam_result=map_data.get("exam_result");
+                                String erro=map_data.get("erro");
+                                String login=map_data.get("login");
+
+                                if (dir_url!=null&&dir_url.equals("true")&&exam_result!=null) {
+                                    upload_wait.setVisibility(View.INVISIBLE);
+                                    dirurl = true;
+                                    Toast.makeText(SelectEquipment.this, "检验环境设置成功", Toast.LENGTH_SHORT).show();
+                                    if (exam_result.equals("true")) {
+                                        add_photo.setEnabled(false);
+                                        addopinion.setEnabled(false);
+                                        upload.setEnabled(false);
+                                    } else {
+                                        add_photo.setEnabled(true);
+                                        addopinion.setEnabled(true);
+                                        upload.setEnabled(true);
+                                    }
+
+                                } else if (erro.equals("false")) {
+
+                                    dirurl = false;
+                                    //Toast.makeText(SelectEquipment.this, "查询失败，请返回上一步重新进入", Toast.LENGTH_SHORT).show();
                                     add_photo.setEnabled(false);
                                     addopinion.setEnabled(false);
                                     upload.setEnabled(false);
-                                }else {
-                                    add_photo.setEnabled(true);
-                                    addopinion.setEnabled(true);
-                                    upload.setEnabled(true);
+                                    if (environTag<5){
+                                        environTag++;
+                                        dir_url();
+                                    }
+                                } else if (login.equals("true")){
+                                    //Toast.makeText(SelectEquipment.this, "查询失败，需要重新登录账号", Toast.LENGTH_SHORT).show();
+                                    dirurl = false;
+                                    add_photo.setEnabled(false);
+                                    addopinion.setEnabled(false);
+                                    upload.setEnabled(false);
+                                    if (environTag<5){
+                                        environTag++;
+                                        dir_url();
+                                    }
                                 }
-
-                            }else if (response.trim().equals("false")){
-                                dirurl=false;
-                                Toast.makeText(SelectEquipment.this, "查询失败，请返回上一步重新进入" , Toast.LENGTH_SHORT).show();
-                                add_photo.setEnabled(false);
-                                addopinion.setEnabled(false);
-                                upload.setEnabled(false);
                             }else {
-                                Toast.makeText(SelectEquipment.this, "查询失败，需要重新登录账号" , Toast.LENGTH_SHORT).show();
-                                add_photo.setEnabled(false);
-                                addopinion.setEnabled(false);
-                                upload.setEnabled(false);
+                                if (environTag<5){
+                                    environTag++;
+                                    dir_url();
+                                }
+                            }
+
+                            if (dirurl){
+                                upload_wait.setVisibility(View.INVISIBLE);
+                                getCheckDetails();
+                            }
+                            if (environTag>=5){
+                                upload_wait.setVisibility(View.INVISIBLE);
+                                Toast.makeText(SelectEquipment.this, "信息加载失败，请返回后重试", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         }
 
                         @Override
                         public void onError(Object tag, Throwable e) {
-                            Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载。\n请返回上一步，再进入即可" , Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载。\n请返回上一步，再进入即可" , Toast.LENGTH_SHORT).show();
                             add_photo.setEnabled(false);
                             addopinion.setEnabled(false);
                             upload.setEnabled(false);
-
+                            if (environTag<5){
+                                environTag++;
+                                dir_url();
+                            }
+                            if (environTag>=5){
+                                upload_wait.setVisibility(View.INVISIBLE);
+                                Toast.makeText(SelectEquipment.this, "信息加载失败，请返回后重试", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
                         }
 
                         @Override
                         public void onCancel(Object tag, Throwable e) {
-                            Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载。\n请返回上一步，再进入即可", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载。\n请返回上一步，再进入即可", Toast.LENGTH_SHORT).show();
                             add_photo.setEnabled(false);
                             addopinion.setEnabled(false);
                             upload.setEnabled(false);
+                            if (environTag<5){
+                                environTag++;
+                                dir_url();
+                            }
+                            if (environTag>=5){
+                                upload_wait.setVisibility(View.INVISIBLE);
+                                Toast.makeText(SelectEquipment.this, "信息加载失败，请返回后重试", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
                         }
                     });
+
+
+
 
 
                 } catch (Exception e) {
@@ -757,6 +822,59 @@ public class SelectEquipment extends AppCompatActivity {
         }).start();
 
 
+    }
+
+
+
+    public static boolean isNetworkAvalible(Context context) {
+        // 获得网络状态管理器
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager == null) {
+            return false;
+        } else {
+            // 建立网络数组
+            NetworkInfo[] net_info = connectivityManager.getAllNetworkInfo();
+
+            if (net_info != null) {
+                for (int i = 0; i < net_info.length; i++) {
+                    // 判断获得的网络状态是否是处于连接状态
+                    if (net_info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    // 如果没有网络，则弹出网络设置对话框
+    public  void checkNetwork(final Activity activity) {
+        if (!isNetworkAvalible(activity)) {
+            TextView msg = new TextView(activity);
+            msg.setText("当前没有可以使用的网络，请设置网络！");
+            new AlertDialog.Builder(activity)
+                    .setIcon(R.drawable.network_show)
+                    .setTitle("网络状态提示")
+                    .setView(msg)
+                    .setPositiveButton("确定",
+                            new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    // 跳转到设置界面
+                                    activity.startActivityForResult(new Intent(Settings.ACTION_WIRELESS_SETTINGS), 0);
+                                    SelectEquipment.this.finish();
+                                }
+                            })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SelectEquipment.this.finish();
+                        }
+                    }).create().show();
+        }
+        return;
     }
 
 

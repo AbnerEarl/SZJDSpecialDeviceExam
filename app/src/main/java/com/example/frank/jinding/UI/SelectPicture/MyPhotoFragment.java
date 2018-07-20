@@ -71,7 +71,7 @@ public class MyPhotoFragment extends Fragment {
 
         mGridView = (GridView) mRootView.findViewById(R.id.gridView);
         btn_finish=(Button)mRootView.findViewById(R.id.btn_photo_select_finish);
-        mAdapter = new ShowImageAdapter(mRootView.getContext(),mDataList);
+        mAdapter = new ShowImageAdapter(mRootView.getContext(),mDataList,true);
         mAdapter.setOnClickImageListener(new ShowImageAdapter.OnClickImageListener() {
             @Override
             public void onClickAdd() {
