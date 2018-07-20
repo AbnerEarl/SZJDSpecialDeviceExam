@@ -49,7 +49,7 @@ public class OperationProcess extends AppCompatActivity {
     String orderId;
     Boolean isMainChecker;
     private Boolean singtag=false,leavetag=false;
-
+    private AlertDialog processDialog;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,10 @@ public class OperationProcess extends AppCompatActivity {
                 finish();
             }
         });
+
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+         processDialog= new AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
 
 
         final Handler handler = new Handler();
@@ -119,7 +123,8 @@ public class OperationProcess extends AppCompatActivity {
             public void onClick(View view) {
 
                singtag=true;
-                waitprogress.setVisibility(waitprogress.VISIBLE);
+                //waitprogress.setVisibility(waitprogress.VISIBLE);
+                processDialog.show();
                 try {
                     locationService.start();
 
@@ -182,7 +187,8 @@ public class OperationProcess extends AppCompatActivity {
             public void onClick(View view) {
 
                 leavetag=true;
-                waitprogress.setVisibility(waitprogress.VISIBLE);
+                //waitprogress.setVisibility(waitprogress.VISIBLE);
+                processDialog.show();
                 try {
 
                     locationService.start();
@@ -408,7 +414,9 @@ public class OperationProcess extends AppCompatActivity {
                             public void run() {
 
 
-                                waitprogress.setVisibility(waitprogress.INVISIBLE);
+                                //waitprogress.setVisibility(waitprogress.INVISIBLE);
+                                processDialog.dismiss();
+
 
                                 if (singtag){
                                     singtag=false;

@@ -93,6 +93,10 @@ public class MyPhotoFragment extends Fragment {
                 MyPhotoActivity.handler.postDelayed(runnable, 1000);
                 Toast.makeText(getContext(),"操作成功，正在读取数据",Toast.LENGTH_LONG).show();
                MyPhotoActivity.finishPhotoSelect=true;
+                View processView = View.inflate(getActivity(), R.layout.simple_processbar, null);
+                final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(getActivity()).create();
+                processDialog.setView(processView);
+                processDialog.show();
                onDestroy();
 
             }

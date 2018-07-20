@@ -49,7 +49,7 @@ public class CheckOpinion extends AppCompatActivity {
     private List<String> list = new ArrayList<String>();
     private Spinner opionsp;
     private ArrayAdapter<String> spadapter;
-
+    private AlertDialog processDialog;
     private String consignmentId="",submission_id="",device_id="",instrment_codes="",exam_result="",problem_suggestion="";
     private MyAdapter mAdapter;
     private String orderId="";
@@ -68,7 +68,9 @@ public class CheckOpinion extends AppCompatActivity {
         consignmentId=intent.getStringExtra("consignmentId");
 
         init();
-
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        processDialog= new AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
         //标题栏设置
         title.setText("检验意见");
         back.setOnClickListener(new View.OnClickListener() {
@@ -221,6 +223,7 @@ public class CheckOpinion extends AppCompatActivity {
                 }*/
 
                 if (opionsp.getSelectedItem().equals("需复检（待确认）")){
+                    processDialog.show();
                     submit.setEnabled(false);
                     HashMap<String,String> map_data=new HashMap<>();
                     exam_result = (opionsp.getSelectedItemId() - 1) + "";
@@ -295,6 +298,7 @@ public class CheckOpinion extends AppCompatActivity {
                                             etcontent.setText("");
                                             CheckControl.start = true;
                                             submit.setEnabled(false);
+                                            processDialog.dismiss();
                                             Toast.makeText(CheckOpinion.this, "检测意见提交成功，请等待审核结果", Toast.LENGTH_SHORT).show();
                                             finish();
                                         }else if (response.trim().equals("false")){
@@ -306,6 +310,7 @@ public class CheckOpinion extends AppCompatActivity {
                                     public void onError(Object tag, Throwable e) {
                                         Toast.makeText(CheckOpinion.this, "提交失败" , Toast.LENGTH_SHORT).show();
                                         submit.setEnabled(true);
+                                        processDialog.dismiss();
 
                                     }
 
@@ -313,6 +318,7 @@ public class CheckOpinion extends AppCompatActivity {
                                     public void onCancel(Object tag, Throwable e) {
                                         Toast.makeText(CheckOpinion.this, "提交失败", Toast.LENGTH_SHORT).show();
                                         submit.setEnabled(true);
+                                        processDialog.dismiss();
                                     }
 
 
@@ -321,6 +327,7 @@ public class CheckOpinion extends AppCompatActivity {
 
                             } else {
                                 submit.setEnabled(true);
+                                processDialog.dismiss();
                                 Toast.makeText(CheckOpinion.this, "提交失败", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -329,6 +336,7 @@ public class CheckOpinion extends AppCompatActivity {
                         public void onError(Object tag, Throwable e) {
                             Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
                             submit.setEnabled(true);
+                            processDialog.dismiss();
 
                         }
 
@@ -336,6 +344,7 @@ public class CheckOpinion extends AppCompatActivity {
                         public void onCancel(Object tag, Throwable e) {
                             Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
                             submit.setEnabled(true);
+                            processDialog.dismiss();
                         }
 
 
@@ -359,6 +368,7 @@ public class CheckOpinion extends AppCompatActivity {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 HashMap<String,String> map_data=new HashMap<>();
                                                 submit.setEnabled(false);
+                                                processDialog.show();
                                                 exam_result = (opionsp.getSelectedItemId() - 1) + "";
                                                 problem_suggestion = etcontent.getText().toString();
                                                // String data = submission_id + "#" + device_id  + "#" + exam_result + "# " + problem_suggestion+" #"+orderId;
@@ -409,6 +419,7 @@ public class CheckOpinion extends AppCompatActivity {
                                                             etcontent.setText("");
                                                             CheckControl.start = true;
                                                             submit.setEnabled(false);
+                                                            processDialog.dismiss();
                                                             Toast.makeText(CheckOpinion.this, "检测意见提交成功，请等待审核结果", Toast.LENGTH_SHORT).show();
                                                             finish();
                                                         }
@@ -418,6 +429,7 @@ public class CheckOpinion extends AppCompatActivity {
                                                     public void onError(Object tag, Throwable e) {
                                                         Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
                                                         submit.setEnabled(true);
+                                                        processDialog.dismiss();
 
                                                     }
 
@@ -425,6 +437,7 @@ public class CheckOpinion extends AppCompatActivity {
                                                     public void onCancel(Object tag, Throwable e) {
                                                         Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
                                                         submit.setEnabled(true);
+                                                        processDialog.dismiss();
                                                     }
 
 

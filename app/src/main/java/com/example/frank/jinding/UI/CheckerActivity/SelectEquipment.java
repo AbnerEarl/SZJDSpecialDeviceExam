@@ -75,6 +75,7 @@ public class SelectEquipment extends AppCompatActivity {
     private int environTag=0;
     private String deviceinfo="",isMainChecker="",consignmentId="",orderId="",deviceId="",submission_id="";
 
+    private  AlertDialog processDialogRequest;
     private static boolean dirurl=false;
     public static int sum_tag=0,file_tag=0,text_tag=0;
     private MyAdapter mAdapter;
@@ -93,9 +94,13 @@ public class SelectEquipment extends AppCompatActivity {
         StrictMode.setVmPolicy(
                 new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
 */
-
+        View processViewRequest = View.inflate(SelectEquipment.this, R.layout.simple_processbar, null);
+        processDialogRequest= new AlertDialog.Builder(SelectEquipment.this).create();
+        processDialogRequest.setView(processViewRequest);
 
         init();
+
+
         device.setText("正在检测设备："+deviceinfo);
         //标题栏设置
         title.setText("设备检验");
@@ -105,6 +110,12 @@ public class SelectEquipment extends AppCompatActivity {
                 finish();
             }
         });
+
+        View processView = View.inflate(SelectEquipment.this, R.layout.simple_processbar, null);
+        AlertDialog processDialogPic = new AlertDialog.Builder(this).create();
+        processDialogPic.setView(processView);
+
+
 
         //判断那一个人进行这一个设备的检验意见填写
         /*if (!isMainChecker.equals("true")){
@@ -139,7 +150,8 @@ public class SelectEquipment extends AppCompatActivity {
             @Override
             public void run() {
                 if (sum_tag>0&&sum_tag==file_tag&&sum_tag==text_tag){
-                    upload_wait.setVisibility(View.INVISIBLE);
+                    //upload_wait.setVisibility(View.INVISIBLE);
+                    processDialogPic.dismiss();
                     Toast.makeText(SelectEquipment.this, "上传成功", Toast.LENGTH_SHORT).show();
                     sum_tag=0;file_tag=0;text_tag=0;
 
@@ -338,7 +350,8 @@ public class SelectEquipment extends AppCompatActivity {
                                             }
                                             if (sum_tag>0){
                                                 //如果是本地图片，就开始向服务器上传照片
-                                                upload_wait.setVisibility(View.VISIBLE);
+                                                //upload_wait.setVisibility(View.VISIBLE);
+                                                processDialogPic.show();
                                                 handler.postDelayed(runnable,2000);
                                                 new Thread(new Runnable() {
                                                     @Override
@@ -627,9 +640,8 @@ public class SelectEquipment extends AppCompatActivity {
             public void run() {
                 try {
 
-
+                   // processDialogRequest.show();
                     HashMap<String,String> map_data=new HashMap<>();
-
                     map_data.put("orderId",orderId);
                     map_data.put("consignmentId",consignmentId);
                     map_data.put("deviceId",deviceId);
@@ -664,12 +676,14 @@ public class SelectEquipment extends AppCompatActivity {
 
 
                             }
+                            //processDialogRequest.dismiss();
                         }
 
                         @Override
                         public void onError(Object tag, Throwable e) {
                             Toast.makeText(SelectEquipment.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
                             //refreshLayout.setRefreshing(false);
+                           // processDialogRequest.dismiss();
 
                         }
 
@@ -677,6 +691,7 @@ public class SelectEquipment extends AppCompatActivity {
                         public void onCancel(Object tag, Throwable e) {
                             Toast.makeText(SelectEquipment.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
                             //refreshLayout.setRefreshing(false);
+                           // processDialogRequest.dismiss();
                         }
                     });
 
@@ -685,6 +700,7 @@ public class SelectEquipment extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         }).start();
 
@@ -707,11 +723,14 @@ public class SelectEquipment extends AppCompatActivity {
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data", JSON.toJSONString(map_data));
                     upload_wait.setVisibility(View.VISIBLE);
+                    //processDialogRequest.show();
                     ApiService.GetString(SelectEquipment.this, "orderDetailsUrl", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
                         @Override
                         public void onNext(Object tag, String response) {
+
+                            Log.i("环境信息",response);
 
                             HashMap<String,String> map_data=JSON.parseObject(response,new TypeReference<HashMap<String,String>>(){});
 
@@ -722,7 +741,7 @@ public class SelectEquipment extends AppCompatActivity {
                                 String erro=map_data.get("erro");
                                 String login=map_data.get("login");
 
-                                if (dir_url!=null&&dir_url.equals("true")&&exam_result!=null) {
+                                if (dir_url!=null&&exam_result!=null) {
                                     upload_wait.setVisibility(View.INVISIBLE);
                                     dirurl = true;
                                     Toast.makeText(SelectEquipment.this, "检验环境设置成功", Toast.LENGTH_SHORT).show();
@@ -745,6 +764,7 @@ public class SelectEquipment extends AppCompatActivity {
                                     upload.setEnabled(false);
                                     if (environTag<5){
                                         environTag++;
+                                       // processDialogRequest.dismiss();
                                         dir_url();
                                     }
                                 } else if (login.equals("true")){
@@ -755,18 +775,21 @@ public class SelectEquipment extends AppCompatActivity {
                                     upload.setEnabled(false);
                                     if (environTag<5){
                                         environTag++;
+                                      //  processDialogRequest.dismiss();
                                         dir_url();
                                     }
                                 }
                             }else {
                                 if (environTag<5){
                                     environTag++;
+                                  //  processDialogRequest.dismiss();
                                     dir_url();
                                 }
                             }
 
                             if (dirurl){
                                 upload_wait.setVisibility(View.INVISIBLE);
+                               // processDialogRequest.dismiss();
                                 getCheckDetails();
                             }
                             if (environTag>=5){
@@ -774,16 +797,19 @@ public class SelectEquipment extends AppCompatActivity {
                                 Toast.makeText(SelectEquipment.this, "信息加载失败，请返回后重试", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
+                           // processDialogRequest.dismiss();
                         }
 
                         @Override
                         public void onError(Object tag, Throwable e) {
+                           // processDialogRequest.dismiss();
                             //Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载。\n请返回上一步，再进入即可" , Toast.LENGTH_SHORT).show();
                             add_photo.setEnabled(false);
                             addopinion.setEnabled(false);
                             upload.setEnabled(false);
                             if (environTag<5){
                                 environTag++;
+                              //  processDialogRequest.dismiss();
                                 dir_url();
                             }
                             if (environTag>=5){
@@ -791,16 +817,19 @@ public class SelectEquipment extends AppCompatActivity {
                                 Toast.makeText(SelectEquipment.this, "信息加载失败，请返回后重试", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
+
                         }
 
                         @Override
                         public void onCancel(Object tag, Throwable e) {
+                            //processDialogRequest.dismiss();
                             //Toast.makeText(SelectEquipment.this, "操作太快，数据请求没有加载。\n请返回上一步，再进入即可", Toast.LENGTH_SHORT).show();
                             add_photo.setEnabled(false);
                             addopinion.setEnabled(false);
                             upload.setEnabled(false);
                             if (environTag<5){
                                 environTag++;
+                                //processDialogRequest.dismiss();
                                 dir_url();
                             }
                             if (environTag>=5){
