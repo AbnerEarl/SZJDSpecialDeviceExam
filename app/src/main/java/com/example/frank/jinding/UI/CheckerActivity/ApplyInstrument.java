@@ -216,6 +216,7 @@ public class ApplyInstrument extends AppCompatActivity {
                                             refreshDataIndex();
                                             List<InstrumentStatus> list = new ArrayList<>();
                                             for (int i = 0; i < isSelectedList.size(); i++) {
+                                                Log.i("selkect sadasdasdasdas",String.valueOf(statusList[i]));
                                                 if (statusList[i] == 1) {
                                                     String instrumentId=isSelectedList.get(i).get("instrumentId");
                                                     String instrumentCode = isSelectedList.get(i).get("instrumentCode");
@@ -384,17 +385,20 @@ public class ApplyInstrument extends AppCompatActivity {
             holder.textview_box.setText(listitem.get(position).get("instrumentBoxCode").toString());
             holder.textview_number.setText(listitem.get(position).get("instrumentCode").toString());
             holder.textview_name.setText(listitem.get(position).get("instrumentType").toString());
-            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            holder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
+                public void onClick(View v) {
+                    if (statusList[position] ==0) {
                         statusList[position] = 1;
                     } else {
                         statusList[position] = 0;
                     }
+
                 }
             });
-            holder.checkBox.setChecked(true);
+            if(statusList[position]==0)
+            holder.checkBox.setChecked(false);
+            else holder.checkBox.setChecked(true);
             return convertView;
         }
 

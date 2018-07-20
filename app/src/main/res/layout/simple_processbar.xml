@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_margin="32dp"
+    android:layout_gravity="center"
+    >
+
     <ProgressBar
         android:id="@+id/pb"
-        android:layout_centerInParent="true"
         style="@android:style/Widget.ProgressBar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        android:indeterminateDrawable="@drawable/progressbar_rotate"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:indeterminateDrawable="@drawable/progressbar_rotate" />
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pb"
-        android:gravity="center"
-        android:textSize="28sp"
-        android:text="Loading..."/>
-</RelativeLayout>
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
+        android:text="正在拼命为您加载..."
+        android:textSize="20sp" />
+</LinearLayout>
