@@ -54,7 +54,7 @@ public class CheckStartProtocl extends AppCompatActivity {
     private Spinner mSpinner;
     private String orderId="";
     private SwipeRefreshLayout refreshLayout;
-
+    private AlertDialog processDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +64,9 @@ public class CheckStartProtocl extends AppCompatActivity {
         orderId=getIntent().getStringExtra("order_id");
         isMainChecker=getIntent().getBooleanExtra("isMainChecker",false);
         init();
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        processDialog= new AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
         title.setText("设备检验");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +100,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                                     public  void  onClick(DialogInterface dialog, int  which)
                                     {
                                         if (et.getText().toString().trim().length()>2) {
+                                            processDialog.show();
                                             HashMap<String,String> map_data=new HashMap<>();
                                             map_data.put("submission_id",submission_id);
                                             map_data.put("orderId",orderId);
@@ -108,7 +112,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                                                 @Override
                                                 public void onNext(Object tag, String response) {
 
-                                                    if (response.trim().equals("申请成功！")) {
+                                                    if (response.trim().equals("true")) {
                                                         endtest.setVisibility(endtest.INVISIBLE);
                                                         backwork.setVisibility(backwork.INVISIBLE);
                                                         CheckControl.start=true;
@@ -118,15 +122,18 @@ public class CheckStartProtocl extends AppCompatActivity {
                                                     } else {
                                                         Toast.makeText(CheckStartProtocl.this, "申请提交失败", Toast.LENGTH_SHORT).show();
                                                     }
+                                                    processDialog.dismiss();
                                                 }
 
                                                 @Override
                                                 public void onError(Object tag, Throwable e) {
+                                                    processDialog.dismiss();
                                                     Toast.makeText(CheckStartProtocl.this, "申请提交失败" + e, Toast.LENGTH_SHORT).show();
                                                 }
 
                                                 @Override
                                                 public void onCancel(Object tag, Throwable e) {
+                                                    processDialog.dismiss();
                                                     Toast.makeText(CheckStartProtocl.this, "申请提交失败" + e, Toast.LENGTH_SHORT).show();
 
                                                 }
@@ -167,6 +174,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                                     public  void  onClick(DialogInterface dialog, int  which)
                                     {
                                         if (et.getText().toString().trim().length()>2) {
+                                            processDialog.show();
                                             HashMap<String,String> map_data=new HashMap<>();
                                             map_data.put("submission_id",submission_id);
                                             map_data.put("orderId",orderId);
@@ -177,7 +185,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                                                 @Override
                                                 public void onNext(Object tag, String response) {
 
-                                                    if (response.trim().equals("申请成功！")) {
+                                                    if (response.trim().equals("true")) {
                                                         endtest.setVisibility(endtest.INVISIBLE);
                                                         backwork.setVisibility(backwork.INVISIBLE);
                                                         CheckControl.start=true;
@@ -187,15 +195,18 @@ public class CheckStartProtocl extends AppCompatActivity {
                                                     } else {
                                                         Toast.makeText(CheckStartProtocl.this, "申请提交失败", Toast.LENGTH_SHORT).show();
                                                     }
+                                                    processDialog.dismiss();
                                                 }
 
                                                 @Override
                                                 public void onError(Object tag, Throwable e) {
+                                                    processDialog.dismiss();
                                                     Toast.makeText(CheckStartProtocl.this, "申请提交失败" + e, Toast.LENGTH_SHORT).show();
                                                 }
 
                                                 @Override
                                                 public void onCancel(Object tag, Throwable e) {
+                                                    processDialog.dismiss();
                                                     Toast.makeText(CheckStartProtocl.this, "申请提交失败" + e, Toast.LENGTH_SHORT).show();
 
                                                 }
