@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.frank.jinding.Service.LoginService;
 import com.example.frank.jinding.UI.AuthorActivity.AuthorizedPersonsActivity;
 import com.example.frank.jinding.UI.CheckerActivity.CheckReport;
+import com.example.frank.jinding.UI.CheckerActivity.Checker;
 import com.example.frank.jinding.UI.CheckerActivity.CheckersActivity;
 import com.example.frank.jinding.UI.CheckerActivity.CheckersActivityNew;
 import com.example.frank.jinding.UI.DepartorActivity.DepartmentHeadersActivity;
@@ -199,7 +201,8 @@ public class MyReceiver extends BroadcastReceiver {
 				intent=new Intent(context,CheckersActivityNew.class);
 				break;
 			case "0102":
-				intent=new Intent(context, OrderSelectActivity.class);
+				intent=new Intent(context, SelectOrder.class);
+				Log.i("ssssssss", "ssssss");
 				break;
 			case "0103":
 				intent=new Intent(context, SelectOrder.class);

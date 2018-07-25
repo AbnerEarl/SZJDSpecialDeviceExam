@@ -76,6 +76,7 @@ public class DispatchRecord extends AppCompatActivity {
         mAdapter = new OrderMapAdapter(this,submissionList);
         //得到一个MyAdapter对象
         lv_tasksss.setAdapter(mAdapter);//为ListView绑定Adapter
+        //判断订单是被拒绝还是接受
 
         // /*为ListView添加点击事件*/
         lv_tasksss.setOnItemClickListener(new AdapterView.OnItemClickListener() {

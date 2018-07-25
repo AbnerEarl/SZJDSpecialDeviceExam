@@ -106,6 +106,8 @@ public class TDCheckOrder extends AppCompatActivity {
                 break;
             case R.id.search_history:
                 search();
+               System.out.print("startDate:"+startdate.getText().toString());
+               System.out.print("endDate"+enddate.getText().toString());
                 break;
         }
     }
@@ -156,10 +158,22 @@ public class TDCheckOrder extends AppCompatActivity {
         processDialog.setView(processView);
         processDialog.show();
         Map<String, Object> map = new HashMap<>();
-        if (startdate.getText() != null)
+        if (startdate.getText().toString().trim().length()>1) {
             map.put("startDate", startdate.getText().toString());
-        if (enddate.getText() != null)
+
+        }
+        else {
+
+            map.put("startDate", "1900-01-01");
+        }
+        if (enddate.getText().toString().trim().length()>1) {
             map.put("endDate", enddate.getText().toString());
+
+        }
+        else {
+            map.put("endDate", "2100-02-02");
+
+        }
         if (orderOrgEt.getText()!=null&&!TextUtils.isEmpty(orderOrgEt.getText().toString()))
             map.put("orderOrg",orderOrgEt.getText().toString());
         if (requestCode==0) {
@@ -171,6 +185,8 @@ public class TDCheckOrder extends AppCompatActivity {
             //已审核订单历史
             url="orderCheckHistory";
         }
+        Log.i("startDate",map.get("startDate").toString());
+        Log.i("endDate",map.get("endDate").toString());
         ApiService.GetString(this, url, map, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
@@ -201,6 +217,7 @@ public class TDCheckOrder extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override
