@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:orientation="horizontal"
+    android:layout_height="95dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:paddingTop="5dp"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/task_icon"
@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -45,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:singleLine="true"
                 android:paddingRight="5dp"
+                android:singleLine="true"
                 android:text="TextView"
                 android:textSize="13sp" />
         </RelativeLayout>
@@ -55,29 +55,29 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
+
             <TextView
                 android:id="@+id/dispatching_unit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/order_check_status"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/order_check_status_app"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:layout_centerVertical="true"
                 android:text="单位"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/order_check_status"
+                android:id="@+id/order_check_status_app"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:singleLine="true"
+                android:layout_centerVertical="true"
                 android:paddingRight="5dp"
-                android:textSize="14sp"
+                android:singleLine="true"
                 android:text="状态"
-                android:layout_centerVertical="true"/>
+                android:textSize="14sp" />
         </RelativeLayout>
-
 
 
         <RelativeLayout
@@ -113,5 +113,11 @@
                 android:layout_marginRight="5dp"
                 android:focusable="false" />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/order_apply_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="  长按查看订单详细信息" />
     </LinearLayout>
 </LinearLayout>

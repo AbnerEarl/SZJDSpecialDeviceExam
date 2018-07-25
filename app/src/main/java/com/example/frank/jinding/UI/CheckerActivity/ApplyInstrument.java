@@ -55,6 +55,7 @@ public class ApplyInstrument extends AppCompatActivity {
     private ArrayList<String> selectOrderId = new ArrayList<>();
     //表示此次提交是否为    修改之前申请的仪器，若是则为true
     private boolean isRevising;
+    private boolean isNotModify;
     //记录此订单是否为复检
     private HashMap<String,String> orderStatusMap=new HashMap<>();
 
@@ -98,6 +99,11 @@ public class ApplyInstrument extends AppCompatActivity {
         selectOrderId = b.getStringArrayList("orderIdList");
         //Toast.makeText(ApplyInstrument.this, selectOrderId.toString(), Toast.LENGTH_LONG).show();
         adapter_instrument = new Adapter_instrument(this);
+        if (getIntent().getStringExtra("isNotModify").equals("false")){
+            isNotModify=false;
+        }else {
+            isNotModify=true;
+        }
 
         orderStatusMap=gson.fromJson(getIntent().getStringExtra("isRecheck"),new TypeToken<HashMap<String,String>>(){}.getType());
         if (getIntent().getStringExtra("type").equals("已申领仪器订单")) {
@@ -114,6 +120,12 @@ public class ApplyInstrument extends AppCompatActivity {
         netselect = (Button) this.findViewById(R.id.net_select);
         spotselect = (Button) this.findViewById(R.id.spot_select);
         listview_instrument = (ListView) this.findViewById(R.id.listview_instrument);
+
+        btn_submit.setEnabled(isNotModify);
+        netselect.setEnabled(isNotModify);
+        spotselect.setEnabled(isNotModify);
+
+
         if (isRevising) {
             Map<String, Object> params = new HashMap<>();
             params.put("orderIdList", gson.toJson(selectOrderId));

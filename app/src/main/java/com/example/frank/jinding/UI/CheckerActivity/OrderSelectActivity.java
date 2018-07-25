@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,7 +27,9 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.frank.jinding.Bean.Order;
 import com.example.frank.jinding.Bean.OrderBean.CheckOrder;
+import com.example.frank.jinding.Log.L;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.google.gson.Gson;
@@ -58,6 +61,8 @@ public class OrderSelectActivity extends AppCompatActivity {
     //private HashMap<String,String> orderStatusMap=new HashMap<>();
     private Gson gson = new Gson();
     private static String submission_id="";
+    private static int orderStatusTag=0;
+    private List<String> seqList=new ArrayList<>();
 
     private Gson gsonContainTime = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
@@ -165,7 +170,8 @@ public class OrderSelectActivity extends AppCompatActivity {
                     //orderStatusMap.put(submissionOrderList.get(i).get("submissionId").toString(),submissionOrderList.get(i).get("recheck_status").toString());
                 }
 
-                establishAdapter.listItem = submissionOrderList;
+
+                establishAdapter.listItem = formateHadApplyOrder(submissionOrderList);
                 listView_order.setAdapter(establishAdapter);
 
             }
@@ -184,6 +190,43 @@ public class OrderSelectActivity extends AppCompatActivity {
         });
     }
 
+
+    private ArrayList<JSONObject>  formateHadApplyOrder(ArrayList<JSONObject> submissionOrderList){
+        ArrayList<JSONObject> resultOrderList = new ArrayList<>();
+        if (orderStatusTag==0){
+
+            return submissionOrderList;
+
+        }else {
+            for (int i=0;i<submissionOrderList.size();i++) {
+                boolean flag = false;
+                int hadJoinOrderIndex=0;
+                String seq = submissionOrderList.get(i).get("application_seq").toString();
+                for (String ss : seqList) {
+                    if (ss.equals(seq)) {
+                        flag = true;
+                        break;
+                    }
+                    hadJoinOrderIndex++;
+                }
+                if (!flag) {
+                    seqList.add(seq);
+                    JSONObject object=submissionOrderList.get(i);
+                    object.put("orderNumTag","1");
+                    resultOrderList.add(object);
+
+                }else {
+                    JSONObject object=resultOrderList.get(hadJoinOrderIndex);
+                    int numTag=Integer.parseInt(object.getString("orderNumTag"))+1;
+                   // object.put("orderNumTag",numTag+"");
+                    resultOrderList.get(hadJoinOrderIndex).put("orderNumTag",numTag+"");
+                }
+            }
+
+        }
+        return resultOrderList;
+    }
+
     private void initListener() {
         image_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,6 +241,56 @@ public class OrderSelectActivity extends AppCompatActivity {
                 }
             }
         });
+
+        listView_order.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (orderStatusTag==1) {
+                    LinearLayout linearLayout = new LinearLayout(OrderSelectActivity.this);
+                    linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+                    String seq = establishAdapter.listItem.get(position).getString("application_seq");
+                    for (int k = 0; k < submissionOrderList.size(); k++) {
+                        JSONObject object = submissionOrderList.get(k);
+                        if (object.get("application_seq").equals(seq)) {
+                            TextView projectName = new TextView(OrderSelectActivity.this);
+                            projectName.setText("工程名称：" + object.get("projectName").toString());
+                            TextView actualDate = new TextView(OrderSelectActivity.this);
+                            actualDate.setText("检验时间：" + object.get("actualDate").toString());
+                            TextView orderOrg = new TextView(OrderSelectActivity.this);
+                            orderOrg.setText("委托单位：" + object.get("orderOrg").toString());
+                            String address = "";
+                            if (object.get("projectAddress") != null && !object.get("projectAddress").equals("")) {
+                                address = object.get("province").toString() +
+                                        object.get("city").toString() +
+                                        object.get("area").toString() +
+                                        object.get("projectAddress").toString();
+                            } else {
+                                address = object.get("province").toString() +
+                                        object.get("city").toString() +
+                                        object.get("area").toString();
+                            }
+                            TextView projectAddress = new TextView(OrderSelectActivity.this);
+                            projectAddress.setText("工程地址：" + address);
+                            TextView blank = new TextView(OrderSelectActivity.this);
+
+
+                            linearLayout.addView(projectName);
+                            linearLayout.addView(actualDate);
+                            linearLayout.addView(orderOrg);
+                            linearLayout.addView(projectAddress);
+                            linearLayout.addView(blank);
+                        }
+                    }
+
+                    new AlertDialog.Builder(OrderSelectActivity.this).setTitle("订单信息").setView(linearLayout).setPositiveButton("确定", null).show();
+                }
+                return true;
+            }
+        });
+
+
         listView_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -209,6 +302,47 @@ public class OrderSelectActivity extends AppCompatActivity {
                     checkBox.setChecked(true);
                 }
                 establishAdapter.notifyDataSetChanged();
+                if (orderStatusTag==1){
+                    Map<String, Object> paremetes = new HashMap<>();
+                    paremetes.put("data",selectOrderId.get(0));
+                    ApiService.GetString(OrderSelectActivity.this, "isMainChecker", paremetes, new RxStringCallback() {
+
+
+                        @Override
+                        public void onNext(Object tag, String response) {
+
+
+                            if (response.trim().equals("true")) {
+
+                                Intent intent = new Intent(OrderSelectActivity.this, ApplyInstrument.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putStringArrayList("orderIdList", selectOrderId);
+                                bundle.putString("type", spinner_order.getSelectedItem().toString());
+                                //bundle.putString("isRecheck", gson.toJson(orderStatusMap));
+                                intent.putExtra("isNotModify",establishAdapter.listItem.get(position).get("isNotModify").toString());
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
+                            }else if (response.trim().equals("false")){
+                                Toast.makeText(OrderSelectActivity.this,"请等待主检验员申领仪器，您没有权限进行此项操作",Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(OrderSelectActivity.this,"您的登录凭证已过期，需要退出系统后重新登录",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Object tag, Throwable e) {
+                            Toast.makeText(OrderSelectActivity.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onCancel(Object tag, Throwable e) {
+                            Toast.makeText(OrderSelectActivity.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
             }
         });
         btn_submit.setOnClickListener(new View.OnClickListener() {
@@ -234,8 +368,10 @@ public class OrderSelectActivity extends AppCompatActivity {
                                 bundle.putStringArrayList("orderIdList", selectOrderId);
                                 bundle.putString("type", spinner_order.getSelectedItem().toString());
                                 //bundle.putString("isRecheck", gson.toJson(orderStatusMap));
+                                intent.putExtra("isNotModify","true");
                                 intent.putExtras(bundle);
                                 startActivity(intent);
+
                             }else if (response.trim().equals("false")){
                                 Toast.makeText(OrderSelectActivity.this,"请等待主检验员申领仪器，您没有权限进行此项操作",Toast.LENGTH_SHORT).show();
                             }else {
@@ -266,14 +402,19 @@ public class OrderSelectActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if ("已申领仪器订单".equals(spinner_order.getSelectedItem().toString().trim())) {
+                    orderStatusTag=1;
                     submissionOrderList.clear();
                     getHasApplyOrder();
                     selectOrderId.clear();
+                    btn_submit.setVisibility(View.INVISIBLE);
 
                 } else if ("未申领仪器订单".equals(spinner_order.getSelectedItem().toString().trim())) {
+                    orderStatusTag=0;
                     submissionOrderList.clear();
+                    seqList.clear();
                     getNotApplyOrder();
                     selectOrderId.clear();
+                    btn_submit.setVisibility(View.VISIBLE);
 
                 }
             }
@@ -320,12 +461,14 @@ public class OrderSelectActivity extends AppCompatActivity {
                 holder.select = (CheckBox) convertView.findViewById(R.id.dispatching_checkBox);
                 holder.title = (TextView) convertView.findViewById(R.id.dispatching_unit);
                 holder.projectName = (TextView) convertView.findViewById(R.id.dispatching_projectName);
-                holder.orderStatus = (TextView) convertView.findViewById(R.id.order_check_status);
+                holder.orderStatus = (TextView) convertView.findViewById(R.id.order_check_status_app);
                 holder.taskIcon=(ImageView)convertView.findViewById(R.id.task_icon);
+                holder.tip=(TextView)convertView.findViewById(R.id.order_apply_tip);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder_Order) convertView.getTag();
             }
+
 
             if (listItem.get(position).get("projectName")!=null&&!listItem.get(position).get("projectName").equals("")){
                 holder.projectName.setText(listItem.get(position).get("projectName").toString());
@@ -344,13 +487,32 @@ public class OrderSelectActivity extends AppCompatActivity {
                         listItem.get(position).get("area").toString();
             }
 
-            holder.orderStatus.setVisibility(View.GONE);
+            if (orderStatusTag==1){
+                L.e("已经申领订单标志"+orderStatusTag);
+                String tag=listItem.get(position).get("orderNumTag").toString();
+                if (Integer.parseInt(tag)>1){
+                    holder.orderStatus.setText("多个订单");
+                }else {
+                    holder.orderStatus.setText("单个订单");
+                }
+                holder.orderStatus.setVisibility(View.VISIBLE);
+                holder.select.setVisibility(View.INVISIBLE);
+                holder.tip.setVisibility(View.VISIBLE);
+            }else {
+                L.e("没有申领订单标志"+orderStatusTag);
+                holder.orderStatus.setVisibility(View.INVISIBLE);
+                holder.select.setVisibility(View.VISIBLE);
+                holder.tip.setVisibility(View.INVISIBLE);
+            }
+
             holder.place.setText(address);
             holder.actualTime.setText(listItem.get(position).get("actualDate").toString());
             holder.title.setText(listItem.get(position).get("orderOrg").toString());
+
             if(listItem.get(position).get("projectName").toString().indexOf("(复检)")!=-1)
-            holder.taskIcon.setImageResource(R.drawable.third_order);
-            else holder.taskIcon.setImageResource(R.drawable.first_order);
+                holder.taskIcon.setImageResource(R.drawable.third_order);
+            else
+                holder.taskIcon.setImageResource(R.drawable.first_order);
 
             /*if(orderStatusMap.get(listItem.get(position).get("submissionId").toString()).equals("0")){
                 holder.orderStatus.setText("初检");
@@ -376,6 +538,8 @@ public class OrderSelectActivity extends AppCompatActivity {
                     }
                 }
             });
+
+
             return convertView;
         }
     }
@@ -383,6 +547,7 @@ public class OrderSelectActivity extends AppCompatActivity {
     public final class ViewHolder_Order {
         public CheckBox select;
         public TextView title;
+        public TextView tip;
         public TextView place;
         public TextView actualTime;
         public TextView projectName;

@@ -10,7 +10,7 @@ package com.example.frank.jinding.Utils;
  * DESCRIPTION:On the description and function of the document
  **/
 public class MenuMessage {
-    public static String checker="检验员：检验现场#仪器申领#校核检验报告#派工确认";
+    public static String checker="检验员：现场检验#仪器申领#校核检验报告#派工确认";
     public static String salesmans="业务员：订单查看/订单提交";
     public static String departheader="部门负责人：待审核异动#财务异动#订单派工#业务派工"; //财务状态/
     public static String technicaldirectors="技术负责人：委托协议审核#复检审核#检验意见审核";

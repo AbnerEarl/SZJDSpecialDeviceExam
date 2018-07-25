@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.frank.jinding.ExtraPermission.Permission;
+import com.example.frank.jinding.Log.L;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.example.frank.jinding.UI.PersonAboutActivity.MessageInform;
@@ -183,13 +184,14 @@ public class CheckersActivityNew extends AppCompatActivity
 
                                     String dd[]=data[i].split("#");
 
-                                    if (dd[2]!=null&&!dd[2].equals("")&&Integer.parseInt(dd[2])>0){
+                                    L.e("获得的数字："+dd[2]+"   转换的数字："+Integer.parseInt(dd[2].trim()));
+                                    if (dd[2]!=null&&!dd[2].trim().equals("")&&(Integer.parseInt(dd[2].trim())>0)){
 
-                                        if (MenuMessage.checker.contains(dd[1])){
+                                        if (MenuMessage.checker.contains(dd[1].trim())){
 
                                             HashMap<String, Object> map=new HashMap<>();
-                                            map.put("ItemName",dd[1]);
-                                            map.put("ItemCount",dd[2]+"");
+                                            map.put("ItemName",dd[1].trim());
+                                            map.put("ItemCount",dd[2].trim()+"");
                                             myAdapter.listItem.add(map);
 
                                         }

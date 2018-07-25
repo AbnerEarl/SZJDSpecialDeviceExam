@@ -227,19 +227,19 @@ public class RolePermission extends AppCompatActivity {
 
                                     String dd[]=data[i].split("#");
                                     String match_role="";
-                                    if (dd[2]!=null&&!dd[2].equals("")&&Integer.parseInt(dd[2])>0){
+                                    if (dd[2]!=null&&!dd[2].trim().equals("")&&Integer.parseInt(dd[2].trim())>0){
 
-                                        if (MenuMessage.checker.contains(dd[1])){
+                                        if (MenuMessage.checker.contains(dd[1].trim())){
                                             match_role="检验员";
-                                        }else if (MenuMessage.salesmans.contains(dd[1])){
+                                        }else if (MenuMessage.salesmans.contains(dd[1].trim())){
                                             match_role="业务员";
-                                        }else if (MenuMessage.departheader.contains(dd[1])){
+                                        }else if (MenuMessage.departheader.contains(dd[1].trim())){
                                             match_role="部门负责人";
-                                        }else if (MenuMessage.technicaldirectors.contains(dd[1])){
+                                        }else if (MenuMessage.technicaldirectors.contains(dd[1].trim())){
                                             match_role="技术负责人";
-                                        }else if (MenuMessage.surveyors.contains(dd[1])){
+                                        }else if (MenuMessage.surveyors.contains(dd[1].trim())){
                                             match_role="检验师";
-                                        }else if (MenuMessage.authorizer.contains(dd[1])){
+                                        }else if (MenuMessage.authorizer.contains(dd[1].trim())){
                                             match_role="授权签字人";
                                         }
                                     }
@@ -253,7 +253,7 @@ public class RolePermission extends AppCompatActivity {
 
                                     }
 
-                                    System.out.println("匹配结果："+tagrole);
+                                  //  System.out.println("匹配结果："+tagrole);
 
                                     if (tagrole!=100){
                                         /*其他点击事件获取控件

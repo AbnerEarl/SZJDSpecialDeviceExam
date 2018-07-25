@@ -345,13 +345,13 @@ public class TechnicalDirectorsActivity extends AppCompatActivity
 
                                     String dd[]=data[i].split("#");
 
-                                    if (dd[2]!=null&&!dd[2].equals("")&&Integer.parseInt(dd[2])>0){
+                                    if (dd[2]!=null&&!dd[2].trim().equals("")&&Integer.parseInt(dd[2].trim())>0){
 
-                                        if (MenuMessage.technicaldirectors.contains(dd[1])){
+                                        if (MenuMessage.technicaldirectors.contains(dd[1].trim())){
 
                                             HashMap<String, Object> map=new HashMap<>();
-                                            map.put("ItemName",dd[1]);
-                                            map.put("ItemCount",dd[2]+"");
+                                            map.put("ItemName",dd[1].trim());
+                                            map.put("ItemCount",dd[2].trim()+"");
                                             myAdapter.listItem.add(map);
 
                                         }
