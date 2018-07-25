@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.frank.jinding.R;
+import com.google.zxing.common.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,7 @@ public class OrderMapAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
+
         //观察convertView随ListView滚动情况
         Log.v("MyListViewBase", "getView " + position + " " + convertView);
         if (convertView == null) {
@@ -83,10 +85,20 @@ public class OrderMapAdapter extends BaseAdapter {
         holder.place.setText(orderList.get(position).get("projectAddress").toString() );
         holder.actualTime.setText(orderList.get(position).get("actrualDate").toString());
         Log.i("检验时间",holder.actualTime.getText().toString());
-        holder.title.setText(orderList.get(position).get("status").toString());
+       //holder.title.setText(orderList.get(position).get("status").toString());
         if(orderList.get(position).get("status").toString().indexOf("(复检)")!=-1)
             holder.taskIcon.setImageResource(R.drawable.third_order);
         else holder.taskIcon.setImageResource(R.drawable.first_order);
+
+        Log.i("confirm",orderList.get(position).get("confirmedPerson").toString());
+        Log.i("reject",orderList.get(position).get("rejectPerson").toString());
+        if(orderList.get(position).get("rejectPerson")!=null&&orderList.get(position).get("rejectPerson").toString().trim().length()>1)
+            holder.title.setText("派工被拒绝");
+        else if(orderList.get(position).get("confirmedPerson")==null&&orderList.get(position).get("rejectPerson")==null||(orderList.get(position).get("rejectPerson").toString().trim().length()<1&&orderList.get(position).get("confirmedPerson").toString().trim().length()<1))
+            holder.title.setText("派工待确认");
+        else if(orderList.get(position).get("confirmedPerson")!=null&&orderList.get(position).get("confirmedPerson").toString().trim().length()>0)
+            holder.title.setText("派工成功");
+
 
         holder.select.setVisibility(View.INVISIBLE);
         return convertView;

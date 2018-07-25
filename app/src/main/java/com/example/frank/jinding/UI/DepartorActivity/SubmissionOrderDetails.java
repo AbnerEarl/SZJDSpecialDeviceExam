@@ -71,6 +71,7 @@ public class SubmissionOrderDetails extends AppCompatActivity {
     private String mainCheckerId;
     private String submissionId;
     private ListView listView;
+    private boolean isVISIBLE=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,26 @@ public class SubmissionOrderDetails extends AppCompatActivity {
     updateCheckers.setVisibility(View.INVISIBLE);
     updateMainChecker.setVisibility(View.INVISIBLE);
     updateCheckTime.setVisibility(View.INVISIBLE);
+    updateSubmission=(Button)findViewById(R.id.update_submission);
+
+    updateSubmission.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(isVISIBLE==false)
+                Toast.makeText(SubmissionOrderDetails.this, "此派工单不可修改",Toast.LENGTH_SHORT).show();
+            if (VISIBLE){
+                submitUpdate();
+
+            }else {
+                VISIBLE=true;
+                updateCheckTime.setVisibility(View.VISIBLE);
+                updateSubmission.setText("立即提交");
+                Intent intent=new Intent(SubmissionOrderDetails.this,ChooseChecker.class);
+                startActivityForResult(intent,0x11);
+
+            }
+        }
+    });
     }
 
     private void initData() {
@@ -110,8 +131,16 @@ public class SubmissionOrderDetails extends AppCompatActivity {
             confirmCheckers.setText(submissionDetails.get("confirmedPerson").toString());
         if (submissionDetails.get("rejectPerson") != null) {
             rejectCheckers.setText(submissionDetails.get("rejectPerson").toString());
+            }
+        if(submissionDetails.get("confirmedPerson").toString().trim().length()>1||submissionDetails.get("rejectPerson").toString().trim().length()>1){
+            isVISIBLE=false;
 
         }
+        updateSubmission.setClickable(isVISIBLE);
+        Log.i("isVisble",String.valueOf(isVISIBLE));
+
+
+
         if (submissionDetails.get("waitingPerson") != null) {
             waitConfirmCheckers.setText(submissionDetails.get("waitingPerson").toString());
 
@@ -156,6 +185,7 @@ public class SubmissionOrderDetails extends AppCompatActivity {
     }
 
     @OnClick({R.id.update_check_time, R.id.update_checkers, R.id.update_main_checker,R.id.update_submission,R.id.image_back})
+
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.update_check_time:
@@ -165,19 +195,7 @@ public class SubmissionOrderDetails extends AppCompatActivity {
                 break;
             case R.id.update_main_checker:
                 break;
-            case R.id.update_submission:
-                //修改可见时
-                if (VISIBLE){
-                    submitUpdate();
-                }else {
-                    VISIBLE=true;
-                    updateCheckTime.setVisibility(View.VISIBLE);
-                    updateSubmission.setText("立即提交");
-                    Intent intent=new Intent(this,ChooseChecker.class);
-                    startActivityForResult(intent,0x11);
-                }
-                break;
-            case R.id.image_back:
+                case R.id.image_back:
                 finish();
                 default:
                     break;
@@ -193,6 +211,11 @@ public class SubmissionOrderDetails extends AppCompatActivity {
         }
     }
     private void submitUpdate() {
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
+
         if (checkers.getText() == null || TextUtils.isEmpty(checkers.getText())) {
             Toast.makeText(SubmissionOrderDetails.this, "请选择检验员", Toast.LENGTH_SHORT).show();
 
@@ -219,6 +242,7 @@ public class SubmissionOrderDetails extends AppCompatActivity {
                 @Override
                 public void onNext(Object tag, String response) {
                     if (response != null && response.equals("success")) {
+                        processDialog.dismiss();
                         Toast.makeText(SubmissionOrderDetails.this, "修改成功", Toast.LENGTH_SHORT).show();
                         initView();
                         updateSubmission.setText("修改派工");
@@ -237,5 +261,7 @@ public class SubmissionOrderDetails extends AppCompatActivity {
                 }
             });
         }
+
+
     }
 }

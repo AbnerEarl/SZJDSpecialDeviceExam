@@ -75,6 +75,8 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
      private boolean update=true;
      private String deviceTypeName;
      private int updatePosition=-1;
+    private int i=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -226,6 +228,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
             int position=data.getIntExtra("ItemPosition",-1);
             Bundle bundle=data.getExtras();
             ConsignmentDetail consignment=(ConsignmentDetail)bundle.getSerializable("consignment");
+            if(consignment!=null)   i++;
             consignmentList.get(position).setDeviceNum(data.getIntExtra("DeviceNumber",0));
             if(requestCode==ADDORDER_REQUEST_CODE)
             {
@@ -233,7 +236,8 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
                 Log.i(TAG,"设置设备list"+consignment.getOrderDeviceDetailList().size());
                 consignmentList.get(position).setOrderDeviceDetailList(consignment.getOrderDeviceDetailList());
 
-            }}
+            }
+            }
             consignmentList.get(position).setCheckCharge(data.getFloatExtra("checkCharge",0));
             adapter.notifyDataSetChanged();
         }
@@ -248,7 +252,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
             case R.id.button54:
                 if (submitClick){
                 submit();
-                submitClick=false;
+
                 }
                 break;
             case R.id.button52:
@@ -752,7 +756,11 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
          submitClick=true;
          Toast.makeText(this, "请完善订单信息", Toast.LENGTH_SHORT).show();
 
-     } else {
+     }
+     else if(i==0){
+         Toast.makeText(this,"请完善设备信息",Toast.LENGTH_SHORT).show();
+     }
+     else {
          submitClick=false;
 
          View processView = View.inflate(this, R.layout.simple_processbar, null);

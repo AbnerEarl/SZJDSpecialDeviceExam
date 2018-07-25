@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_testtask5"
             android:icon="@android:drawable/ic_menu_compass"
-            android:title="业务派工" />
+            android:title="历史派工" />
         <item
             android:id="@+id/nav_salerequest5"
             android:icon="@android:drawable/sym_contact_card"
