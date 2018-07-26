@@ -53,9 +53,11 @@ public class HistoryOrder extends AppCompatActivity {
     private List<JSONObject> submissionList;
     private MyAdapterO mAdapter;
     private EditText orderOrgEt;
-    private static int startIndex=0;
-    private static int numberShow=15;
-    private static int firstVisibleItemTag=0;
+    private  int startIndex=0;
+    private  int numberShow=10;
+    private  int firstVisibleItemTag=0;
+    private static boolean requestFlag=false;
+    private int totalItemFlag=0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -224,7 +226,12 @@ public class HistoryOrder extends AppCompatActivity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //用于底部加载更多数据的判断逻辑,在这个地方调用自己的方法请求网络数据，一次性请求10条或者15条等
-                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0&&totalItemCount>totalItemFlag) {
+                    totalItemFlag=totalItemCount;
+                    if (requestFlag){
+                        requestFlag=false;
+                        search(startIndex,numberShow);
+                    }
 
                 }
 
@@ -295,8 +302,12 @@ public class HistoryOrder extends AppCompatActivity {
         map.put("requestCode", 5);
         if (startdate.getText() != null)
             map.put("startDate", startdate.getText().toString());
+        else
+            map.put("startDate", "2010-02-01");
         if (enddate.getText() != null)
             map.put("endDate", enddate.getText().toString());
+        else
+            map.put("endDate", "2100-02-01");
         if (orderOrgEt.getText()!=null&&TextUtils.isEmpty(orderOrgEt.getText()))
             map.put("orderOrg",orderOrgEt.getText());
         map.put("startIndex",startIndexPos);
@@ -305,10 +316,10 @@ public class HistoryOrder extends AppCompatActivity {
             @Override
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
-                submissionList.clear();
+                //submissionList.clear();
                 if (response!= null && !TextUtils.isEmpty(response)) {
                     startIndex=startIndex+numberShow;
-
+                    requestFlag=true;
                     JSONArray jsonArray = JSONObject.parseArray(response);
                     for (Object object : jsonArray) {
                         JSONObject jsonObject = (JSONObject) object;
