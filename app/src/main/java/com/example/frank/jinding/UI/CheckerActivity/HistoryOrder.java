@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -52,6 +53,9 @@ public class HistoryOrder extends AppCompatActivity {
     private List<JSONObject> submissionList;
     private MyAdapterO mAdapter;
     private EditText orderOrgEt;
+    private static int startIndex=0;
+    private static int numberShow=15;
+    private static int firstVisibleItemTag=0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -179,7 +183,7 @@ public class HistoryOrder extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search();
+                search(startIndex,numberShow);
 
             }
         });
@@ -200,6 +204,44 @@ public class HistoryOrder extends AppCompatActivity {
 
             }
         });
+
+
+        lv_task.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case SCROLL_STATE_IDLE://停止滑动
+                        break;
+                    case SCROLL_STATE_TOUCH_SCROLL://正在滑动
+                        break;
+                    case SCROLL_STATE_FLING://滑动ListView离开后，由于惯性继续滑动
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //用于底部加载更多数据的判断逻辑,在这个地方调用自己的方法请求网络数据，一次性请求10条或者15条等
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+
+                }
+
+                //判断ListView的滑动方向
+                if (firstVisibleItemTag == firstVisibleItem) {
+                    Log.e("滑动分页：", "未发生滑动");
+                } else if (firstVisibleItemTag > firstVisibleItem) {
+                    Log.e("滑动分页：", "发生下滑");
+                } else {
+                    Log.e("滑动分页：", "发生上滑");
+                }
+                firstVisibleItemTag = firstVisibleItem;
+
+
+            }
+        });
+
 
 
     }
@@ -244,7 +286,7 @@ public class HistoryOrder extends AppCompatActivity {
         return format.format(date);
     }
 
-    private void search() {
+    private void search(int startIndexPos,int numberShowSum) {
         View processView=View.inflate(this,R.layout.simple_processbar,null);
         final AlertDialog processDialog=new AlertDialog.Builder(this).create();
         processDialog.setView(processView);
@@ -257,12 +299,15 @@ public class HistoryOrder extends AppCompatActivity {
             map.put("endDate", enddate.getText().toString());
         if (orderOrgEt.getText()!=null&&TextUtils.isEmpty(orderOrgEt.getText()))
             map.put("orderOrg",orderOrgEt.getText());
+        map.put("startIndex",startIndexPos);
+        map.put("number",numberShowSum);
         ApiService.GetString(this, "submissionOrder", map, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 submissionList.clear();
                 if (response!= null && !TextUtils.isEmpty(response)) {
+                    startIndex=startIndex+numberShow;
 
                     JSONArray jsonArray = JSONObject.parseArray(response);
                     for (Object object : jsonArray) {

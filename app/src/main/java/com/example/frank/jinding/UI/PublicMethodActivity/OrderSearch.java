@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,7 +53,11 @@ public class OrderSearch extends AppCompatActivity {
     private int requestCode;
     public static int LOOK_REQUEST_CODE=0x1a;
     public static int UPDATE_REQUEST_CODE=0x1b;
-
+    private  int startIndex=0;
+    private  int numberShow=7;
+    private  int firstVisibleItemTag=0;
+    private static boolean requestFlag=false;
+    private int totalItemFlag=0;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -94,7 +99,7 @@ public class OrderSearch extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search();
+                search(startIndex,numberShow);
             }
         });
         orderList = new ArrayList<>();
@@ -138,6 +143,48 @@ public class OrderSearch extends AppCompatActivity {
                   dialog.show();
               }
                 return true;
+            }
+        });
+
+
+        lv_task.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case SCROLL_STATE_IDLE://停止滑动
+                        break;
+                    case SCROLL_STATE_TOUCH_SCROLL://正在滑动
+                        break;
+                    case SCROLL_STATE_FLING://滑动ListView离开后，由于惯性继续滑动
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //用于底部加载更多数据的判断逻辑,在这个地方调用自己的方法请求网络数据，一次性请求10条或者15条等
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0&&totalItemCount>totalItemFlag) {
+                    totalItemFlag=totalItemCount;
+                    if (requestFlag){
+                        requestFlag=false;
+                        search(startIndex,numberShow);
+                    }
+
+                }
+
+                //判断ListView的滑动方向
+                if (firstVisibleItemTag == firstVisibleItem) {
+                    Log.e("滑动分页：", "未发生滑动");
+                } else if (firstVisibleItemTag > firstVisibleItem) {
+                    Log.e("滑动分页：", "发生下滑");
+                } else {
+                    Log.e("滑动分页：", "发生上滑");
+                }
+                firstVisibleItemTag = firstVisibleItem;
+
+
             }
         });
     }
@@ -213,7 +260,7 @@ public class OrderSearch extends AppCompatActivity {
         return format.format(date);
     }
 
-    private void search() {
+    private void search(int startIndexPos,int numberShowSum ) {
         View processView=View.inflate(this,R.layout.simple_processbar,null);
         final AlertDialog processDialog=new AlertDialog.Builder(this).create();
         processDialog.setView(processView);
@@ -229,12 +276,16 @@ public class OrderSearch extends AppCompatActivity {
             map.put("endDate", enddate.getText().toString());
         if (orderOrgEt.getText()!=null&&TextUtils.isEmpty(orderOrgEt.getText().toString()))
             map.put("orderOrg",orderOrgEt.getText());
+        map.put("startIndex",startIndexPos);
+        map.put("number",numberShowSum);
         ApiService.GetString(this, "orderSearch", map, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 if (response != null && !TextUtils.isEmpty(response)) {
-                    orderList.clear();
+                    //orderList.clear();
+                    startIndex=startIndex+numberShow;
+                    requestFlag=true;
                     List<CheckOrder> list= JSON.parseArray(response,CheckOrder.class);
                      if (list!=null){
                          for (int i=0;i<list.size();i++){
@@ -275,7 +326,7 @@ public class OrderSearch extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      search();
+        search(startIndex,numberShow);
     }
     //其他任务信息加载
 
