@@ -54,7 +54,7 @@ public class OrderSearch extends AppCompatActivity {
     public static int LOOK_REQUEST_CODE=0x1a;
     public static int UPDATE_REQUEST_CODE=0x1b;
     private  int startIndex=0;
-    private  int numberShow=7;
+    private  int numberShow=10;
     private  int firstVisibleItemTag=0;
     private static boolean requestFlag=false;
     private int totalItemFlag=0;

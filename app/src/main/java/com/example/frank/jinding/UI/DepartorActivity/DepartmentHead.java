@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,11 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
     private Spinner mSpinner;
     private List<String> mSpinnerList;
     private static   boolean permissioned=true;
+    private  int startIndex=0;
+    private  int numberShow=10;
+    private  int firstVisibleItemTag=0;
+    private static boolean requestFlag=false;
+    private int totalItemFlag=0;
 
     private List<Map<String,Object>> orderList=new ArrayList<>();
 
@@ -72,7 +78,7 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
 
         mutilb.setText("派工");
 
-        getData();
+        getData(startIndex,numberShow);
         permissioned=true;
         // /*为ListView添加点击事件*/
         lv_tasksss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,6 +120,24 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
                     refreshLayout.setEnabled(true);
                 else
                     refreshLayout.setEnabled(false);
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0&&totalItemCount>totalItemFlag) {
+                    totalItemFlag=totalItemCount;
+                    if (requestFlag){
+                        requestFlag=false;
+                        getData(startIndex,numberShow);
+                    }
+
+                }
+
+                //判断ListView的滑动方向
+                if (firstVisibleItemTag == firstVisibleItem) {
+                    Log.e("滑动分页：", "未发生滑动");
+                } else if (firstVisibleItemTag > firstVisibleItem) {
+                    Log.e("滑动分页：", "发生下滑");
+                } else {
+                    Log.e("滑动分页：", "发生上滑");
+                }
+                firstVisibleItemTag = firstVisibleItem;
             }
         });
 
@@ -122,7 +146,7 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
-                getData();
+                getData(startIndex,numberShow);
             }
         });
 
@@ -136,35 +160,47 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
 
 
 
-    private void getData(){
-        orderList.clear();
+    private void getData(int startIndexPos,int numberShowSum){
+        //orderList.clear();
         Map<String,Object> map=new HashMap<>();
+        map.put("startIndex",startIndexPos);
+        map.put("number",numberShowSum);
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
+
+
         ApiService.GetString(this, "getOrderDispatching", map, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
+                processDialog.dismiss();
                 refreshLayout.setRefreshing(false);
-                Log.i("orderList","获取待派工订单成功"+response);
-                JSONArray jsonArray= JSONArray.parseArray(response);
-                for (Object object:jsonArray){
-                    JSONObject jsonObject=(JSONObject) object;
-                    HashMap<String,Object> item=new HashMap<>();
-                    item.put("orderOrg",jsonObject.getString("orderOrg"));
-                    item.put("checkdateExpect",jsonObject.getString("checkdateExpect"));
-                    item.put("orderId",jsonObject.getString("orderId"));
-                    item.put("projectName",jsonObject.getString("projectName"));
-                    item.put("projectAddress",jsonObject.getString("projectAddress"));
-                    item.put("checkerExpect",jsonObject.getString("checkerExpect"));
-                    item.put("isFirstSubmission",jsonObject.getString("isFirstSubmission"));
+                if(response!=null&&!TextUtils.isEmpty(response)){
+                    startIndex=startIndex+numberShow;
+                    requestFlag=true;
+                    Log.i("orderList", "获取待派工订单成功" + response);
+                JSONArray jsonArray = JSONArray.parseArray(response);
+                for (Object object : jsonArray) {
+                    JSONObject jsonObject = (JSONObject) object;
+                    HashMap<String, Object> item = new HashMap<>();
+                    item.put("orderOrg", jsonObject.getString("orderOrg"));
+                    item.put("checkdateExpect", jsonObject.getString("checkdateExpect"));
+                    item.put("orderId", jsonObject.getString("orderId"));
+                    item.put("projectName", jsonObject.getString("projectName"));
+                    item.put("projectAddress", jsonObject.getString("projectAddress"));
+                    item.put("checkerExpect", jsonObject.getString("checkerExpect"));
+                    item.put("isFirstSubmission", jsonObject.getString("isFirstSubmission"));
                     orderList.add(item);
                 }
-                if (orderList!=null&&orderList.size()!=0) {
+                if (orderList != null && orderList.size() != 0) {
                     isChecked = new HashMap<>();
                     for (int i = 0; i < orderList.size(); i++) {
                         isChecked.put(i, false);
                     }
-                    mWaitAdapter=new MyAdapter(DepartmentHead.this,orderList);
+                    mWaitAdapter = new MyAdapter(DepartmentHead.this, orderList);
                     lv_tasksss.setAdapter(mWaitAdapter);
-                }else {
+                } else {
                     new AlertDialog.Builder(DepartmentHead.this).setTitle("暂无需要派工的订单").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -172,6 +208,8 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
                         }
                     }).create().show();
                 }
+            }
+
 
             }
 

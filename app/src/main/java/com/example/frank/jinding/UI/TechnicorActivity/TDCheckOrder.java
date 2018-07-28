@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -54,6 +55,11 @@ public class TDCheckOrder extends AppCompatActivity {
     List<CheckOrder>orderList=new ArrayList<>();
     private OrderAdapter mAdapter;
     private int requestCode=0;
+    private  int startIndex=0;
+    private  int numberShow=10;
+    private  int firstVisibleItemTag=0;
+    private static boolean requestFlag=false;
+    private int totalItemFlag=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +74,7 @@ public class TDCheckOrder extends AppCompatActivity {
             titleplain.setText("待审核订单");
         }
         initView();
-        search();
+        search(startIndex,numberShow);
     }
 
     @Override
@@ -77,21 +83,65 @@ public class TDCheckOrder extends AppCompatActivity {
         orderList.clear();
     }
 
-    private void initView(){
-        mAdapter=new OrderAdapter(this);
-        mAdapter.listItem=orderList;
+    private void initView() {
+        mAdapter = new OrderAdapter(this);
+        mAdapter.listItem = orderList;
         lvTask.setAdapter(mAdapter);
         lvTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent=new Intent(TDCheckOrder.this,TDProtocolCheck.class);
-                intent.putExtra("checkOrder",orderList.get(position));
-                intent.putExtra("requestCode",requestCode);
-                intent.putExtra("orderId",orderList.get(position).getOrderId());
-                startActivityForResult(intent,requestCode);
+                Intent intent = new Intent(TDCheckOrder.this, TDProtocolCheck.class);
+                intent.putExtra("checkOrder", orderList.get(position));
+                intent.putExtra("requestCode", requestCode);
+                intent.putExtra("orderId", orderList.get(position).getOrderId());
+                startActivityForResult(intent, requestCode);
+                finish();
             }
+
         });
-}
+        lvTask.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case SCROLL_STATE_IDLE://停止滑动
+                        break;
+                    case SCROLL_STATE_TOUCH_SCROLL://正在滑动
+                        break;
+                    case SCROLL_STATE_FLING://滑动ListView离开后，由于惯性继续滑动
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0&&totalItemCount>totalItemFlag) {
+                    totalItemFlag=totalItemCount;
+                    if (requestFlag){
+                        requestFlag=false;
+                        search(startIndex,numberShow);
+                    }
+
+                }
+                //判断ListView的滑动方向
+                if (firstVisibleItemTag == firstVisibleItem) {
+                    Log.e("滑动分页：", "未发生滑动");
+                } else if (firstVisibleItemTag > firstVisibleItem) {
+                    Log.e("滑动分页：", "发生下滑");
+                } else {
+                    Log.e("滑动分页：", "发生上滑");
+                }
+                firstVisibleItemTag = firstVisibleItem;
+
+            }
+
+        });
+    }
+
+
+
+
     @OnClick({R.id.titleback, R.id.start_date, R.id.end_date, R.id.search_history})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -105,7 +155,7 @@ public class TDCheckOrder extends AppCompatActivity {
                 chooseDate(2);
                 break;
             case R.id.search_history:
-                search();
+                search(startIndex,numberShow);
                System.out.print("startDate:"+startdate.getText().toString());
                System.out.print("endDate"+enddate.getText().toString());
                 break;
@@ -151,7 +201,7 @@ public class TDCheckOrder extends AppCompatActivity {
         return format.format(date);
     }
 
-    private void search() {
+    private void search(int startIndexPos,int numberShowSum) {
         String url=null;
         View processView=View.inflate(this,R.layout.simple_processbar,null);
         final AlertDialog processDialog=new AlertDialog.Builder(this).create();
@@ -187,12 +237,16 @@ public class TDCheckOrder extends AppCompatActivity {
         }
         Log.i("startDate",map.get("startDate").toString());
         Log.i("endDate",map.get("endDate").toString());
+        map.put("startIndex",startIndexPos);
+        map.put("number",numberShowSum);
         ApiService.GetString(this, url, map, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 if (response != null && !TextUtils.isEmpty(response)) {
-                    orderList.clear();
+                    //orderList.clear();
+                    startIndex=startIndex+numberShow;
+                    requestFlag=true;
                     List<CheckOrder> list= JSON.parseArray(response,CheckOrder.class);
                     if (list!=null){
                         for (int i=0;i<list.size();i++){
@@ -224,7 +278,7 @@ public class TDCheckOrder extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode==0){
             //待审核订单刷新
-            search();
+            search(startIndex,numberShow);
         }
     }
 }

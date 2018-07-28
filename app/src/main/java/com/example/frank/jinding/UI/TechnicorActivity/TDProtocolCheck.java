@@ -96,6 +96,9 @@ public class TDProtocolCheck extends AppCompatActivity implements CallBack {
 
     @Override
     public void onBackPressed() {
+        Intent intent=new Intent(TDProtocolCheck.this,TDCheckOrder.class);
+        intent.putExtra("requestCode",requestCode);
+        startActivity(intent);
         super.onBackPressed();
         consignmentDetails = null;
     }
@@ -129,6 +132,9 @@ public class TDProtocolCheck extends AppCompatActivity implements CallBack {
                         if (requestCode==0&&allChecked){
                             Toast.makeText(TDProtocolCheck.this,"协议审核完成",Toast.LENGTH_SHORT).show();
                             setResult(0);
+                            Intent intent=new Intent(TDProtocolCheck.this,TDCheckOrder.class);
+                            intent.putExtra("requestCode",requestCode);
+                            startActivity(intent);
                             finish();
                         }
                         list.clear();
