@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -55,6 +56,11 @@ public class DispatchRecord extends AppCompatActivity {
     private ListView lv_tasksss;
     private OrderMapAdapter mAdapter;
     private List<Map<String, Object>> submissionList;
+    private  int startIndex=0;
+    private  int numberShow=10;
+    private  int firstVisibleItemTag=0;
+    private static boolean requestFlag=false;
+    private int totalItemFlag=0;
 
 
     @Override
@@ -111,6 +117,46 @@ public class DispatchRecord extends AppCompatActivity {
                 return true;
             }
         });
+        lv_tasksss.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case SCROLL_STATE_IDLE://停止滑动
+                        break;
+                    case SCROLL_STATE_TOUCH_SCROLL://正在滑动
+                        break;
+                    case SCROLL_STATE_FLING://滑动ListView离开后，由于惯性继续滑动
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //用于底部加载更多数据的判断逻辑,在这个地方调用自己的方法请求网络数据，一次性请求10条或者15条等
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0&&totalItemCount>totalItemFlag) {
+                    totalItemFlag=totalItemCount;
+                    if (requestFlag){
+                        requestFlag=false;
+                        search(startIndex,numberShow);
+                    }
+
+                }
+
+                //判断ListView的滑动方向
+                if (firstVisibleItemTag == firstVisibleItem) {
+                    Log.e("滑动分页：", "未发生滑动");
+                } else if (firstVisibleItemTag > firstVisibleItem) {
+                    Log.e("滑动分页：", "发生下滑");
+                } else {
+                    Log.e("滑动分页：", "发生上滑");
+                }
+                firstVisibleItemTag = firstVisibleItem;
+
+
+            }
+        });
     }
     private void deleteSubmission(final int  position){
         Map<String,Object> map=new HashMap<>();
@@ -161,12 +207,12 @@ public class DispatchRecord extends AppCompatActivity {
             case R.id.submission_history_org:
                 break;
             case R.id.search_submission:
-                search();
+                search(startIndex,numberShow);
                 break;
 
         }
     }
-    protected void search(){
+    protected void search(int startIndexPos,int numberShowSum){
         View processView=View.inflate(this,R.layout.simple_processbar,null);
         final AlertDialog processDialog=new AlertDialog.Builder(this).create();
         processDialog.setView(processView);
@@ -178,14 +224,20 @@ public class DispatchRecord extends AppCompatActivity {
             data.put("ActualEnd",submissionHistoryEndDate.getText().toString());
         if (submissionHistoryOrg.getText()!=null)
             data.put("orderOrg",submissionHistoryOrg.getText().toString());
+        data.put("startIndex",startIndexPos);
+        data.put("number",numberShowSum);
             Map<String,Object> map=new HashMap<>();
             map.put("data", JSON.toJSONString(data));
+
             ApiService.GetString(this, "getSubmissionOrder", map, new RxStringCallback() {
                 @Override
                 public void onNext(Object tag, String response) {
-                    submissionList.clear();
+
+                    //submissionList.clear();
                     processDialog.dismiss();
                     if (response!=null&&!response.equals("")){
+                        startIndex=startIndex+numberShow;
+                        requestFlag=true;
                         JSONArray jsonArray=JSON.parseArray(response);
                         for (Object object:jsonArray){
                             JSONObject jsonObject=(JSONObject)object;
