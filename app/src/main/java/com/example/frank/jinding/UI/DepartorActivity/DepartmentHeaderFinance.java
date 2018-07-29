@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.example.frank.jinding.Adapter.FinanceAdapter;
+import com.example.frank.jinding.Log.L;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.tamic.novate.Throwable;
@@ -78,7 +79,7 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (searchContentSpinner.getSelectedItem().toString().equals("待审核申请")) {
+                if (searchContentSpinner.getSelectedItem().toString().equals("待审核财务异动申请")) {
                     mode = 3;
                     mAdapter = new FinanceAdapter(DepartmentHeaderFinance.this, mapList, mode);
                     lvTasksss.setAdapter(mAdapter);
@@ -91,7 +92,7 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                             checkFinance();
                         }
                     });
-                } else if (searchContentSpinner.getSelectedItem().toString().equals("审核历史")){
+                } else if (searchContentSpinner.getSelectedItem().toString().equals("已审核财务异动历史")){
                     mode = 4;
                     mAdapter = new FinanceAdapter(DepartmentHeaderFinance.this, mapList, 4);
                     lvTasksss.setAdapter(mAdapter);
@@ -120,8 +121,8 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initData() {
         mSearchContentList = new ArrayList<>();
-        mSearchContentList.add("待审核申请");
-        mSearchContentList.add("审核历史");
+        mSearchContentList.add("待审核财务异动申请");
+        mSearchContentList.add("已审核财务异动历史");
         mSearchContentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mSearchContentList);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
         mSearchContentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -266,35 +267,48 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
             @Override
             public void onNext(Object tag, String response) {
                 if (response != null && !response.equals("")) {
+
                     try {
-                        JSONObject jsonObject=JSONObject.parseObject(response);
+                        JSONObject jsonObject = JSONObject.parseObject(response);
+                        if (response.contains("financialList")){
                         List<Map<String, Object>> financialTmp = (List<Map<String, Object>>) jsonObject.get("financialList");
-                     if (financialTmp!=null){
-                        for (Map<String, Object> item : financialTmp)
-                            mapList.add(item);
-                     }else {
-                         showToastShort("暂无待审核财务异动");
-                     }
-                        mAdapter.notifyDataSetChanged();
-                        if (initFirst) {
+                        if (financialTmp != null&&financialTmp.size()>0) {
+                            for (Map<String, Object> item : financialTmp)
+                                mapList.add(item);
+                        } else {
+                            showToastShort("暂无待审核财务异动");
+                        }
+                        }
+                        if (initFirst&&response.contains("manList")) {
+                            L.e("执行了业务员查询方法");
                             initFirst = false;
-                            List<HashMap<String,String>> salesmanTmp = (List<HashMap<String,String>>)jsonObject.get("manList");
+                            List<Map<String,Object>> salesmanTmp = (List<Map<String,Object>>)jsonObject.get("manList");
+                            L.e("执行了业务员查询大小："+salesmanTmp.size());
                             mApplicantList.add(new Applicant("",""));
-                            for (Map<String,String> item : salesmanTmp) {
-                                mApplicantList.add(new Applicant(item.get("name"),item.get("id")));
+                            for (int i=0;i<salesmanTmp.size();i++) {
+                                Map<String,Object> item=salesmanTmp.get(i);
+                                if (item!=null&&!item.equals("")&&!item.equals("null")&&item.get("name")!=null) {
+                                    L.e("获得检验员信息："+item.toString());
+                                    mApplicantList.add(new Applicant(item.get("name").toString(), item.get("id").toString()));
+                                }
+                                else
+                                    continue;
                             }
                             mApplicantAdapter = new ArrayAdapter<String>(DepartmentHeaderFinance.this, android.R.layout.simple_spinner_item, mApplicantList.stream().map((item)->item.getName()).collect(Collectors.toList()));
                             //第三步：为适配器设置下拉列表下拉时的菜单样式。
                             mApplicantAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             applicantSpinner.setAdapter(mApplicantAdapter);
+                            mApplicantAdapter.notifyDataSetChanged();
                         }
+
+                        mAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         Log.i(TAG, "onNext: "+e.getMessage());
                         showToastShort(response);
                     }
 
                 }else {
-                    showToastShort("暂无待审核异动");
+                    showToastShort("暂无待审核财务异动");
                 }
             }
 

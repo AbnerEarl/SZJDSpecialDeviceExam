@@ -359,12 +359,12 @@ public class DepartmentHeadersActivityNew extends AppCompatActivity
             Intent intent = new Intent(DepartmentHeadersActivityNew.this, DispatchRecord.class);
             //intent.putExtra("userid",userid);
             startActivity(intent);
-        }  else if (id == R.id.nav_salerequest5) {
+        } /* else if (id == R.id.nav_salerequest5) {
             Intent intent = new Intent(DepartmentHeadersActivityNew.this, ReportActivity.class);
             intent.putExtra("filecode","SzjdBzQz15");
             //startActivity(intent);
             startActivityForResult(intent, 6666);
-        } else if (id == R.id.nav_sub_order) {
+        }*/ else if (id == R.id.nav_sub_order) {
             Intent intent = new Intent(DepartmentHeadersActivityNew.this, DepartmentHead.class);
             //intent.putExtra("filecode","SzjdBzQz15");
             //startActivity(intent);

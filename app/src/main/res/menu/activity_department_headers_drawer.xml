@@ -10,10 +10,10 @@
             android:id="@+id/nav_testtask5"
             android:icon="@android:drawable/ic_menu_compass"
             android:title="历史派工" />
-        <item
+       <!-- <item
             android:id="@+id/nav_salerequest5"
             android:icon="@android:drawable/sym_contact_card"
-            android:title="检验报告" />
+            android:title="检验报告" />-->
         <item
             android:id="@+id/nav_otherquest5"
             android:icon="@android:drawable/ic_menu_today"

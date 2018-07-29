@@ -373,11 +373,11 @@ refreshLayout.setEnabled(false);
             Intent intent = new Intent(DepartmentHeadersActivity.this, DispatchRecord.class);
             //intent.putExtra("userid",userid);
             startActivity(intent);
-        }  else if (id == R.id.nav_salerequest5) {
+        }  /*else if (id == R.id.nav_salerequest5) {
             Intent intent = new Intent(DepartmentHeadersActivity.this, ReportActivity.class);
             intent.putExtra("filecode","SzjdBzQz15");
             startActivity(intent);
-        } else if (id == R.id.nav_otherquest5) {
+        } */else if (id == R.id.nav_otherquest5) {
             Intent intent=new Intent(this,DepartmentHeaderFinance.class);
             startActivity(intent);
 

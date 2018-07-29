@@ -82,8 +82,8 @@ public class SalesmanFinance extends AppCompatActivity {
     private void initView() {
         titleplain.setText("财务异动");
         spinnerList = new ArrayList<>();
-        spinnerList.add("可申请异动");
-        spinnerList.add("已申请异动");
+        spinnerList.add("可申请财务异动");
+        spinnerList.add("已申请财务异动");
         //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerList);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
@@ -93,7 +93,7 @@ public class SalesmanFinance extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (spinner.getSelectedItem().toString().equals("可申请异动")) {
+                if (spinner.getSelectedItem().toString().equals("可申请财务异动")) {
                     mode = 0;
                     applyChange.setVisibility(View.VISIBLE);
                     mAdapter = new FinanceAdapter(SalesmanFinance.this, mapList, mode);
