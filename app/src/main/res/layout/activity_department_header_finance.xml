@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#EEEEEE"
     tools:context="com.example.frank.jinding.UI.DepartorActivity.DepartmentHeaderFinance">
     <include
         layout="@layout/back_title"
@@ -37,11 +38,11 @@
         android:text="内容选择: "
         android:textStyle="bold" />
 
-    <Spinner
+    <org.angmarch.views.NiceSpinner
         android:id="@+id/search_content_spinner"
         style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/include4"
         android:layout_marginRight="5dp"
         android:layout_toEndOf="@+id/textView35"
@@ -77,11 +78,11 @@
         android:text="申 请 人: "
         android:textStyle="bold" />
 
-    <Spinner
+    <org.angmarch.views.NiceSpinner
         android:id="@+id/applicant_spinner"
         style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/search_content_spinner"
         android:layout_toEndOf="@+id/textView8"
         android:layout_toLeftOf="@+id/search_history"

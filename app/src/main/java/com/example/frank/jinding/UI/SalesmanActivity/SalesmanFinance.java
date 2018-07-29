@@ -27,11 +27,14 @@ import com.example.frank.jinding.Service.ApiService;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
+import org.angmarch.views.NiceSpinner;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +56,7 @@ public class SalesmanFinance extends AppCompatActivity {
     @BindView(R.id.order_search_org)
     EditText orderSearchOrg;
     @BindView(R.id.spinner3)
-    Spinner spinner;
+    NiceSpinner spinner;
     @BindView(R.id.search_history)
     ImageButton searchHistory;
     @BindView(R.id.lv_tasksss)
@@ -64,9 +67,10 @@ public class SalesmanFinance extends AppCompatActivity {
     List<Map<String, Object>> mapList = new ArrayList<>();
     List<String> spinnerList;
     List<String> applyList=new ArrayList<>();
-    private ArrayAdapter<String> spinnerAdapter;
+    //private ArrayAdapter<String> spinnerAdapter;
     private int clickedItem=-1;
     private AlertDialog checkDetailDialog;
+    private List<String>NiceSpinner;
 
     private int mode = 0;
     String remark=null;
@@ -76,6 +80,11 @@ public class SalesmanFinance extends AppCompatActivity {
         setContentView(R.layout.activity_salesman_finance);
         ButterKnife.bind(this);
         initView();
+        mode = 0;
+        applyChange.setVisibility(View.VISIBLE);
+        mAdapter = new FinanceAdapter(SalesmanFinance.this, mapList, mode);
+        lvTasksss.setAdapter(mAdapter);
+        loadData();
         //    loadData();
     }
 
@@ -85,15 +94,17 @@ public class SalesmanFinance extends AppCompatActivity {
         spinnerList.add("可申请财务异动");
         spinnerList.add("已申请财务异动");
         //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
-        spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerList);
+       // spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerList);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+       // spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //第四步：将适配器添加到下拉列表上
-        spinner.setAdapter(spinnerAdapter);
+        //spinner.setAdapter(spinnerAdapter);
+        NiceSpinner = new LinkedList<String>(spinnerList);
+        spinner.attachDataSource(NiceSpinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (spinner.getSelectedItem().toString().equals("可申请财务异动")) {
+                if (NiceSpinner.get(position).equals("可申请财务异动")) {
                     mode = 0;
                     applyChange.setVisibility(View.VISIBLE);
                     mAdapter = new FinanceAdapter(SalesmanFinance.this, mapList, mode);

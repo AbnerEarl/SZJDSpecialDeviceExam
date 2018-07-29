@@ -139,12 +139,16 @@ public class CheckReport extends AppCompatActivity {
         refreshLayout.setRefreshing(false);
         Map<String, Object> paremetes = new HashMap<>();
         paremetes.put("option", option);
-        if (startdate.getText()!=null){
+        if (startdate.getText().toString().trim().length()>1){
             paremetes.put("startDate",startdate.getText().toString());
         }
-        if (enddate.getText()!=null){
+        else
+            paremetes.put("startDte","1990-02-02");
+        if (enddate.getText().toString().trim().length()>1){
             paremetes.put("endDate",enddate.getText().toString());
         }
+        else
+            paremetes.put("endDate","2200-01-02");
         View processView = View.inflate(this, R.layout.simple_processbar, null);
         final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
         processDialog.setView(processView);
@@ -207,6 +211,12 @@ public class CheckReport extends AppCompatActivity {
                 break;
             case R.id.search:
                 getReportData();
+                break;
+            case R.id.start_date:
+                chooseDate(1);
+                break;
+            case  R.id.end_date:
+                chooseDate(2);
                 break;
         }
     }

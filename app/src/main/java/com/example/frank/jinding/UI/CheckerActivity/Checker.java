@@ -35,8 +35,11 @@ import com.example.frank.jinding.UI.PublicMethodActivity.OrderDetails;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
+import org.angmarch.views.NiceSpinner;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +48,7 @@ public class Checker extends AppCompatActivity {
 
     private List<String> list = new ArrayList<String>();
     private long mExitTime = 0;
-    private Spinner mySpinner;
+    private NiceSpinner mySpinner;
     private ArrayAdapter<String> adapter;
     private ListView lv_tasksss;
     private SwipeRefreshLayout refreshLayout;
@@ -56,7 +59,9 @@ public class Checker extends AppCompatActivity {
     private MyAdapter waitAdapter;
     private MyAdapterO confirmAdapter, establishAdapter, refuseAdapter;
     private int currentList = 0;
+    private List<String>NiceSpinner;
     ArrayList<JSONObject> submissionOrderList;
+    private String Type;
 
 
 
@@ -64,6 +69,8 @@ public class Checker extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_checkers_order);
+        currentList = 1;
+        getData(currentList);
 
 
 
@@ -75,36 +82,40 @@ public class Checker extends AppCompatActivity {
         list.add("已拒绝派工");
 
         //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+       // adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        NiceSpinner = new LinkedList<String>(list);
         //第四步：将适配器添加到下拉列表上
-        mySpinner.setAdapter(adapter);
+        mySpinner.attachDataSource(NiceSpinner);
         //mySpinner.setSelection(0,false);
         //第五步：为下拉列表设置各种事件的响应，这个事响应菜单被选中
+
 
         mySpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 //  TODO  Auto-generated  method  stub
                 /*  将所选mySpinner  的值带入myTextView  中*/
 
-                if ("待确认派工".equals(mySpinner.getSelectedItem().toString().trim())) {
+                if ("待确认派工".equals(NiceSpinner.get(arg2).toString())) {
                     //waitAdapter = new MyAdapter(CheckersActivity.this);//得到一个MyAdapter对象
                     Log.i("待确认派工",""+currentList);
                     currentList = 1;
                     getData(currentList);
-                } else if ("已确认派工".equals(mySpinner.getSelectedItem().toString().trim())) {
+                } else if ("已确认派工".equals(NiceSpinner.get(arg2).toString())) {
 
                     currentList = 2;
                     getData(currentList);
                     //为ListView绑定Adapter
-                } else if ("已成立派工".equals(mySpinner.getSelectedItem().toString().trim())) {
+                } else if ("已成立派工".equals(NiceSpinner.get(arg2).toString())) {
                     currentList = 3;
                     getData(currentList);//为ListView绑定Adapter
-                } else if ("已拒绝派工".equals(mySpinner.getSelectedItem().toString().trim())) {
+                } else if ("已拒绝派工".equals(NiceSpinner.get(arg2).toString())) {
                     currentList = 4;
                     getData(currentList);
                 }
+                Type=NiceSpinner.get(arg2);
 
 
             }
@@ -167,7 +178,7 @@ public class Checker extends AppCompatActivity {
 
         //绑定控件
         lv_tasksss = (ListView) this.findViewById(R.id.lv_tasksss_ch);
-        mySpinner = (Spinner) findViewById(R.id.spinner3_ch);
+        mySpinner = (NiceSpinner) findViewById(R.id.spinner3_ch);
         refreshLayout=(SwipeRefreshLayout) findViewById(R.id.refresh_submission_ch);
 
         Log.i("init","test");
@@ -225,7 +236,7 @@ public class Checker extends AppCompatActivity {
                     //snackbar.show();
                 }
                 if (submissionOrderList.size()==0) {
-                    new AlertDialog.Builder(Checker.this).setTitle("暂无" + mySpinner.getSelectedItem().toString()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(Checker.this).setTitle("暂无" + Type.toString()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
