@@ -96,13 +96,14 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:layout_constraintTop_toBottomOf="@id/linearLayout4"
         app:layout_constraintLeft_toLeftOf="parent">
         <ListView
             android:id="@+id/lv_order_recorde"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="?android:attr/actionBarSize"
             />

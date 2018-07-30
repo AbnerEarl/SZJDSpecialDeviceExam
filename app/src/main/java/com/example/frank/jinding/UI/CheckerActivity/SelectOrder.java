@@ -33,8 +33,11 @@ import com.example.frank.jinding.UI.PublicMethodActivity.OrderDetails;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
+import org.angmarch.views.NiceSpinner;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,9 +49,11 @@ public class SelectOrder extends AppCompatActivity {
     private List<JSONObject> submissionOrderList;
     private  MyAdapter mAdapter;
     private SwipeRefreshLayout refreshLayout;
-    private Spinner mSpinner;
-    private ArrayAdapter spinnerAdapter;
+    private NiceSpinner mSpinner;
+   // private ArrayAdapter spinnerAdapter;
     private int spinnerSelectedItem=1;
+    private List<String>NiceSpinner;
+    private String Type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,31 +74,34 @@ public class SelectOrder extends AppCompatActivity {
         spinnerList.add("等待检验订单");
         spinnerList.add("正在检验订单");
         spinnerList.add("已经检验订单");
+        NiceSpinner = new LinkedList<String>(spinnerList);
+        mSpinner.attachDataSource(NiceSpinner);
 
-        spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerList);
+       // spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerList);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //第四步：将适配器添加到下拉列表上
-        mSpinner.setAdapter(spinnerAdapter);
+        //mSpinner.setAdapter(spinnerAdapter);
+
         mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                                                public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                                                    //  TODO  Auto-generated  method  stub
                 /*  将所选mySpinner  的值带入myTextView  中*/
-                                                   if (mSpinner.getSelectedItem().equals("等待检验订单")) {
+                                                   if (NiceSpinner.get(arg2).equals("等待检验订单")) {
                                                        spinnerSelectedItem=1;
                                                        mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
                                                        //获取建立派工单
                                                        mAdapter.listItem=submissionOrderList;
                                                        getData(6);
                                                        lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
-                                                   } else if (mSpinner.getSelectedItem().equals("已经检验订单")) {
+                                                   } else if (NiceSpinner.get(arg2).equals("已经检验订单")) {
                                                        spinnerSelectedItem=3;
                                                        mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
                                                        //获取建立派工单
                                                        mAdapter.listItem=submissionOrderList;
                                                        getData(7);
                                                        lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
-                                                   }else if (mSpinner.getSelectedItem().equals("正在检验订单")) {
+                                                   }else if (NiceSpinner.get(arg2).equals("正在检验订单")) {
                                                        spinnerSelectedItem=2;
                                                        mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
                                                        //获取建立派工单
@@ -101,6 +109,7 @@ public class SelectOrder extends AppCompatActivity {
                                                        getData(8);
                                                        lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
                                                    }
+                                                   Type=NiceSpinner.get(arg2);
                                                }
 
                                                @Override
@@ -198,9 +207,15 @@ public class SelectOrder extends AppCompatActivity {
         lv_task=(ListView)this.findViewById(R.id.lv_order);
         back=(ImageButton)this.findViewById(R.id.titleback);
         title=(TextView)this.findViewById(R.id.titleplain);
-        mSpinner=(Spinner)this.findViewById(R.id.check_scene_spinner);
+        mSpinner=(NiceSpinner)this.findViewById(R.id.check_scene_spinner);
         refreshLayout=(SwipeRefreshLayout)findViewById(R.id.check_spot_checkOrder_refresh);
         submissionOrderList=new ArrayList<>();
+        spinnerSelectedItem=1;
+        mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
+        //获取建立派工单
+        mAdapter.listItem=submissionOrderList;
+        getData(6);
+        lv_task.setAdapter(mAdapter);
     }
 
     private void getData(int requestCode) {
@@ -222,7 +237,7 @@ public class SelectOrder extends AppCompatActivity {
                     refreshLayout.setRefreshing(false);
                 }
                 if (submissionOrderList.size()==0||response==null){
-                   new  AlertDialog.Builder(SelectOrder.this).setTitle("暂时没有"+mSpinner.getSelectedItem().toString()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                   new  AlertDialog.Builder(SelectOrder.this).setTitle("暂时没有"+Type.toString()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
                            dialog.dismiss();

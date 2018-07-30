@@ -37,8 +37,12 @@ import com.google.gson.GsonBuilder;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
+import org.angmarch.views.NiceSpinner;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +58,7 @@ public class OrderSelectActivity extends AppCompatActivity {
     private OrderAdapter establishAdapter;
     private ArrayList<JSONObject> submissionOrderList = new ArrayList<>();
     private ArrayList<String> selectOrderId = new ArrayList<>();
-    private Spinner spinner_order;
+
     private int ISnull=1;//判断返回键
     private List<String> list_spinner_data = new ArrayList<>();
     private ArrayAdapter<String> adapter_spinner;
@@ -63,6 +67,9 @@ public class OrderSelectActivity extends AppCompatActivity {
     private static String submission_id="";
     private static int orderStatusTag=0;
     private List<String> seqList=new ArrayList<>();
+    private NiceSpinner spinner_order;
+    private List<String>NiceSpinner;
+    private String Type;
 
     private Gson gsonContainTime = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
@@ -71,8 +78,19 @@ public class OrderSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_select);
         init();
+        initView();
         initListener();
     }
+
+    private void initView() {
+        orderStatusTag=0;
+        submissionOrderList.clear();
+        seqList.clear();
+        getNotApplyOrder();
+        selectOrderId.clear();
+        btn_submit.setVisibility(View.VISIBLE);
+    }
+
     @Override       //这里实现了自动更新
     protected void onResume() {
         // TODO Auto-generated method stub
@@ -91,16 +109,17 @@ public class OrderSelectActivity extends AppCompatActivity {
         list_spinner_data.clear();
         list_spinner_data.add("未申领仪器订单");
         list_spinner_data.add("已申领仪器订单");
-        adapter_spinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_spinner_data);
-        adapter_spinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapter_spinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_spinner_data);
+        NiceSpinner = new LinkedList<String>(list_spinner_data);
+        //adapter_spinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         establishAdapter = new OrderAdapter(OrderSelectActivity.this);
 
         image_back = (ImageView) this.findViewById(R.id.image_back);
         btn_submit = (Button) this.findViewById(R.id.btn_submit);
         listView_order = (ListView) this.findViewById(R.id.listview_order);
-        spinner_order = (Spinner) this.findViewById(R.id.spinner_order);
-        spinner_order.setAdapter(adapter_spinner);
+        spinner_order = (NiceSpinner) this.findViewById(R.id.spinner_order);
+        spinner_order.attachDataSource(NiceSpinner);
     }
 
     private void getNotApplyOrder() {
@@ -317,7 +336,7 @@ public class OrderSelectActivity extends AppCompatActivity {
                                 Intent intent = new Intent(OrderSelectActivity.this, ApplyInstrument.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putStringArrayList("orderIdList", selectOrderId);
-                                bundle.putString("type", spinner_order.getSelectedItem().toString());
+                                bundle.putString("type", Type.toString());
                                 //bundle.putString("isRecheck", gson.toJson(orderStatusMap));
                                 intent.putExtra("isNotModify",establishAdapter.listItem.get(position).get("isNotModify").toString());
                                 intent.putExtras(bundle);
@@ -366,7 +385,7 @@ public class OrderSelectActivity extends AppCompatActivity {
                                 Intent intent = new Intent(OrderSelectActivity.this, ApplyInstrument.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putStringArrayList("orderIdList", selectOrderId);
-                                bundle.putString("type", spinner_order.getSelectedItem().toString());
+                                bundle.putString("type", Type.toString());
                                 //bundle.putString("isRecheck", gson.toJson(orderStatusMap));
                                 intent.putExtra("isNotModify","true");
                                 intent.putExtras(bundle);
@@ -401,14 +420,18 @@ public class OrderSelectActivity extends AppCompatActivity {
         spinner_order.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if ("已申领仪器订单".equals(spinner_order.getSelectedItem().toString().trim())) {
+                if ("已申领仪器订单".equals(NiceSpinner.get(position).toString())) {
+                    Type=NiceSpinner.get(position);
+                    Toast.makeText(OrderSelectActivity.this,NiceSpinner.get(position).toString(),Toast.LENGTH_SHORT).show();
                     orderStatusTag=1;
                     submissionOrderList.clear();
                     getHasApplyOrder();
                     selectOrderId.clear();
                     btn_submit.setVisibility(View.INVISIBLE);
 
-                } else if ("未申领仪器订单".equals(spinner_order.getSelectedItem().toString().trim())) {
+                } else if ("未申领仪器订单".equals(NiceSpinner.get(position).toString())) {
+                    Type=NiceSpinner.get(position);
+                    Toast.makeText(OrderSelectActivity.this,NiceSpinner.get(position).toString(),Toast.LENGTH_SHORT).show();
                     orderStatusTag=0;
                     submissionOrderList.clear();
                     seqList.clear();

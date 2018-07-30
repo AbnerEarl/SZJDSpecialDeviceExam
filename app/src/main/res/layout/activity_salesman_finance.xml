@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#EEEEEE"
     tools:context="com.example.frank.jinding.UI.SalesmanActivity.SalesmanFinance">
     <include
         layout="@layout/back_title"
@@ -110,11 +111,11 @@
                 android:layout_marginLeft="5dp"
                 android:text="内容选择: " />
 
-            <Spinner
+            <org.angmarch.views.NiceSpinner
                 android:id="@+id/spinner3"
                 style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="0.5" />
