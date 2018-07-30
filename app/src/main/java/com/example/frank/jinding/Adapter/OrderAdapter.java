@@ -70,7 +70,10 @@ public class OrderAdapter extends BaseAdapter {
 
 
         holder.projectName.setText(listItem.get(position).getProjectName());
+        if(listItem.get(position).getProjectAddress()!=null&&listItem.get(position).getProjectAddress()!="")
         holder.place.setText(listItem.get(position).getProvince() + listItem.get(position).getCity() + listItem.get(position).getArea() + listItem.get(position).getProjectAddress());
+        else
+            holder.place.setText(listItem.get(position).getProvince() + listItem.get(position).getCity() + listItem.get(position).getArea());
         holder.actualTime.setText(listItem.get(position).getOrderStatus());
         if(listItem.get(position).getOrderStatus().indexOf("复检")!=-1)
             holder.taskIcon.setImageResource(R.drawable.third_order);

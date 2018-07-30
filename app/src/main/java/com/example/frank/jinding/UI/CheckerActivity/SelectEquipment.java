@@ -71,6 +71,7 @@ public class SelectEquipment extends AppCompatActivity {
     private ImageButton back;
     private TextView title ,device;
     private ListView lv_tasksss;
+   public  static Boolean isPress=true;
 
     private int environTag=0;
     private String deviceinfo="",isMainChecker="",consignmentId="",orderId="",deviceId="",submission_id="";
@@ -321,6 +322,7 @@ public class SelectEquipment extends AppCompatActivity {
 
 
 
+
         upload.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -338,8 +340,10 @@ public class SelectEquipment extends AppCompatActivity {
                             .setNegativeButton("取消", null)
                             .setPositiveButton("确定",
                                     new DialogInterface.OnClickListener() {
+
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+                                            upload.setEnabled(false);
 
                                             sum_tag=0;file_tag=0;text_tag=0;
                                             for (int i = 0; i < mAdapter.listItem.size(); i++) {
@@ -454,7 +458,9 @@ public class SelectEquipment extends AppCompatActivity {
                                     }
                                 }).show();*/
 
-            }
+
+
+              }
         });
 
 

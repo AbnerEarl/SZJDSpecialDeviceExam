@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#EEEEEE">
 
     <RelativeLayout
         android:id="@+id/title_layout"
@@ -51,23 +51,29 @@
         android:layout_below="@+id/title_layout"
         android:background="@drawable/title_layout_top_divider" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title_layout"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
-        android:layout_marginTop="3dp">
+        android:layout_marginTop="3dp"
 
+        android:orientation="vertical"
+        >
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    android:layout_marginTop="6dp"
+    >
         <org.angmarch.views.NiceSpinner
             android:id="@+id/spinner_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
-
+            android:layout_margin="8dp"
+            />
+</android.support.v7.widget.CardView>
         <ListView
             android:id="@+id/listview_order"
             android:layout_width="match_parent"
@@ -77,6 +83,6 @@
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

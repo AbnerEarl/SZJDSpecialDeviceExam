@@ -425,6 +425,9 @@ public class HistoryOrder extends AppCompatActivity {
             holder.pname.setText(listItem.get(position).get("orderOrg").toString());
             holder.pnumber.setText(listItem.get(position).get("projectName").toString());
             holder.paddress.setText(listItem.get(position).get("projectAddress").toString());
+            Log.i("projectAddress",listItem.get(position).get("projectAddress").toString());
+
+
             holder.pdate.setText(listItem.get(position).get("checkTime").toString());
 
             return convertView;
