@@ -35,9 +35,9 @@ public class URLConfig {
 
 
     //报告生成地址
-    //public static String ReportURL="http://192.168.191.1:8080/WEBSYSTEM/";
+    public static String ReportURL="http://192.168.191.1:8080/WEBSYSTEM/";
     //public static String ReportURL="http://119.29.133.185:80/WEBSYSTEM/";
-    public static String ReportURL="http://119.29.133.185:80/SpecialDeviceExam/";
+    //public static String ReportURL="http://119.29.133.185:80/SpecialDeviceExam/";
     //public static String ReportURL="http://119.23.243.96:80/SpecialDeviceExam/";
 
     //public static String FtpURL="119.23.243.96";
