@@ -145,6 +145,7 @@ public class ReportAdapter extends BaseAdapter{
         TextView fourthPerson=view.findViewById(R.id.report_fourth_person);
         TextView fourthTime=view.findViewById(R.id.fourth_time);
         Button actionBtnPass=view.findViewById(R.id.action_pass);
+        actionBtnPass.setVisibility(View.GONE);
         Button actionBtnRefuse=view.findViewById(R.id.action_refuse);
         ImageButton exitBtn=view.findViewById(R.id.exit_report_detail);
 
@@ -302,7 +303,7 @@ public class ReportAdapter extends BaseAdapter{
             }
         });*/
 
-        actionBtnPass.setOnClickListener(new View.OnClickListener() {
+        /*actionBtnPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 actionBtnPass.setEnabled(false);
@@ -318,7 +319,7 @@ public class ReportAdapter extends BaseAdapter{
                 actionBtnRefuse.setEnabled(true);
                 actionBtnPass.setEnabled(true);
             }
-        });
+        });*/
 
         actionBtnRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
