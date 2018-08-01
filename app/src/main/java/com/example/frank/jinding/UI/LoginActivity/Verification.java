@@ -139,7 +139,7 @@ public class Verification extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
-                login.setEnabled(false);
+
             }
         });
 
@@ -263,6 +263,7 @@ public class Verification extends AppCompatActivity {
         if(TextUtils.isEmpty(username)||TextUtils.isEmpty(password))
         {
             Toast.makeText(Verification.this, "用户账号和密码不能为空", Toast.LENGTH_SHORT).show();
+
         }
         else
         {

@@ -343,7 +343,7 @@ public class SelectEquipment extends AppCompatActivity {
 
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            upload.setEnabled(false);
+                                           // upload.setEnabled(false);
 
                                             sum_tag=0;file_tag=0;text_tag=0;
                                             for (int i = 0; i < mAdapter.listItem.size(); i++) {

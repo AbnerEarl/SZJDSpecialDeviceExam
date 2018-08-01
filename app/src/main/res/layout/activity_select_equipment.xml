@@ -60,7 +60,7 @@
     <include
         android:id="@+id/include"
         layout="@layout/back_title"
-        android:layout_width="385dp"
+        android:layout_width="match_parent"
         android:layout_height="55dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
