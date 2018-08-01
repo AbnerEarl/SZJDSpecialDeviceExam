@@ -36,10 +36,10 @@ public class ReportRule {
         }
         //施工升降机
         if (deviceTypeId .trim().equals( "3")) {
-//            if(projectAddressFlag == "1")
-//                report = "szjdBzQz17";
-//            else
-            report = "SzjdBzQz22";
+            if(checkTypeId.equals("3"))
+                report = "SzjdBzQz17";
+            else
+                report = "SzjdBzQz22";
         }
         //卷扬机、电动葫芦和流式起重机
         if (deviceTypeId == "5" || deviceTypeId == "6" || deviceTypeId == "8") {
