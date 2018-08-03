@@ -149,7 +149,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.CheckerActivity.Checker" />
+        <activity android:name=".UI.CheckerActivity.Checker"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            />
         <activity
             android:name=".UI.PublicMethodActivity.TestTask"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
@@ -217,7 +219,9 @@
             android:name=".UI.SurveyorsActivity.Surveyor" />
         <activity
             android:exported="true"
-            android:name=".UI.TechnicorActivity.TechnicalDirector" />
+            android:name=".UI.TechnicorActivity.TechnicalDirector"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            />
         <activity
             android:exported="true"
             android:name=".UI.DepartorActivity.DepartmentHead" />

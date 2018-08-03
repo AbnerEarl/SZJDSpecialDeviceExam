@@ -83,6 +83,7 @@ public class OrderSelectActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
         orderStatusTag=0;
         submissionOrderList.clear();
         seqList.clear();
@@ -96,6 +97,8 @@ public class OrderSelectActivity extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onResume();
         init();
+        initView();
+
     }
 
 
@@ -118,8 +121,10 @@ public class OrderSelectActivity extends AppCompatActivity {
         image_back = (ImageView) this.findViewById(R.id.image_back);
         btn_submit = (Button) this.findViewById(R.id.btn_submit);
         listView_order = (ListView) this.findViewById(R.id.listview_order);
+
         spinner_order = (NiceSpinner) this.findViewById(R.id.spinner_order);
         spinner_order.attachDataSource(NiceSpinner);
+
     }
 
     private void getNotApplyOrder() {
@@ -133,9 +138,11 @@ public class OrderSelectActivity extends AppCompatActivity {
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 if (response != null) {
+                    submissionOrderList.clear();
                     JSONArray jsonArray = JSONObject.parseArray(response);
                     for (Object object : jsonArray) {
                         JSONObject jsonObject = (JSONObject) object;
+
                         submissionOrderList.add(jsonObject);
                     }
                 }
@@ -177,6 +184,7 @@ public class OrderSelectActivity extends AppCompatActivity {
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 if (response != null) {
+                    submissionOrderList.clear();
                     JSONArray jsonArray = JSONObject.parseArray(response);
                     for (Object object : jsonArray) {
                         JSONObject jsonObject = (JSONObject) object;

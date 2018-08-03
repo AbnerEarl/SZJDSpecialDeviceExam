@@ -92,6 +92,13 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                             checkFinance();
                         }
                     });
+                    lvTasksss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            checkItemPosition=position;
+                            checkFinance();
+                        }
+                    });
                 } else if (searchContentSpinner.getSelectedItem().toString().equals("已审核财务异动历史")){
                     mode = 4;
                     mAdapter = new FinanceAdapter(DepartmentHeaderFinance.this, mapList, 4);
@@ -103,6 +110,13 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                             Log.i("checkDetail","onClick");
                             checkDetail();
 
+                        }
+                    });
+                    lvTasksss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            checkItemPosition=position;
+                            checkDetail();
                         }
                     });
                     loadData();

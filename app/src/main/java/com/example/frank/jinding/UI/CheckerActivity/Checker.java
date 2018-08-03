@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -52,7 +53,8 @@ public class Checker extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ListView lv_tasksss;
     private SwipeRefreshLayout refreshLayout;
-
+    private ImageButton back;
+    private TextView title;
     private FloatingActionButton fab;
     private String messageString;
     private Snackbar snackbar;
@@ -180,6 +182,15 @@ public class Checker extends AppCompatActivity {
         lv_tasksss = (ListView) this.findViewById(R.id.lv_tasksss_ch);
         mySpinner = (NiceSpinner) findViewById(R.id.spinner3_ch);
         refreshLayout=(SwipeRefreshLayout) findViewById(R.id.refresh_submission_ch);
+        back=(ImageButton)findViewById(R.id.titleback);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        title=(TextView)findViewById(R.id.titleplain);
+        title.setText("派工管理");
 
         Log.i("init","test");
         submissionOrderList=new ArrayList<>();
