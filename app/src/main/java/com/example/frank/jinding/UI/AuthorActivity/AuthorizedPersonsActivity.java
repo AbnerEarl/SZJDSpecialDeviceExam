@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class AuthorizedPersonsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private long mExitTime = 0;
     private PermissMyAdapter permissMyAdapter;
+    private SwipeRefreshLayout refreshLayout;
     private MyAdapterMessage myAdapter;
     private ListView lv_message;
     @Override
@@ -57,6 +59,14 @@ public class AuthorizedPersonsActivity extends AppCompatActivity
 
         //绑定控件
         lv_message = (ListView) this.findViewById(R.id.lv_authorized_messages);
+        refreshLayout=(SwipeRefreshLayout)this.findViewById(R.id.authorized_refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                getMessageInfo();
+            }
+        });
         myAdapter=new MyAdapterMessage(this);
         lv_message.setAdapter(myAdapter);
 
@@ -303,6 +313,7 @@ public class AuthorizedPersonsActivity extends AppCompatActivity
 
                         @Override
                         public void onNext(Object tag, String response) {
+                            refreshLayout.setRefreshing(false);
 
                             if (!response.trim().equals("获取失败！")&&response.trim().length()>3) {
 

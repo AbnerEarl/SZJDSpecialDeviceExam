@@ -70,7 +70,7 @@ public class OrderSearch extends AppCompatActivity {
         if (requestCode==0x01)
         title.setText("订单查看");
         else if (requestCode==0x02)
-            title.setText("订单修改");
+            title.setText("订单查看");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,10 +266,10 @@ public class OrderSearch extends AppCompatActivity {
         processDialog.setView(processView);
         processDialog.show();
         Map<String, Object> map = new HashMap<>();
-        if (requestCode==0x02){
-            //只查询待审核订单
-            map.put("orderStatus","01");
-        }
+//        if (requestCode==0x02){
+//            //只查询待审核订单
+//            map.put("orderStatus","01");
+//        }
         if (startdate.getText() != null)
             map.put("startDate", startdate.getText().toString());
         if (enddate.getText() != null)

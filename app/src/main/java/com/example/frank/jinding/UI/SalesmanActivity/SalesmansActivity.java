@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class SalesmansActivity extends AppCompatActivity
     private PermissMyAdapter permissMyAdapter;
     private MyAdapterMessage myAdapter;
     private ListView lv_message;
+    private SwipeRefreshLayout refreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class SalesmansActivity extends AppCompatActivity
 
         //绑定控件
         lv_message = (ListView) this.findViewById(R.id.lv_salesmans_messages);
+        refreshLayout=(SwipeRefreshLayout)this.findViewById(R.id.salesman_refresh);
         myAdapter=new MyAdapterMessage(this);
         lv_message.setAdapter(myAdapter);
 
@@ -80,6 +83,13 @@ public class SalesmansActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         getMessageInfo();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                getMessageInfo();
+            }
+        });
 
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -257,14 +267,15 @@ public class SalesmansActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_searchorder3) {
             Intent intent=new Intent(SalesmansActivity.this,OrderSearch.class);
-            intent.putExtra("requestCode",0x01);
-            startActivity(intent);
-
-        } else if (id==R.id.nav_updateorder3){
-            Intent intent=new Intent(SalesmansActivity.this,OrderSearch.class);
             intent.putExtra("requestCode",0x02);
             startActivity(intent);
+
         }
+//        else if (id==R.id.nav_updateorder3){
+//            Intent intent=new Intent(SalesmansActivity.this,OrderSearch.class);
+//            intent.putExtra("requestCode",0x02);
+//            startActivity(intent);
+//        }
         else if (id == R.id.nav_messageinfo3) {
             Intent intent=new Intent(SalesmansActivity.this,MessageInform.class);
             //intent.putExtra("userid",userid);
@@ -291,6 +302,7 @@ public class SalesmansActivity extends AppCompatActivity
 
 
     private void getMessageInfo(){
+        refreshLayout.setRefreshing(false);
 
         new Thread(new Runnable() {
             @Override
