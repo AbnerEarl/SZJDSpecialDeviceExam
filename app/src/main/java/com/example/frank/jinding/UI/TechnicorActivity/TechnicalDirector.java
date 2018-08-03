@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,12 +37,16 @@ public class TechnicalDirector extends AppCompatActivity {
     private MyAdapter waitAdapter;
     private MyAdapterO confirmAdapter;
     private ListView lv_tasksss;
+    private ImageButton back;
+    private TextView title;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_technical_director);
+        back=(ImageButton)this.findViewById(R.id.titleback);
+        title=(TextView)this.findViewById(R.id.titleplain);
 
 
         lv_tasksss = (ListView) this.findViewById(R.id.lv_technical_wait_opinion);
@@ -60,11 +65,19 @@ public class TechnicalDirector extends AppCompatActivity {
 
         if (tag.equals("0")){
             lv_tasksss.setAdapter(waitAdapter);//为ListView绑定Adapter
+            title.setText("待审核意见");
             getData("0");
         }else if (tag.equals("1")){
             lv_tasksss.setAdapter(confirmAdapter);
+            title.setText("已审核意见");
             getData("1");
         }
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // /*为ListView添加点击事件*/
         lv_tasksss.setOnItemClickListener(new AdapterView.OnItemClickListener() {

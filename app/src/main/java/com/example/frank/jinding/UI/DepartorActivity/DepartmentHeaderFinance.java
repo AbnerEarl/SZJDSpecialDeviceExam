@@ -28,11 +28,8 @@ import com.example.frank.jinding.Service.ApiService;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
-import org.angmarch.views.NiceSpinner;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,9 +41,9 @@ import butterknife.OnClick;
 public class DepartmentHeaderFinance extends AppCompatActivity {
 
     @BindView(R.id.search_content_spinner)
-    NiceSpinner searchContentSpinner;
+    Spinner searchContentSpinner;
     @BindView(R.id.applicant_spinner)
-    NiceSpinner applicantSpinner;
+    Spinner applicantSpinner;
     @BindView(R.id.search_history)
     ImageButton searchHistory;
     @BindView(R.id.lv_tasksss)
@@ -62,9 +59,6 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
     private int mode = 3;
     private boolean initFirst = true;
     private int checkItemPosition=-1;
-    private List<String>NiceSpinner;
-    private List<String>NiceSpinner_Nice;
-    private String Type=null;
     AlertDialog checkDetailDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -75,29 +69,17 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
         ButterKnife.bind(this);
         initData();
         initView();
-        mode = 3;
-        mAdapter = new FinanceAdapter(DepartmentHeaderFinance.this, mapList, mode);
-        lvTasksss.setAdapter(mAdapter);
-        loadData();
-        mAdapter.setClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("check","onClick");
-                checkItemPosition=(Integer) v.getTag();
-                checkFinance();
-            }
-        });
     }
 
     private void initView() {
         titleplain.setText("财务异动");
-        //searchContentSpinner.setAdapter(mSearchContentAdapter);
-        //applicantSpinner.setAdapter(mApplicantAdapter);
+        searchContentSpinner.setAdapter(mSearchContentAdapter);
+        applicantSpinner.setAdapter(mApplicantAdapter);
         searchContentSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (NiceSpinner.get(position).toString().equals("待审核财务异动申请")) {
+                if (searchContentSpinner.getSelectedItem().toString().equals("待审核财务异动申请")) {
                     mode = 3;
                     mAdapter = new FinanceAdapter(DepartmentHeaderFinance.this, mapList, mode);
                     lvTasksss.setAdapter(mAdapter);
@@ -110,7 +92,14 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                             checkFinance();
                         }
                     });
-                } else if (NiceSpinner.get(position).toString().equals("已审核财务异动历史")){
+                    lvTasksss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            checkItemPosition=position;
+                            checkFinance();
+                        }
+                    });
+                } else if (searchContentSpinner.getSelectedItem().toString().equals("已审核财务异动历史")){
                     mode = 4;
                     mAdapter = new FinanceAdapter(DepartmentHeaderFinance.this, mapList, 4);
                     lvTasksss.setAdapter(mAdapter);
@@ -121,6 +110,13 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                             Log.i("checkDetail","onClick");
                             checkDetail();
 
+                        }
+                    });
+                    lvTasksss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            checkItemPosition=position;
+                            checkDetail();
                         }
                     });
                     loadData();
@@ -141,11 +137,9 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
         mSearchContentList = new ArrayList<>();
         mSearchContentList.add("待审核财务异动申请");
         mSearchContentList.add("已审核财务异动历史");
-        NiceSpinner = new LinkedList<String>(mSearchContentList);
-        searchContentSpinner.attachDataSource(NiceSpinner);
-       // mSearchContentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mSearchContentList);
+        mSearchContentAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mSearchContentList);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
-        //mSearchContentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSearchContentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mApplicantList = new ArrayList<>();
 
@@ -162,7 +156,7 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                 .setPositiveButton("通过", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
+                        dialog.dismiss();
                         checkChange(1);
                     }
                 }).setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
@@ -177,8 +171,8 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
     private void checkDetail(){
         View checkView=View.inflate(this,R.layout.finance_check_detail,null);
         initCheckDetailView(checkView);
-         checkDetailDialog=new AlertDialog.Builder(this).setView(checkView).create();
-         checkDetailDialog.show();
+        checkDetailDialog=new AlertDialog.Builder(this).setView(checkView).create();
+        checkDetailDialog.show();
     }
     private void checkChange(int option) {
         EditText et=new EditText(this);
@@ -191,12 +185,12 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
             title="批准财务异动";
         }
 
-         AlertDialog dialog=new AlertDialog.Builder(this).setTitle(title).setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        AlertDialog dialog=new AlertDialog.Builder(this).setTitle(title).setView(et).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String reason=null;
                 if (et.getText()!=null&&!et.getText().toString().equals("")){
-                  reason=et.getText().toString();
+                    reason=et.getText().toString();
                 }
                 commitCheckResult(option,reason);
                 dialog.dismiss();
@@ -217,7 +211,7 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
         applyPerson.setText(mapList.get(checkItemPosition).get("applicantId").toString());
         applyTime.setText(mapList.get(checkItemPosition).get("applicantTime").toString());
         if (mapList.get(checkItemPosition).get("approvalId")!=null)
-        checkPerson.setText(mapList.get(checkItemPosition).get("approvalId").toString());
+            checkPerson.setText(mapList.get(checkItemPosition).get("approvalId").toString());
         checkTime.setText(mapList.get(checkItemPosition).get("approvalTime").toString());
         result.setText(mapList.get(checkItemPosition).get("applicationStatus").toString());
         if (mapList.get(checkItemPosition).get("applicationRemark")!=null){
@@ -264,7 +258,7 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
 
             @Override
             public void onError(Object tag, Throwable e) {
-              showToastShort(e.getMessage());
+                showToastShort(e.getMessage());
             }
 
             @Override
@@ -278,26 +272,26 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
         mapList.clear();
         Map<String, Object> p = new HashMap<>();
         p.put("option", mode-3);
-        if (Type != null && !Type.equals("")) {
-           Applicant applicant=mApplicantList.stream().filter((item)->item.getName().equals(Type.toString())).findFirst().orElse(null);
+        if (applicantSpinner.getSelectedItem() != null && !applicantSpinner.getSelectedItem().equals("")) {
+            Applicant applicant=mApplicantList.stream().filter((item)->item.getName().equals(applicantSpinner.getSelectedItem().toString())).findFirst().orElse(null);
             p.put("applicant_id", applicant.getId());
         }
         ApiService.GetString(this, "searchReviewExceptionResult", p, new RxStringCallback() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onNext(Object tag, String response) {
-                if (response != null && !response.equals("")&&(response.contains("financialList")||response.contains("manList"))) {
+                if (response != null && !response.equals("")) {
 
                     try {
                         JSONObject jsonObject = JSONObject.parseObject(response);
                         if (response.contains("financialList")){
-                        List<Map<String, Object>> financialTmp = (List<Map<String, Object>>) jsonObject.get("financialList");
-                        if (financialTmp != null&&financialTmp.size()>0) {
-                            for (Map<String, Object> item : financialTmp)
-                                mapList.add(item);
-                        } else {
-                            showToastShort("暂无待审核财务异动");
-                        }
+                            List<Map<String, Object>> financialTmp = (List<Map<String, Object>>) jsonObject.get("financialList");
+                            if (financialTmp != null&&financialTmp.size()>0) {
+                                for (Map<String, Object> item : financialTmp)
+                                    mapList.add(item);
+                            } else {
+                                showToastShort("暂无待审核财务异动");
+                            }
                         }
                         if (initFirst&&response.contains("manList")) {
                             L.e("执行了业务员查询方法");
@@ -314,25 +308,11 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                                 else
                                     continue;
                             }
-                            NiceSpinner_Nice=new LinkedList<String>(mApplicantList.stream().map((item)->item.getName()).collect(Collectors.toList()));
-                            applicantSpinner.attachDataSource(NiceSpinner_Nice);
-                            applicantSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                @Override
-                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    Type=NiceSpinner_Nice.get(position);
-                                }
-
-                                @Override
-                                public void onNothingSelected(AdapterView<?> parent) {
-
-                                }
-                            });
-
-                            //mApplicantAdapter = new ArrayAdapter<String>(DepartmentHeaderFinance.this, android.R.layout.simple_spinner_item, mApplicantList.stream().map((item)->item.getName()).collect(Collectors.toList()));
+                            mApplicantAdapter = new ArrayAdapter<String>(DepartmentHeaderFinance.this, android.R.layout.simple_spinner_item, mApplicantList.stream().map((item)->item.getName()).collect(Collectors.toList()));
                             //第三步：为适配器设置下拉列表下拉时的菜单样式。
-                            //mApplicantAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            //applicantSpinner.setAdapter(mApplicantAdapter);
-                           // mApplicantAdapter.notifyDataSetChanged();
+                            mApplicantAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            applicantSpinner.setAdapter(mApplicantAdapter);
+                            mApplicantAdapter.notifyDataSetChanged();
                         }
 
                         mAdapter.notifyDataSetChanged();

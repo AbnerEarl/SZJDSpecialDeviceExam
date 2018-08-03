@@ -123,6 +123,7 @@ public class FinanceAdapter extends BaseAdapter{
                 holder.person.setText(listItem.get(position).get("approvalId").toString());
             holder.status.setText(statusStr);
         }
+
         holder.checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

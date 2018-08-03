@@ -116,6 +116,16 @@ public class SalesmanFinance extends AppCompatActivity {
                     mAdapter = new FinanceAdapter(SalesmanFinance.this, mapList, mode);
                     lvTasksss.setAdapter(mAdapter);
                     loadData();
+                    lvTasksss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            clickedItem=(Integer) position;
+                            View checkView=View.inflate(SalesmanFinance.this,R.layout.finance_check_detail,null);
+                            initCheckDetailView(checkView);
+                            checkDetailDialog=new AlertDialog.Builder(SalesmanFinance.this).setView(checkView).create();
+                            checkDetailDialog.show();
+                        }
+                    });
                     mAdapter.setClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

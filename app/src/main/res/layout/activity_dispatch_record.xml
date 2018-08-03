@@ -68,15 +68,20 @@
             android:layout_height="wrap_content"
             android:text="委托单位: "
             android:layout_gravity="center_vertical"/>
-        <EditText
-            android:layout_weight="2"
-            android:id="@+id/submission_history_org"
+        <LinearLayout
             android:layout_marginLeft="5dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:focusable="false"
+            android:focusable="true"
+            android:layout_weight="2"
+            android:focusableInTouchMode="true">
+        <EditText
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/submission_history_org"
             android:background="@drawable/divider_line_bottom"/>
+        </LinearLayout>
         <Button
             android:layout_weight="1.2"
 

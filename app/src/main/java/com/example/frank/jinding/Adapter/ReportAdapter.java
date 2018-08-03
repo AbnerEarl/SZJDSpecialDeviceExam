@@ -122,11 +122,11 @@ public class ReportAdapter extends BaseAdapter{
         return convertView;
     }
 
-  /*  @Override
-    public void onClick(View v) {
-        int position=(Integer) v.getTag();
-         initReportView(position);
-    }*/
+    /*  @Override
+      public void onClick(View v) {
+          int position=(Integer) v.getTag();
+           initReportView(position);
+      }*/
     public void initReportView(int position){
         View view=View.inflate(context,R.layout.report_detail_dialog,null);
         TextView firstPersonFrontTv=view.findViewById(R.id.report_first_front);
@@ -136,8 +136,8 @@ public class ReportAdapter extends BaseAdapter{
         TextView secondPersonFrontTv=view.findViewById(R.id.report_second_person_front);
         TextView secondPerson=view.findViewById(R.id.report_second_person);
         TextView secondTime=view.findViewById(R.id.second_time);
-         LinearLayout thirdPersonLayout=view.findViewById(R.id.third_person_layout);
-         LinearLayout thirdTimeLayout=view.findViewById(R.id.third_time_layout);
+        LinearLayout thirdPersonLayout=view.findViewById(R.id.third_person_layout);
+        LinearLayout thirdTimeLayout=view.findViewById(R.id.third_time_layout);
         TextView thirdPerson=view.findViewById(R.id.report_third_person);
         TextView thirdTime=view.findViewById(R.id.third_time);
         LinearLayout fourthPersonLayout=view.findViewById(R.id.fourth_person_layout);
@@ -221,7 +221,7 @@ public class ReportAdapter extends BaseAdapter{
             fourthTime.setText(listItem.get(position).get("approveTime").toString());
 
         }
-         alertDialog=new AlertDialog.Builder(context).setView(view).create();
+        alertDialog=new AlertDialog.Builder(context).setView(view).create();
         alertDialog.show();
 
 
@@ -382,65 +382,65 @@ public class ReportAdapter extends BaseAdapter{
         AlertDialog alertDialog=new AlertDialog.Builder(context).setView(progressBar).create();
         alertDialog.show();
 
-            Map<String, Object> paremetes = new HashMap<>();
-            paremetes.put("data", map_data);
-            ApiService.GetString(activity, "exportReport"+(dd.split("#")[0]), paremetes, new RxStringCallback() {
-                @Override
-                public void onError(Object tag, Throwable e) {
-                    Toast.makeText(context, "查询失败" + e, Toast.LENGTH_SHORT).show();
-                }
+        Map<String, Object> paremetes = new HashMap<>();
+        paremetes.put("data", map_data);
+        ApiService.GetString(activity, "exportReport"+(dd.split("#")[0]), paremetes, new RxStringCallback() {
+            @Override
+            public void onError(Object tag, Throwable e) {
+                Toast.makeText(context, "查询失败" + e, Toast.LENGTH_SHORT).show();
+            }
 
 
-                @Override
-                public void onNext(Object tag, String response) {
-                    System.out.println("报告地址："+response.trim());
-                   if (response!=null&&response.trim().length()>3){
-                        String modifypath=response.replace("\\","/");
-                        String path= URLConfig.ReportURL+modifypath;
-                       //String path= URLConfig.ReportURL+"static/reportExport/tt.doc";
-                       String outFileName=path.substring(path.lastIndexOf("/")+1);
-                       String LocalFileName=savedir+outFileName;
+            @Override
+            public void onNext(Object tag, String response) {
+                System.out.println("报告地址："+response.trim());
+                if (response!=null&&response.trim().length()>3){
+                    String modifypath=response.replace("\\","/");
+                    String path= URLConfig.ReportURL+modifypath;
+                    //String path= URLConfig.ReportURL+"static/reportExport/tt.doc";
+                    String outFileName=path.substring(path.lastIndexOf("/")+1);
+                    String LocalFileName=savedir+outFileName;
 
 
-                       new Thread(new Runnable() {
-                           @Override
-                           public void run() {
-                               File savemk=new File(savedir);
-                               FileDownloader loader = new FileDownloader(context, path, savemk, 3);
-                               try {
-                                   loader.download(new DownloadProgressListener() {
-                                       @Override
-                                       public void onDownloadSize(int size) {//实时获知文件已经下载的数据长度
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            File savemk=new File(savedir);
+                            FileDownloader loader = new FileDownloader(context, path, savemk, 3);
+                            try {
+                                loader.download(new DownloadProgressListener() {
+                                    @Override
+                                    public void onDownloadSize(int size) {//实时获知文件已经下载的数据长度
 
-                                           System.out.println("我的实时下载文件进度："+size);
-                                           if (ThreadAndFileTag.Thread1&&ThreadAndFileTag.Thread2&&ThreadAndFileTag.Thread3){
-                                               getWordFileIntent(LocalFileName);
-                                              alertDialog.dismiss();
-                                           }
+                                        System.out.println("我的实时下载文件进度："+size);
+                                        if (ThreadAndFileTag.Thread1&&ThreadAndFileTag.Thread2&&ThreadAndFileTag.Thread3){
+                                            getWordFileIntent(LocalFileName);
+                                            alertDialog.dismiss();
+                                        }
 
-                                       }
-                                   });
-                               } catch (Exception e) {
+                                    }
+                                });
+                            } catch (Exception e) {
 
-                               }
-                           }
-                       }).start();
+                            }
+                        }
+                    }).start();
 
 
-                    }else {
-                        Toast.makeText(context, "报告获取失败，请再试一次" , Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-
-                @Override
-                public void onCancel(Object tag, Throwable e) {
-                    Toast.makeText(context, "查询失败" + e, Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context, "报告获取失败，请再试一次" , Toast.LENGTH_SHORT).show();
 
                 }
+            }
+
+            @Override
+            public void onCancel(Object tag, Throwable e) {
+                Toast.makeText(context, "查询失败" + e, Toast.LENGTH_SHORT).show();
+
+            }
 
 
-            });
+        });
 
 
 

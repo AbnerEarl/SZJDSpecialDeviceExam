@@ -2,14 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
+        <item
+        android:id="@+id/nav_task"
+        android:icon="@drawable/__picker_ic_photo_black_48dp"
+        android:title="历史订单" />
         <item
             android:id="@+id/nav_order_manage"
             android:icon="?android:attr/actionModePasteDrawable"
-            android:title="订单管理" />
-        <item
-            android:id="@+id/nav_task"
-            android:icon="@drawable/__picker_ic_photo_black_48dp"
-            android:title="历史订单" />
+            android:title="派工管理/查看" />
         <item
             android:id="@+id/nav_instrument"
             android:icon="?android:attr/actionModeCutDrawable"
