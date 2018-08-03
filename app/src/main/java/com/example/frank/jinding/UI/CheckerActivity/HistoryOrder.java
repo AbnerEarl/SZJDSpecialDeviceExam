@@ -411,6 +411,7 @@ public class HistoryOrder extends AppCompatActivity {
                 holder.pnumber = (TextView) convertView.findViewById(R.id.dispatching_projectName);
                 holder.paddress = (TextView) convertView.findViewById(R.id.sendPlace);
                 holder.pdate = (TextView) convertView.findViewById(R.id.actual_time);
+                holder.pstatus=(TextView)convertView.findViewById(R.id.order_status);
 //                holder.bt_chakan = (Button) convertView.findViewById(R.id.button_chakan);
 //                holder.bt_beizhu=(Button) convertView.findViewById(R.id.button_beizhu);
 
@@ -428,6 +429,7 @@ public class HistoryOrder extends AppCompatActivity {
             Log.i("projectAddress",listItem.get(position).get("projectAddress").toString());
 
 
+
             holder.pdate.setText(listItem.get(position).get("checkTime").toString());
 
             return convertView;
@@ -436,7 +438,7 @@ public class HistoryOrder extends AppCompatActivity {
     }
     /*存放控件*/
     public final class ViewHolderO{
-        public TextView pname,pnumber,paddress,pdate;
+        public TextView pname,pnumber,paddress,pdate,pstatus;
 //        public Button bt_chakan;
 //        public Button bt_beizhu;
     }

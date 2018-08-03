@@ -27,22 +27,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/include2000" />
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="16dp"
-               >
+            <!--<android.support.v7.widget.CardView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="8dp"-->
+                <!--app:cardCornerRadius="16dp"-->
+               <!--&gt;-->
 
-                <org.angmarch.views.NiceSpinner
-                    android:id="@+id/spinner3_ch"
-                    style="@android:style/Theme.Light"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                  android:layout_margin="8dp"
+                <!--<org.angmarch.views.NiceSpinner-->
+                    <!--android:id="@+id/spinner3_ch"-->
+                    <!--style="@android:style/Theme.Light"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                  <!--android:layout_margin="8dp"-->
 
-                    />
-            </android.support.v7.widget.CardView>
+                    <!--/>-->
+            <!--</android.support.v7.widget.CardView>-->
 
 
             <ListView

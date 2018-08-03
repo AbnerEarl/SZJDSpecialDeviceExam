@@ -88,7 +88,10 @@ public class OrderCheck extends AppCompatActivity implements CallBack{
         titlerightadd.setOnClickListener(new View.OnClickListener() {
                                              @Override
                                              public void onClick(View view) {
-                                           addAndUpdateConsignment(null);
+                                                 if(consignmentList.size()==0)
+                                                     addAndUpdateConsignment(null);
+                                                 else
+                                                     Toast.makeText(OrderCheck.this,"只能添加一种协议",Toast.LENGTH_SHORT).show();
                                              }
                                          });
 

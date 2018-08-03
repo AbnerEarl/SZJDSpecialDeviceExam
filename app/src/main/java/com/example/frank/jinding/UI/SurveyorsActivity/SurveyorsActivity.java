@@ -12,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +53,7 @@ public class SurveyorsActivity extends AppCompatActivity
     private PermissMyAdapter permissMyAdapter;
     private MyAdapterMessage myAdapter;
     private ListView lv_message;
+    private SwipeRefreshLayout refreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +95,14 @@ public class SurveyorsActivity extends AppCompatActivity
 
         //绑定控件
         lv_message = (ListView) this.findViewById(R.id.lv_surveyors_messages);
+        refreshLayout=(SwipeRefreshLayout)this.findViewById(R.id.Surveyor_refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                getMessageInfo();
+            }
+        });
         myAdapter=new MyAdapterMessage(this);
         lv_message.setAdapter(myAdapter);
 
@@ -334,6 +344,7 @@ public class SurveyorsActivity extends AppCompatActivity
 
                         @Override
                         public void onNext(Object tag, String response) {
+                            refreshLayout.setRefreshing(false);
 
                             if (!response.trim().equals("获取失败！")&&response.trim().length()>3) {
 

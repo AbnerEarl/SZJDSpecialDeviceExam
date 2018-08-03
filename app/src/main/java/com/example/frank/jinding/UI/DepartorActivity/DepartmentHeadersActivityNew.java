@@ -12,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +57,7 @@ public class DepartmentHeadersActivityNew extends AppCompatActivity
     private List<String> mSpinnerList;
     private static   boolean permissioned=true;
     private PermissMyAdapter permissMyAdapter;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,10 +88,18 @@ public class DepartmentHeadersActivityNew extends AppCompatActivity
         permissioned=true;
         //绑定控件
         lv_message = (ListView) this.findViewById(R.id.lv_checker_messages);
+        refreshLayout=(SwipeRefreshLayout)this.findViewById(R.id.department_refresh);
         myAdapter=new MyAdapter(DepartmentHeadersActivityNew.this);
         lv_message.setAdapter(myAdapter);
 
         getMessageInfo();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                getMessageInfo();
+            }
+        });
 
 
         // /*为ListView添加点击事件*/
@@ -134,6 +144,7 @@ public class DepartmentHeadersActivityNew extends AppCompatActivity
 
     private void getMessageInfo(){
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -148,6 +159,7 @@ public class DepartmentHeadersActivityNew extends AppCompatActivity
 
                         @Override
                         public void onNext(Object tag, String response) {
+                            refreshLayout.setRefreshing(false);
 
                             if (!response.trim().equals("获取失败！")&&response.trim().length()>3) {
 
@@ -180,14 +192,14 @@ public class DepartmentHeadersActivityNew extends AppCompatActivity
                         @Override
                         public void onError(Object tag, Throwable e) {
                             Toast.makeText(DepartmentHeadersActivityNew.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
-                            //refreshLayout.setRefreshing(false);
+                            refreshLayout.setRefreshing(false);
 
                         }
 
                         @Override
                         public void onCancel(Object tag, Throwable e) {
                             Toast.makeText(DepartmentHeadersActivityNew.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
-                            //refreshLayout.setRefreshing(false);
+                            refreshLayout.setRefreshing(false);
                         }
                     });
 

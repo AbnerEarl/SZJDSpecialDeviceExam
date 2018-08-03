@@ -10,10 +10,10 @@
             android:id="@+id/nav_searchorder3"
             android:icon="@android:drawable/ic_menu_search"
             android:title="查看订单" />
-        <item
-            android:id="@+id/nav_updateorder3"
-            android:icon="@android:drawable/ic_menu_edit"
-            android:title="修改订单"/>
+        <!--<item-->
+            <!--android:id="@+id/nav_updateorder3"-->
+            <!--android:icon="@android:drawable/ic_menu_edit"-->
+            <!--android:title="修改订单"/>-->
         <item
             android:id="@+id/nav_finance"
             android:icon="@android:drawable/ic_menu_today"

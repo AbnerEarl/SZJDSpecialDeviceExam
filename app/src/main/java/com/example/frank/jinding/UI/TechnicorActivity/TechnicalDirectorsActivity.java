@@ -13,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +52,7 @@ public class TechnicalDirectorsActivity extends AppCompatActivity
     private PermissMyAdapter permissMyAdapter;
     private MyAdapterMessage myAdapter;
     private ListView lv_message;
+    private SwipeRefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +99,18 @@ public class TechnicalDirectorsActivity extends AppCompatActivity
 
         //绑定控件
         lv_message = (ListView) this.findViewById(R.id.lv_technical_messages);
+        refreshLayout=(SwipeRefreshLayout)this.findViewById(R.id.technical_refresh);
         myAdapter=new MyAdapterMessage(this);
         lv_message.setAdapter(myAdapter);
 
         getMessageInfo();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                getMessageInfo();
+            }
+        });
 
 
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -320,6 +330,7 @@ public class TechnicalDirectorsActivity extends AppCompatActivity
 
 
     private void getMessageInfo(){
+        refreshLayout.setRefreshing(false);
 
         new Thread( new Runnable() {
             @Override

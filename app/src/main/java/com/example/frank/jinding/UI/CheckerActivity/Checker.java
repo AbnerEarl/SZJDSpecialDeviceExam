@@ -72,62 +72,65 @@ public class Checker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_checkers_order);
         currentList = 1;
-        getData(currentList);
+
 
 
 
         init();
         //第一步：添加一个下拉列表项的list，这里添加的项就是下拉列表的菜单项
-        list.add("待确认派工");
-        list.add("已确认派工");
-        list.add("已成立派工");
-        list.add("已拒绝派工");
+//        list.add("待确认派工");
+//        list.add("已确认派工");
+//        list.add("已成立派工");
+//        list.add("已拒绝派工");
+        currentList = 1;
+        getData(currentList);
 
         //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
        // adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        NiceSpinner = new LinkedList<String>(list);
-        //第四步：将适配器添加到下拉列表上
-        mySpinner.attachDataSource(NiceSpinner);
-        //mySpinner.setSelection(0,false);
-        //第五步：为下拉列表设置各种事件的响应，这个事响应菜单被选中
-
-
-        mySpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                //  TODO  Auto-generated  method  stub
-                /*  将所选mySpinner  的值带入myTextView  中*/
-
-                if ("待确认派工".equals(NiceSpinner.get(arg2).toString())) {
-                    //waitAdapter = new MyAdapter(CheckersActivity.this);//得到一个MyAdapter对象
-                    Log.i("待确认派工",""+currentList);
-                    currentList = 1;
-                    getData(currentList);
-                } else if ("已确认派工".equals(NiceSpinner.get(arg2).toString())) {
-
-                    currentList = 2;
-                    getData(currentList);
-                    //为ListView绑定Adapter
-                } else if ("已成立派工".equals(NiceSpinner.get(arg2).toString())) {
-                    currentList = 3;
-                    getData(currentList);//为ListView绑定Adapter
-                } else if ("已拒绝派工".equals(NiceSpinner.get(arg2).toString())) {
-                    currentList = 4;
-                    getData(currentList);
-                }
-                Type=NiceSpinner.get(arg2);
-
-
-            }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-                //  TODO  Auto-generated  method  stub
-                //myTextView.setText("NONE");
-            }
-
-        });
+        Type="待确认派工";
+//        NiceSpinner = new LinkedList<String>(list);
+//        //第四步：将适配器添加到下拉列表上
+//        mySpinner.attachDataSource(NiceSpinner);
+//
+//        //mySpinner.setSelection(0,false);
+//        //第五步：为下拉列表设置各种事件的响应，这个事响应菜单被选中
+//
+//
+////        mySpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+////            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+////                //  TODO  Auto-generated  method  stub
+////                /*  将所选mySpinner  的值带入myTextView  中*/
+////
+////                if ("待确认派工".equals(NiceSpinner.get(arg2).toString())) {
+////                    //waitAdapter = new MyAdapter(CheckersActivity.this);//得到一个MyAdapter对象
+////                    Log.i("待确认派工",""+currentList);
+////                    currentList = 1;
+////                    getData(currentList);
+////                } else if ("已确认派工".equals(NiceSpinner.get(arg2).toString())) {
+////
+////                    currentList = 2;
+////                    getData(currentList);
+////                    //为ListView绑定Adapter
+////                } else if ("已成立派工".equals(NiceSpinner.get(arg2).toString())) {
+////                    currentList = 3;
+////                    getData(currentList);//为ListView绑定Adapter
+////                } else if ("已拒绝派工".equals(NiceSpinner.get(arg2).toString())) {
+////                    currentList = 4;
+////                    getData(currentList);
+////                }
+////                Type=NiceSpinner.get(arg2);
+////
+////
+////            }
+//
+//            public void onNothingSelected(AdapterView<?> arg0) {
+//                //  TODO  Auto-generated  method  stub
+//                //myTextView.setText("NONE");
+//            }
+//
+//        });
 
 
 
@@ -180,7 +183,7 @@ public class Checker extends AppCompatActivity {
 
         //绑定控件
         lv_tasksss = (ListView) this.findViewById(R.id.lv_tasksss_ch);
-        mySpinner = (NiceSpinner) findViewById(R.id.spinner3_ch);
+//        mySpinner = (NiceSpinner) findViewById(R.id.spinner3_ch);
         refreshLayout=(SwipeRefreshLayout) findViewById(R.id.refresh_submission_ch);
         back=(ImageButton)findViewById(R.id.titleback);
         back.setOnClickListener(new View.OnClickListener() {

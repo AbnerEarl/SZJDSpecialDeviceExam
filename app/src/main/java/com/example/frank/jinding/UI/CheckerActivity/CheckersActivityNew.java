@@ -13,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -57,6 +58,7 @@ public class CheckersActivityNew extends AppCompatActivity
     private FloatingActionButton fab;
     private String messageString;
     private Snackbar snackbar;
+    private SwipeRefreshLayout refreshLayout;
 
     private int currentList = 0;
 
@@ -111,7 +113,15 @@ public class CheckersActivityNew extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.department_refresh);
         messageString="暂时还没有消息哦！";
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(true);
+                getMessageInfo();
+            }
+        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +169,7 @@ public class CheckersActivityNew extends AppCompatActivity
 
 
     public void getMessageInfo(){
+        refreshLayout.setRefreshing(false);
 
         new Thread(new Runnable() {
             @Override
