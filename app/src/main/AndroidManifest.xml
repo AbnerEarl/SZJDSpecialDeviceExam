@@ -163,228 +163,221 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.SpotSelect"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
-            android:name=".UI.CheckerActivity.InputNumberSelect" />
+            android:name=".UI.CheckerActivity.InputNumberSelect"
+            android:exported="true" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.SelectEquipment"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".UI.CheckerActivity.Equipment_Recorde"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true"
-            />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".UI.CheckerActivity.Opinion_Recorde"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true"
-            />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".UI.PersonAboutActivity.PersonInformation"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true"
-            />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".UI.PersonAboutActivity.MessageInform"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true"
-            />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".UI.WebBrowser.ApplicationLoad"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:exported="true"
-            />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".UI.CheckerActivity.ResultOpinion"
+            android:exported="true"
             android:label="检测意见审核结果"
-            android:theme="@style/Theme.AppCompat.DayNight"
-            android:exported="true"
-            />
-        <activity android:name=".UI.WebBrowser.WebBrowser"
-            android:exported="true"
-            />
+            android:theme="@style/Theme.AppCompat.DayNight" />
+        <activity
+            android:name=".UI.WebBrowser.WebBrowser"
+            android:exported="true" />
         <activity
             android:name=".UI.LoginActivity.Login"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="true"
-            />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:exported="true"
-            android:name=".UI.SurveyorsActivity.Surveyor" />
+            android:name=".UI.SurveyorsActivity.Surveyor"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".UI.TechnicorActivity.TechnicalDirector" />
+            android:name=".UI.TechnicorActivity.TechnicalDirector"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".UI.DepartorActivity.DepartmentHead" />
+            android:name=".UI.DepartorActivity.DepartmentHead"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".UI.SalesmanActivity.Salesman" />
+            android:name=".UI.SalesmanActivity.Salesman"
+            android:exported="true" />
         <activity
-            android:exported="true"
             android:name=".UI.LoginActivity.Verification"
+            android:exported="true"
             android:label="用户登录" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.SelectOrder"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
-            android:name=".UI.AuthorActivity.AuthorizedPerson" />
+            android:name=".UI.AuthorActivity.AuthorizedPerson"
+            android:exported="true" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.CheckersActivity"
+            android:exported="true"
             android:label="@string/system_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.CheckersActivityNew"
+            android:exported="true"
             android:label="@string/system_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.CheckOrderDetails"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.PublicMethodActivity.OrderDetails"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.CheckOpinion"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.SurveyorsActivity.SurveyorsActivity"
+            android:exported="true"
             android:label="@string/system_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.TechnicorActivity.TechnicalDirectorsActivity"
+            android:exported="true"
             android:label="@string/system_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.SalesmanActivity.SalesmansActivity"
+            android:exported="true"
             android:label="@string/system_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.AuthorActivity.AuthorizedPersonsActivity"
+            android:exported="true"
             android:label="@string/system_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.DepartorActivity.DepartmentHeadersActivity"
+            android:exported="true"
             android:label="@string/system_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.DepartorActivity.DepartmentHeadersActivityNew"
+            android:exported="true"
             android:label="@string/system_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
-            android:name=".UI.CheckerActivity.PictureCompress" />
+            android:name=".UI.CheckerActivity.PictureCompress"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".View.UniversalLocalActivity" />
+            android:name=".View.UniversalLocalActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".View.GetNetImage" />
+            android:name=".View.GetNetImage"
+            android:exported="true" />
         <activity
-            android:exported="true"
             android:name=".UI.DepartorActivity.Dispatching"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.DepartorActivity.DispatchRecord"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.SalesmanActivity.AddOrder"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.TechnicorActivity.InspectionReport"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <!--
             <activity android:name="com.dynamixsoftware.printershare.ActivityPrintPDF"
             android:exported="true"></activity>
         -->
         <activity
-            android:exported="true"
             android:name=".UI.PublicMethodActivity.WaitForCheck_Activity"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.PublicMethodActivity.ViewReport"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
-            android:name=".Zxing.activity.CaptureActivity" />
+            android:name=".Zxing.activity.CaptureActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".UI.SalesmanActivity.AddOrderInformation" />
+            android:name=".UI.SalesmanActivity.AddOrderInformation"
+            android:exported="true" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.Check_Order_Details"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.HistoryOrder"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.OperationProcess"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.OrderCheck"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.PublicMethodActivity.ProtocolDetails"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.InfomationCheck"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.TechnicorActivity.TechnicalViewDetails"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.TechnicorActivity.TechnicalViewDevice"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.PublicMethodActivity.TaskDetails"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.CheckStartProtocl"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.CheckStartDevice"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.CheckReport"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.LoginActivity.RolePermission"
+            android:exported="true"
             android:label="请选择角色" />
         <activity
-            android:exported="true"
             android:name=".UI.CheckerActivity.OrderSelectActivity"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <service
@@ -398,31 +391,31 @@
         </service>
 
         <activity
-            android:exported="true"
             android:name=".UI.PublicMethodActivity.OrderSearch"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.PersonAboutActivity.EvaluateActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".Print.PrintActivity"
+            android:exported="true"
             android:label="蓝牙打印"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.DepartorActivity.SubmissionOrderDetails"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.TechnicorActivity.TDCheckOrder"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 消息通知，入口窗体，启用或测试可以参照 -->
         <activity
-            android:exported="true"
             android:name=".PushMessage.MainActivity"
+            android:exported="true"
             android:label="@string/app_name">
 
             <!--
@@ -434,13 +427,13 @@
         </activity>
         <!-- For test only 测试高级功能 -->
         <activity
-            android:exported="true"
             android:name=".PushMessage.PushSetActivity"
+            android:exported="true"
             android:label="@string/app_name" />
         <!-- For test only 测试设置 -->
         <activity
-            android:exported="true"
             android:name=".PushMessage.SettingActivity"
+            android:exported="true"
             android:label="@string/app_name" />
         <!-- For test only 测试状态通知栏，需要打开的Activity -->
         <activity
@@ -603,36 +596,37 @@
         </provider>
 
         <activity
-            android:exported="true"
             android:name=".UI.SalesmanActivity.SalesmanFinance"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
             android:name=".UI.DepartorActivity.DepartmentHeaderFinance"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
-            android:name=".UI.AuthorActivity.AuthorizedWaitCheckActivity" />
+            android:name=".UI.AuthorActivity.AuthorizedWaitCheckActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".UI.AuthorActivity.AuthorizedHadCheckActivity" />
+            android:name=".UI.AuthorActivity.AuthorizedHadCheckActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
             android:name=".UI.SelectPicture.MyPhotoActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:exported="true"
-            android:name=".UI.SelectPicture.SelectImageActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:exported="true"
-            android:name=".UI.SelectPicture.UploadImageActivity" />
+            android:name=".UI.SelectPicture.SelectImageActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
+            android:name=".UI.SelectPicture.UploadImageActivity"
+            android:exported="true" />
+        <activity
             android:name=".UI.CheckerActivity.OpinionPicturesActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:exported="true"
-            android:name=".UI.CheckerActivity.LookPhotoActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.CheckerActivity.LookPhotoActivity"
+            android:exported="true" />
+        <activity android:name=".UI.CheckerActivity.OpinionResultActivity"></activity>
     </application>
 
 </manifest>

@@ -17,8 +17,8 @@ public class FtpUpload {
 
 
    // private final String FILE_PATH = Environment.getExternalStorageDirectory() + "/Luban/image/printtest.doc";
-    public static final String URL = "ftp://119.23.243.96:21/";
-    //public static final String URL = "ftp://119.29.133.185:21/";
+    //public static final String URL = "ftp://119.23.243.96:21/";
+    public static final String URL = "ftp://119.29.133.185:21/";
 
 
 

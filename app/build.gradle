@@ -13,14 +13,14 @@ android {
     /**
      * 下面的百度定位 签名文件，你们运行可能报错，可以把它禁用掉，不影响使用，但不要删除。
      */
-   /* signingConfigs {
+    signingConfigs {
         config {
             keyAlias 'key0'
             keyPassword 'wdsjnsjydjy'
             storeFile file('G:/AndroidAppKeys/jinding.jks')
             storePassword 'wdsjnsjydjy'
         }
-    }*/
+    }
     compileSdkVersion 26
     buildToolsVersion '27.0.3'
     packagingOptions {
@@ -38,7 +38,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-      // signingConfig signingConfigs.config
+        signingConfig signingConfigs.config
 
         /*ndk{
             abiFilter "armeabi"
@@ -57,10 +57,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-           // signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
         }
         debug {
-           // signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
         }
     }
     productFlavors {
