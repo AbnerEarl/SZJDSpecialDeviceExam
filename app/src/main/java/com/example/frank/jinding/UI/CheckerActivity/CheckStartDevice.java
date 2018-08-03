@@ -334,7 +334,7 @@ public class CheckStartDevice extends AppCompatActivity {
             holder.dstyle.setText(listItem.get(position).getCheckTypeId());
             holder.dheigh.setText(listItem.get(position).getInstallHeight() + "");
             holder.dno.setText(listItem.get(position).getSelfCode());
-            holder.deviceCharge.setText(listItem.get(position).getDeviceCharge()+"万元");
+            holder.deviceCharge.setText(listItem.get(position).getDeviceCharge()+"元");
             return convertView;
         }
 

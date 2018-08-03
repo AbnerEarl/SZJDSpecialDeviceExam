@@ -233,9 +233,12 @@ public class SelectEquipment extends AppCompatActivity {
                 String pic_url = mAdapter.listItem.get(arg2).get("ItemImage").toString();
                 String pic_tag = mAdapter.listItem.get(arg2).get("Tag").toString();
                 EditText et=new EditText(SelectEquipment.this);
-                et.setText(mAdapter.listItem.get(arg2).get("ItemText").toString());
+                if (mAdapter.listItem.get(arg2).get("ItemText").toString().equals("请填写照片相关描述")){
+                    et.setHint(mAdapter.listItem.get(arg2).get("ItemText").toString());
+                }else {
+                    et.setText(mAdapter.listItem.get(arg2).get("ItemText").toString());
+                }
                 new  AlertDialog.Builder(SelectEquipment.this)
-                        .setTitle("系统提示")
                         .setMessage("\n请修改新的检验情况说明：")
                         .setView(et)
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -510,7 +513,7 @@ public class SelectEquipment extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent intent=new Intent(SelectEquipment.this,ResultOpinion.class);
+                Intent intent=new Intent(SelectEquipment.this,OpinionResultActivity.class);
                 intent.putExtra("submission_id", submission_id);
                 intent.putExtra("orderId", orderId);
                 intent.putExtra("deviceId",deviceId);
