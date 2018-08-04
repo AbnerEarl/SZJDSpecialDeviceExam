@@ -771,10 +771,11 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
          CheckOrder checkOrder = this.checkOrder;
          List<ConsignmentDetail> consignmentDetailList = this.consignmentList;
          checkOrder.setConsignmentList(null);
-         checkOrder.setOrderStatus("01");
+
          List<OrderDeviceDetail> orderDeviceDetails = new ArrayList<>();
          parameters.put("checkOrderJson", JSON.toJSON(checkOrder));
          if (requestCode != OrderSearch.UPDATE_REQUEST_CODE) {
+             checkOrder.setOrderStatus(null);
              for (int i = 0; i < consignmentList.size(); i++) {
                  consignmentList.get(i).setConsignmentId(i+"");
                  if (consignmentDetailList.get(i).getOrderDeviceDetailList() != null)
@@ -789,6 +790,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
              parameters.put("consignmentDetailJson", JSON.toJSONString(consignmentList));
              parameters.put("orderDeviceDetailJson", JSON.toJSONString(orderDeviceDetails));
          } else {
+             checkOrder.setOrderStatus("01");
              parameters.put("requestCode", 2);
          }
          ApiService.GetString(this, "addOrUpdateOrder", parameters, new RxStringCallback() {

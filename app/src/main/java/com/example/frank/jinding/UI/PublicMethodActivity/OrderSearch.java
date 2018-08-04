@@ -115,8 +115,8 @@ public class OrderSearch extends AppCompatActivity {
                 Intent intent = new Intent(OrderSearch.this, AddOrder.class);
                 if (requestCode == 0x01){
                     intent.putExtra("update", false);
-                intent.putExtra("requestCode", LOOK_REQUEST_CODE);
-            } else if (requestCode==0x02){
+                    intent.putExtra("requestCode", LOOK_REQUEST_CODE);
+                } else if (requestCode==0x02){
                     intent.putExtra("update", true);
                     intent.putExtra("requestCode", UPDATE_REQUEST_CODE);
                 }
