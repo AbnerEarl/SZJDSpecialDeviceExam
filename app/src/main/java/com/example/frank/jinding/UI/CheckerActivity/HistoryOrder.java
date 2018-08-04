@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -195,6 +196,38 @@ public class HistoryOrder extends AppCompatActivity {
         mAdapter.listItem = submissionList;
         lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
 /*为ListView添加点击事件*/
+        lv_task.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    LinearLayout linearLayout = new LinearLayout(HistoryOrder.this);
+                    linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+                    String seq = mAdapter.listItem.get(position).getString("application_seq");
+
+                            TextView projectName = new TextView(HistoryOrder.this);
+                            projectName.setText("工程名称：" + mAdapter.listItem.get(position).get("projectName").toString());
+                            TextView actualDate = new TextView(HistoryOrder.this);
+                            actualDate.setText("检验时间：" + mAdapter.listItem.get(position).get("checkTime").toString());
+                            TextView orderOrg = new TextView(HistoryOrder.this);
+                            orderOrg.setText("委托单位：" + mAdapter.listItem.get(position).get("orderOrg").toString());
+                            TextView projectAddress = new TextView(HistoryOrder.this);
+                            projectAddress.setText("工程地址：" + mAdapter.listItem.get(position).get("projectAddress").toString());
+                            TextView orderStatus= new TextView(HistoryOrder.this);
+                            orderStatus.setText("订单状态："+OrderStatus.ChangeOrderStatus(mAdapter.listItem.get(position).get("orderStatus").toString()).toString());
+
+
+
+                            linearLayout.addView(projectName);
+                            linearLayout.addView(actualDate);
+                            linearLayout.addView(orderOrg);
+                            linearLayout.addView(projectAddress);
+                            linearLayout.addView(orderStatus);
+
+                            new AlertDialog.Builder(HistoryOrder.this).setTitle("订单信息").setView(linearLayout).setPositiveButton("确定", null).show();
+                    return true;
+            }
+        });
         lv_task.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
