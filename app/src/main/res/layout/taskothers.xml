@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:paddingTop="5dp"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/task_icon"
@@ -16,14 +16,14 @@
         android:src="@mipmap/no_check" />
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <TextView
@@ -41,44 +41,51 @@
             <TextView
 
                 android:id="@+id/actual_time"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:singleLine="true"
                 android:paddingRight="5dp"
+                android:singleLine="true"
                 android:text="TextView"
                 android:textSize="13sp" />
         </RelativeLayout>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    >
-        <TextView
-            android:id="@+id/dispatching_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left|center_vertical"
-            android:singleLine="true"
-            android:text="TextView\nb"
-            android:textSize="14sp" />
-    <TextView
-
-        android:id="@+id/order_status"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:singleLine="true"
-        android:paddingRight="5dp"
-        android:text="TextView"
-        android:textSize="13sp" />
-</RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/dispatching_unit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/order_status"
+                android:layout_toStartOf="@+id/order_status"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="TextView\nb"
+                android:textSize="14sp" />
+
+            <TextView
+
+                android:id="@+id/order_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:text="TextView"
+                android:textColor="@color/colorPrimary"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <ImageView
@@ -90,10 +97,11 @@
 
             <TextView
                 android:id="@+id/sendPlace"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/dispatching_checkBox"
                 android:layout_toRightOf="@+id/icon_address"
                 android:ellipsize="end"
                 android:singleLine="true"

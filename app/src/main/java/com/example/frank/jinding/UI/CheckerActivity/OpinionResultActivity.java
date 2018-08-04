@@ -278,25 +278,35 @@ public class OpinionResultActivity extends AppCompatActivity {
 
                             }else {
                                 Toast.makeText(OpinionResultActivity.this, "暂时没有数据" , Toast.LENGTH_SHORT).show();
-
+                                opinion_result_suggestion.setVisibility(View.INVISIBLE);
+                                opinion_result_suggestion_text.setVisibility(View.INVISIBLE);
+                                modifyOpinion.setVisibility(View.INVISIBLE);
                             }
                         }
 
                         @Override
                         public void onError(Object tag, Throwable e) {
                             Toast.makeText(OpinionResultActivity.this, "暂时没有数据" , Toast.LENGTH_SHORT).show();
+                            opinion_result_suggestion.setVisibility(View.INVISIBLE);
+                            opinion_result_suggestion_text.setVisibility(View.INVISIBLE);
+                            modifyOpinion.setVisibility(View.INVISIBLE);
                         }
 
                         @Override
                         public void onCancel(Object tag, Throwable e) {
                             Toast.makeText(OpinionResultActivity.this, "暂时没有数据" , Toast.LENGTH_SHORT).show();
-
+                            opinion_result_suggestion.setVisibility(View.INVISIBLE);
+                            opinion_result_suggestion_text.setVisibility(View.INVISIBLE);
+                            modifyOpinion.setVisibility(View.INVISIBLE);
                         }
                     });
 
 
 
                 } catch (Exception e) {
+                    opinion_result_suggestion.setVisibility(View.INVISIBLE);
+                    opinion_result_suggestion_text.setVisibility(View.INVISIBLE);
+                    modifyOpinion.setVisibility(View.INVISIBLE);
                     e.printStackTrace();
                 }
             }
