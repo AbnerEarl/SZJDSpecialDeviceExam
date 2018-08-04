@@ -20,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -36,6 +37,8 @@ import com.example.frank.jinding.UI.CheckerActivity.SelectEquipment;
 import com.example.frank.jinding.UI.PublicMethodActivity.OrderDetails;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +64,8 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
     private  int firstVisibleItemTag=0;
     private static boolean requestFlag=false;
     private int totalItemFlag=0;
+    private ImageButton titleback;
+    private TextView titleplain;
 
     private List<Map<String,Object>> orderList=new ArrayList<>();
 
@@ -72,6 +77,15 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
 
 
         lv_tasksss = (ListView) this.findViewById(R.id.lv_dispatching);
+        titleback=(ImageButton)this.findViewById(R.id.titleback);
+        titleplain=(TextView)this.findViewById(R.id.titleplain);
+        titleplain.setText("订单派工");
+        titleback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mutilb = (Button) this.findViewById(R.id.button47);
         refreshLayout=(SwipeRefreshLayout)this.findViewById(R.id.refresh_waitSubmissionOrder);
 

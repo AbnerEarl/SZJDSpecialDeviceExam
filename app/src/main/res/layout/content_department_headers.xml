@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.frank.jinding.UI.DepartorActivity.DepartmentHeadersActivity"
-
+    android:orientation="vertical"
     >
     <!--tools:showIn="@layout/app_bar_department_headers"-->
+    <include
+        layout="@layout/back_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/include4" />
 
     <LinearLayout
         android:id="@+id/top_layout"
@@ -40,4 +44,4 @@
 </android.support.v4.widget.SwipeRefreshLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
