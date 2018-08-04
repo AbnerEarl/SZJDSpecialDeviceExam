@@ -374,8 +374,7 @@ public class TechnicalDirector extends AppCompatActivity {
                     //打印Button的点击信息
                     final EditText et = new EditText(TechnicalDirector.this);
                     new AlertDialog.Builder(TechnicalDirector.this)
-                            .setTitle("系统提示")
-                            .setMessage("\n请输入修改的意见：")
+                            .setMessage("请输入修改的意见：")
                             .setView(et)
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
@@ -471,30 +470,6 @@ public class TechnicalDirector extends AppCompatActivity {
 
 
                     });
-
-
-                    /*new  AlertDialog.Builder(TechnicalDirectorsActivity.this)
-                            .setTitle("系统提示")
-                            .setMessage("\n检验意见审核成功！")
-                            .setPositiveButton("确定",
-                                    new  DialogInterface.OnClickListener()
-                                    {
-                                        @Override
-                                        public  void  onClick(DialogInterface dialog, int  which)
-                                        {
-                                            HashMap<String, Object> map = new HashMap<String, Object>();
-                                            map.put("ItemName", holder.pname.getText());
-                                            map.put("ItemNumber", holder.pnumber.getText());
-                                            map.put("ItemAddress", holder.paddress.getText());
-                                            map.put("ItemDate", holder.pdate.getText());
-                                            map.put("ItemOpinion", holder.opinion.getText());
-                                            confirmAdapter.listItem.add(map);
-
-                                            waitAdapter.listItem.remove(position);
-                                            waitAdapter.notifyDataSetChanged();
-
-                                        }
-                                    }).show();*/
 
                 }
             });

@@ -243,18 +243,18 @@ public class OpinionResultActivity extends AppCompatActivity {
                                     opinion_result_suggestion.setVisibility(View.INVISIBLE);
                                     opinion_result_suggestion_text.setVisibility(View.INVISIBLE);
                                     modifyOpinion.setVisibility(View.INVISIBLE);
-                                    opinion_result_state_text.setText("检测意见正在审核中！");
+                                    opinion_result_state_text.setText("正在审核中");
                                 }else if (map_data.get("statusCode").equals("1")){
                                     opinion_result_suggestion.setVisibility(View.INVISIBLE);
                                     opinion_result_suggestion_text.setVisibility(View.INVISIBLE);
                                     modifyOpinion.setVisibility(View.INVISIBLE);
-                                    opinion_result_state_text.setText("检测意见已通过审核！");
+                                    opinion_result_state_text.setText("已通过审核");
                                 }
                                 else if (map_data.get("statusCode").equals("2")) {
                                     opinion_result_suggestion.setVisibility(View.VISIBLE);
                                     opinion_result_suggestion_text.setVisibility(View.VISIBLE);
                                     modifyOpinion.setVisibility(View.VISIBLE);
-                                    opinion_result_state_text.setText("检测意见未通过审核，请修改意见！");
+                                    opinion_result_state_text.setText("未通过审核，请根据修改意见修改检验结论或检验意见");
                                 }
                                     HashMap<String, Object> map = new HashMap<String, Object>();
                                     if (map_data.get("examResult").trim().equals("0")) {

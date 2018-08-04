@@ -21,14 +21,14 @@
             android:src="@mipmap/icon_advice" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <TextView
@@ -59,21 +59,21 @@
                     android:textSize="15sp" />
             </RelativeLayout>
 
+
             <TextView
                 android:id="@+id/advice_device_name"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
                 android:text="TextView\nb"
                 android:textSize="14sp" />
 
-
             <TextView
                 android:id="@+id/advice_advice"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
@@ -82,7 +82,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <ImageView
@@ -94,7 +94,7 @@
 
                 <TextView
                     android:id="@+id/advice_location"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/dispatching_checkBox"

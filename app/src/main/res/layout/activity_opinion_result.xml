@@ -22,7 +22,6 @@
         android:id="@+id/opinion_result_conclue_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="34dp"
         android:text=" "
         app:layout_constraintStart_toEndOf="@+id/opinion_result_conclue"
@@ -30,31 +29,34 @@
 
     <TextView
         android:id="@+id/opinion_result_opinion_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="26dp"
         android:text=" "
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/opinion_result_opinion"
         app:layout_constraintTop_toBottomOf="@+id/opinion_result_conclue_text" />
 
     <TextView
         android:id="@+id/opinion_result_state_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="26dp"
         android:text=" "
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/opinion_result_state"
         app:layout_constraintTop_toBottomOf="@+id/opinion_result_opinion_text" />
 
     <TextView
         android:id="@+id/opinion_result_suggestion_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="26dp"
         android:text=" "
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/opinion_result_suggestion"
         app:layout_constraintTop_toBottomOf="@+id/opinion_result_state_text" />
 

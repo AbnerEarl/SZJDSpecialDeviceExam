@@ -427,16 +427,13 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
                         consignmentList.add(list.get(i));
                     }
                     Log.i(TAG,consignmentList.toString());
-                  //  mAdapter.notifyDataSetChanged();
                     Log.i(TAG, consignmentList.size() + "个"+consignmentList.get(0).getConsignmentStatus());
-                    if(consignmentList.get(0).getConsignmentStatus().equals("现场检验")) {
+                    if(consignmentList.get(0).getConsignmentStatus().equals("现场检验")||consignmentList.get(0).getConsignmentStatus().equals("复检现场检验")) {
                         mAdapter.update = true;
                         mAdapter.notifyDataSetChanged();
                     }
                     else{
                         //已经核对过
-                       // mAdapter = new TDProtocolCheck.ProtocolAdapter(OrderCheck.this,consignmentList,OrderCheck.this,false,false,false);//得到一个MyAdapter对象
-                     //为ListView绑定Adapter
                          NOT_CONFIRMED=false;
                          mAdapter.update=false;
                          mAdapter.notifyDataSetChanged();
@@ -509,7 +506,6 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-Log.i("OrderCheck","点击列表");
                 Intent intent=new Intent(OrderCheck.this,TaskDetails.class);
                 intent.putExtra("ItemPosition",arg2);
                 intent.putExtra("update",NOT_CONFIRMED);

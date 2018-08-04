@@ -63,10 +63,14 @@ public class TechnicalViewDetails extends AppCompatActivity {
 
 
 
-        if(TitleDecide==0)
-            title.setText("待审核检测意见");
-        else
-            title.setText("已审核检测意见");
+        if(TitleDecide==0) {
+            //title.setText("待审核检测意见");
+            title.setText("现场检测意见详情");
+        }
+
+        else {//title.setText("已审核检测意见");
+            title.setText("现场检测意见详情");
+        }
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
