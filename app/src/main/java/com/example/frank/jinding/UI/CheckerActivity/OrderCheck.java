@@ -126,6 +126,7 @@ public class OrderCheck extends AppCompatActivity implements CallBack{
 
 
 
+
 /*为ListView添加点击事件*/
 
 swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -151,7 +152,11 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         });
 
     }
-
+    @Override
+    public void onBackPressed() {
+       if(consignmentList.size()==0)  Toast.makeText(OrderCheck.this,"您至少要添加一份协议",Toast.LENGTH_SHORT).show();
+       else  finish();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode==REQUEST_CODE){
@@ -419,8 +424,11 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
                     Log.i(TAG,consignmentList.toString());
                   //  mAdapter.notifyDataSetChanged();
                     Log.i(TAG, consignmentList.size() + "个"+consignmentList.get(0).getConsignmentStatus());
-
-                    if(consignmentList.get(0).getConsignmentStatus().equals("检验现场信息核对完成")){
+                    if(consignmentList.get(0).getConsignmentStatus().equals("现场检验")) {
+                        mAdapter.update = true;
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    else{
                         //已经核对过
                        // mAdapter = new TDProtocolCheck.ProtocolAdapter(OrderCheck.this,consignmentList,OrderCheck.this,false,false,false);//得到一个MyAdapter对象
                      //为ListView绑定Adapter
@@ -429,10 +437,9 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
                          mAdapter.notifyDataSetChanged();
                          titleright.setVisibility(View.INVISIBLE);
                         titlerightadd.setVisibility(View.INVISIBLE);
-                    }else {
-                     mAdapter.update=true;
-                     mAdapter.notifyDataSetChanged();
                     }
+
+
 
                 }
                 getDeviceType();
