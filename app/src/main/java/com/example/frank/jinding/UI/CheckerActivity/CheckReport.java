@@ -73,7 +73,7 @@ public class CheckReport extends AppCompatActivity {
             if (option == 2) {
                 titleplain.setText("待审核订单");
             } else if(option==1){
-                titleplain.setText("待校验订单");
+                titleplain.setText("待校验报告");
             } else if(option==3){
                 if(newoption==1)
                 titleplain.setText("已审核订单");
