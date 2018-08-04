@@ -53,7 +53,7 @@ public class SelectOrder extends AppCompatActivity {
    // private ArrayAdapter spinnerAdapter;
     private int spinnerSelectedItem=1;
     private List<String>NiceSpinner;
-    private String Type;
+    private String Type="等待检验订单";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +119,6 @@ public class SelectOrder extends AppCompatActivity {
                                            });
 
 
-/*为ListView添加点击事件*/
         lv_task.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
