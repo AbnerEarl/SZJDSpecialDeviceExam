@@ -69,7 +69,7 @@ public class OrderSelectActivity extends AppCompatActivity {
     private List<String> seqList=new ArrayList<>();
     private NiceSpinner spinner_order;
     private List<String>NiceSpinner;
-    private String Type;
+    private String Type="未审领仪器订单";
 
     private Gson gsonContainTime = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 

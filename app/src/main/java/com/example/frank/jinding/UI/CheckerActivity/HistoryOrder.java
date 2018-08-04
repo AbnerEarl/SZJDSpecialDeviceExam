@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bigkoo.pickerview.TimePickerView;
+import com.example.frank.jinding.Conf.OrderStatus;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.example.frank.jinding.UI.PublicMethodActivity.OrderDetails;
@@ -426,6 +427,8 @@ public class HistoryOrder extends AppCompatActivity {
             holder.pname.setText(listItem.get(position).get("orderOrg").toString());
             holder.pnumber.setText(listItem.get(position).get("projectName").toString());
             holder.paddress.setText(listItem.get(position).get("projectAddress").toString());
+
+            holder.pstatus.setText(OrderStatus.ChangeOrderStatus(listItem.get(position).get("orderStatus").toString()).toString());
             Log.i("projectAddress",listItem.get(position).get("projectAddress").toString());
 
 
