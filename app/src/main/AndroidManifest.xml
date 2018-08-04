@@ -224,7 +224,9 @@
             />
         <activity
             android:exported="true"
-            android:name=".UI.DepartorActivity.DepartmentHead" />
+            android:name=".UI.DepartorActivity.DepartmentHead"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            />
         <activity
             android:exported="true"
             android:name=".UI.SalesmanActivity.Salesman" />

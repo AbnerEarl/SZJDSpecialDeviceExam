@@ -360,6 +360,10 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         });
     }
     private void submit(){
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
         Map<String,Object> map=new HashMap<>();
         map.put("orderId",orderId);
         map.put("orderStatusCode","23");
@@ -367,6 +371,7 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         ApiService.GetString(this, "orderCheck", map, new RxStringCallback() {
         @Override
         public void onNext(Object tag, String response) {
+            processDialog.dismiss();
             if (response!=null&&response.equals("true")){
                 Toast.makeText(OrderCheck.this,"信息核对完成",Toast.LENGTH_SHORT).show();
 

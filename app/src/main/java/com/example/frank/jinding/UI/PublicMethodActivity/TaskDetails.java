@@ -1,6 +1,7 @@
 package com.example.frank.jinding.UI.PublicMethodActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -91,11 +92,16 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void getDeviceList(String consignmentId) {
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("consignmentId", consignmentId);
         ApiService.GetString(this, "orderDeviceDetail", parameters, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
+                processDialog.dismiss();
                 Log.i(TAG, "获取设备成功");
                 List<OrderDeviceDetail> list = new ArrayList<>();
                 if (response != null) {
@@ -422,11 +428,16 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void deleteDevice(final int position) {
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
         Map<String, Object> map = new HashMap<>();
         map.put("orderDeviceDetail", JSON.toJSONString(deviceList.get(position)));
         ApiService.GetString(this, "orderDeviceDelete", map, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
+                processDialog.dismiss();
                 if (response.equals("success")) {
                     Log.i(TAG, "删除成功");
                     deviceList.remove(position);
@@ -452,6 +463,10 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void updateDevice(final int position) {
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
         OrderDeviceDetail orderDeviceDetail = deviceList.get(position);
 
         Log.i("device", device.getCheckTypeId());
@@ -472,6 +487,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
 
             @Override
             public void onNext(Object tag, String response) {
+                processDialog.dismiss();
                 Log.i(TAG, "获取成功");
                 if (response.equals("success")) {
                     Log.i(TAG, "更新成功");
@@ -485,6 +501,10 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void addDevice(final OrderDeviceDetail orderDeviceDetail) {
+        View processView = View.inflate(this, R.layout.simple_processbar, null);
+        final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
         OrderDeviceDetail orderdeviceDetail = orderDeviceDetail;
         if (REQUEST_CODE == OrderCheck.REQUEST_CODE)
             orderdeviceDetail.setStatusCode("06");
@@ -506,6 +526,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
 
                     @Override
                     public void onNext(Object tag, String response) {
+                        processDialog.dismiss();
                         if (response.equals("success")) {
                             deviceList.add(orderDeviceDetail);
                             adapter.notifyDataSetChanged();
