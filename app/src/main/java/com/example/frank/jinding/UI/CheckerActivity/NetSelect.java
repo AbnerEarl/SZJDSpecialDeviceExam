@@ -140,12 +140,13 @@ public class NetSelect extends AppCompatActivity {
     }
 
     private void initListener() {
+        //根据老师意见修改为，返回不携带数据，只是返回到上一个界面
         image_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                /*Intent intent = new Intent();
                 intent.putExtra("selectList", gson.toJson(isSelectedList));
-                setResult(2, intent);
+                setResult(2, intent);*/
                 finish();
             }
         });

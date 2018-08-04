@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_photo_select_finish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="right|center_vertical"
-        android:text="完成        " />
-
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/include8"
         android:horizontalSpacing="5dp"
         android:numColumns="3"
         android:verticalSpacing="5dp" />
 
-</LinearLayout>
+    <include
+        layout="@layout/back_title"
+        layout_above="@+id/btn_photo_select_finish"
+        layout_alignParentLeft="true"
+        layout_alignParentStart="true"
+        layout_marginLeft="45dp"
+        layout_marginStart="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/include8" />
+
+    <Button
+        android:id="@+id/btn_photo_select_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/include8"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/transparent"
+        android:text="确定"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
