@@ -35,6 +35,8 @@ import com.example.frank.jinding.Utils.CameraPermissionCompat;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
+import org.angmarch.views.NiceSpinner;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +49,7 @@ public class CheckOpinion extends AppCompatActivity {
     private ImageButton back;
     private TextView title;
     private List<String> list = new ArrayList<String>();
-    private Spinner opionsp;
+    private NiceSpinner opionsp;
     private ArrayAdapter<String> spadapter;
     private AlertDialog processDialog;
     private String consignmentId="",submission_id="",device_id="",instrment_codes="",exam_result="",problem_suggestion="";
@@ -55,6 +57,8 @@ public class CheckOpinion extends AppCompatActivity {
     private String orderId="";
     private Button add_recheck,add_opinion_photo,look_opinion;
     private ListView lv_rcheck;
+    private String Type="不合格";
+    private int TypeNumber=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +90,18 @@ public class CheckOpinion extends AppCompatActivity {
         opionsp.setOnItemSelectedListener(new  Spinner.OnItemSelectedListener(){
             public  void  onItemSelected(AdapterView<?> arg0, View  arg1, int  arg2, long  arg3)  {
                 //  TODO  Auto-generated  method  stub
+                Type=list.get(arg2);
+                TypeNumber=arg2;
 
-                if (opionsp.getSelectedItem().equals("需复检（待确认）")){
+
+                if (list.get(arg2).equals("需复检（待确认）")){
                     add_recheck.setVisibility(View.VISIBLE);
                     lv_rcheck.setVisibility(View.VISIBLE);
                     etcontent.setVisibility(View.INVISIBLE);
                     add_opinion_photo.setVisibility(View.VISIBLE);
                     look_opinion.setVisibility(View.VISIBLE);
 
-                }else if (opionsp.getSelectedItem().equals("请选择检验结论：")){
+                }else if (list.get(arg2).equals("请选择检验结论：")){
                     add_recheck.setVisibility(View.INVISIBLE);
                     lv_rcheck.setVisibility(View.INVISIBLE);
                     etcontent.setVisibility(View.INVISIBLE);
@@ -222,11 +229,11 @@ public class CheckOpinion extends AppCompatActivity {
                     getInstrumentCodes();
                 }*/
 
-                if (opionsp.getSelectedItem().equals("需复检（待确认）")){
+                if (Type.equals("需复检（待确认）")){
                     processDialog.show();
                     submit.setEnabled(false);
                     HashMap<String,String> map_data=new HashMap<>();
-                    exam_result = (opionsp.getSelectedItemId() - 1) + "";
+                    exam_result = (TypeNumber - 1) + "";
                     problem_suggestion = "该设备需要复检，详情条目见表详情！";
                    // String data = submission_id + "#" + device_id + "#" + exam_result + "#" + problem_suggestion;
                     map_data.put("exam_result",exam_result);
@@ -355,12 +362,12 @@ public class CheckOpinion extends AppCompatActivity {
 
                 }else {
 
-                    if (opionsp.getSelectedItemId() != 0 && etcontent.getText().toString().trim().length() > 2) {
+                    if (TypeNumber != 0 && etcontent.getText().toString().trim().length() > 2) {
 
 
                         new AlertDialog.Builder(CheckOpinion.this)
                                 .setTitle("系统提示")
-                                .setMessage("\n请核对检测意见\n\n检测结论：" + opionsp.getSelectedItem() + "\n\n检测意见：" + etcontent.getText() + "\n\n\n\n确认无误后，点击“确定”进行提交，点击“取消”返回修改")
+                                .setMessage("\n请核对检测意见\n\n检测结论：" + Type + "\n\n检测意见：" + etcontent.getText() + "\n\n\n\n确认无误后，点击“确定”进行提交，点击“取消”返回修改")
                                 .setNegativeButton("取消", null)
                                 .setPositiveButton("确定",
                                         new DialogInterface.OnClickListener() {
@@ -369,7 +376,7 @@ public class CheckOpinion extends AppCompatActivity {
                                                 HashMap<String,String> map_data=new HashMap<>();
                                                 submit.setEnabled(false);
                                                 processDialog.show();
-                                                exam_result = (opionsp.getSelectedItemId() - 1) + "";
+                                                exam_result = (TypeNumber - 1) + "";
                                                 problem_suggestion = etcontent.getText().toString();
                                                // String data = submission_id + "#" + device_id  + "#" + exam_result + "# " + problem_suggestion+" #"+orderId;
                                                 map_data.put("exam_result",exam_result);
@@ -486,25 +493,31 @@ public class CheckOpinion extends AppCompatActivity {
         look_opinion=(Button)this.findViewById(R.id.btn_look_opinion);
         lv_rcheck=(ListView)this.findViewById(R.id.lv_recheck_item);
 
-        opionsp=(Spinner)this.findViewById(R.id.opinion_spinner);
+        opionsp=(NiceSpinner)this.findViewById(R.id.opinion_spinner);
         back=(ImageButton)this.findViewById(R.id.titleback);
         title=(TextView)this.findViewById(R.id.titleplain);
         mAdapter = new MyAdapter(this);//得到一个MyAdapter对象
         lv_rcheck.setAdapter(mAdapter);//为ListView绑定Adapter
 
 
-        list.add("请选择检验结论：");
+
         list.add("不合格");
         list.add("合格");
         list.add("需复检（待确认）");
+        add_recheck.setVisibility(View.INVISIBLE);
+        lv_rcheck.setVisibility(View.INVISIBLE);
+        etcontent.setVisibility(View.VISIBLE);
+        add_opinion_photo.setVisibility(View.VISIBLE);
+        look_opinion.setVisibility(View.VISIBLE);
 
 
         //第二步：为下拉列表定义一个适配器，这里就用到里前面定义的list。
-        spadapter  =  new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,  list);
-        //第三步：为适配器设置下拉列表下拉时的菜单样式。
-        spadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //第四步：将适配器添加到下拉列表上
-        opionsp.setAdapter(spadapter);
+//        spadapter  =  new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,  list);
+//        //第三步：为适配器设置下拉列表下拉时的菜单样式。
+//        spadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        //第四步：将适配器添加到下拉列表上
+//        opionsp.setAdapter(spadapter);
+        opionsp.attachDataSource(list);
 
         //getInstrumentCodes();
 
