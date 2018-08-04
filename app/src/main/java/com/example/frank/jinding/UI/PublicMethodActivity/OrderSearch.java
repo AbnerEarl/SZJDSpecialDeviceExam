@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSON;
 import com.bigkoo.pickerview.TimePickerView;
 import com.example.frank.jinding.Adapter.OrderAdapter;
 import com.example.frank.jinding.Bean.OrderBean.CheckOrder;
+import com.example.frank.jinding.Log.L;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.example.frank.jinding.UI.SalesmanActivity.AddOrder;
@@ -121,6 +122,7 @@ public class OrderSearch extends AppCompatActivity {
                     intent.putExtra("requestCode", UPDATE_REQUEST_CODE);
                 }
                 intent.putExtra("checkOrder",orderList.get(arg2));
+                L.e("获得了订单的状态："+orderList.get(arg2).getOrderStatus());
                 startActivity(intent);
             }
         });

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.frank.jinding.Bean.OrderBean.CheckOrder;
+import com.example.frank.jinding.Conf.OrderStatus;
 import com.example.frank.jinding.R;
 
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class OrderAdapter extends BaseAdapter {
         holder.place.setText(listItem.get(position).getProvince() + listItem.get(position).getCity() + listItem.get(position).getArea() + listItem.get(position).getProjectAddress());
         else
             holder.place.setText(listItem.get(position).getProvince() + listItem.get(position).getCity() + listItem.get(position).getArea());
-        holder.actualTime.setText(listItem.get(position).getOrderStatus());
+        holder.actualTime.setText(OrderStatus.ChangeOrderStatus(listItem.get(position).getOrderStatus()));
         if(listItem.get(position).getOrderStatus().indexOf("复检")!=-1)
             holder.taskIcon.setImageResource(R.drawable.third_order);
         else holder.taskIcon.setImageResource(R.drawable.first_order);

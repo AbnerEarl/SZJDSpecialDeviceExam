@@ -75,6 +75,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
      private boolean update=true;
      private String deviceTypeName;
      private int updatePosition=-1;
+     private String checkOrderStatusTag="";
     private int i=0;
 
     @Override
@@ -194,6 +195,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
       Intent intent=getIntent();
       if (intent.getIntExtra("requestCode",0x02)!=0x02){
           checkOrder=(CheckOrder) intent.getSerializableExtra("checkOrder");
+          checkOrderStatusTag=checkOrder.getOrderStatus();
           requestCode=intent.getIntExtra("requestCode",0x02);
           adduser.setVisibility(View.GONE);
           if (requestCode==OrderSearch.LOOK_REQUEST_CODE){
@@ -771,11 +773,15 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
          CheckOrder checkOrder = this.checkOrder;
          List<ConsignmentDetail> consignmentDetailList = this.consignmentList;
          checkOrder.setConsignmentList(null);
+         if (checkOrderStatusTag!=null&&!checkOrderStatusTag.equals("")){
+             checkOrder.setOrderStatus(checkOrderStatusTag);
+         }else {
+             checkOrder.setOrderStatus("01");
+         }
 
          List<OrderDeviceDetail> orderDeviceDetails = new ArrayList<>();
          parameters.put("checkOrderJson", JSON.toJSON(checkOrder));
          if (requestCode != OrderSearch.UPDATE_REQUEST_CODE) {
-             checkOrder.setOrderStatus(null);
              for (int i = 0; i < consignmentList.size(); i++) {
                  consignmentList.get(i).setConsignmentId(i+"");
                  if (consignmentDetailList.get(i).getOrderDeviceDetailList() != null)
@@ -790,9 +796,9 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
              parameters.put("consignmentDetailJson", JSON.toJSONString(consignmentList));
              parameters.put("orderDeviceDetailJson", JSON.toJSONString(orderDeviceDetails));
          } else {
-             checkOrder.setOrderStatus("01");
              parameters.put("requestCode", 2);
          }
+
          ApiService.GetString(this, "addOrUpdateOrder", parameters, new RxStringCallback() {
              @Override
              public void onNext(Object tag, String response) {

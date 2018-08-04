@@ -96,6 +96,8 @@ public class OrderStatus {
             result="复检重新派工待审核";
         }else if (orderStatus.equals("31")){
             result="终止检验待审核";
+        }else {
+            result=orderStatus;
         }
 
         return result;
