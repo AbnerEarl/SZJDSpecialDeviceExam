@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,7 +56,8 @@ public class SelectImageActivity extends AppCompatActivity {
     private List<String> mSelectList;//存储选取图片路径
     private File mCurrentDir;
     private int mMaxCount;
-
+    private ImageButton back;
+    private TextView title;
     private ProgressDialog mProgressDialog;
     private SelectImageAdapter mImageAdapter;
     private SelectImagePop mPopWindow;
@@ -153,6 +155,15 @@ public class SelectImageActivity extends AppCompatActivity {
     }
 
     private void initDatas() {
+
+        title.setText("选择本地照片");
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
             Toast.makeText(this,"当前存储卡不可用", Toast.LENGTH_LONG).show();
             return;
@@ -166,11 +177,15 @@ public class SelectImageActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        back=(ImageButton)this.findViewById(R.id.titleback);
+        title=(TextView)this.findViewById(R.id.titleplain);
+
         gridView = (GridView) findViewById(R.id.gridView);
         tvComplete = (TextView) findViewById(R.id.select_complete);
         rlBottom = (RelativeLayout) findViewById(R.id.select_bottom);
         tvDirName = (TextView) findViewById(R.id.select_dir_name);
         tvPicNum = (TextView) findViewById(R.id.select_pic_num);
+
     }
 
     private class ScanImageTask implements Runnable {

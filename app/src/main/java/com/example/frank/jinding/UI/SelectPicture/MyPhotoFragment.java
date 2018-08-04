@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -37,7 +39,8 @@ public class MyPhotoFragment extends Fragment {
     private GridView mGridView;
     private ShowImageAdapter mAdapter;
     private SelectPicWayPop mSelectPic;//选取图片方式
-
+    private ImageButton back;
+    private TextView title;
     public static boolean finish_selected=false;
 
     private String mFilePath;// 拍照文件名
@@ -69,9 +72,23 @@ public class MyPhotoFragment extends Fragment {
             mDataList = bundle.getStringArrayList(Constant.IMAGE_LIST);
         }
 
+        back=(ImageButton)mRootView.findViewById(R.id.titleback);
+        title=(TextView)mRootView.findViewById(R.id.titleplain);
         mGridView = (GridView) mRootView.findViewById(R.id.gridView);
         btn_finish=(Button)mRootView.findViewById(R.id.btn_photo_select_finish);
         mAdapter = new ShowImageAdapter(mRootView.getContext(),mDataList,true);
+
+        title.setText("已经选择的照片");
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish_selected=true;
+                MyPhotoActivity.handler.postDelayed(runnable, 100);
+               mDataList.clear();
+                MyPhotoActivity.finishPhotoSelect=true;
+            }
+        });
+
         mAdapter.setOnClickImageListener(new ShowImageAdapter.OnClickImageListener() {
             @Override
             public void onClickAdd() {
@@ -90,7 +107,7 @@ public class MyPhotoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 finish_selected=true;
-                MyPhotoActivity.handler.postDelayed(runnable, 1000);
+                MyPhotoActivity.handler.postDelayed(runnable, 100);
                 Toast.makeText(getContext(),"操作成功，正在读取数据",Toast.LENGTH_LONG).show();
                MyPhotoActivity.finishPhotoSelect=true;
                 View processView = View.inflate(getActivity(), R.layout.simple_processbar, null);
