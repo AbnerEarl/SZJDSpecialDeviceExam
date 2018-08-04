@@ -86,6 +86,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
         initData();
     }
 
+
     private void init() {
         image_back=(ImageView)this.findViewById(R.id.image_back);
         user_information=(TextView) this.findViewById(R.id.user_info);
@@ -757,12 +758,11 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
          Toast.makeText(this, "请完善订单信息", Toast.LENGTH_SHORT).show();
 
      }
-     else if(i==0){
+     else if(consignmentList.get(0).getDeviceNum()==0){
          Toast.makeText(this,"请完善设备信息",Toast.LENGTH_SHORT).show();
      }
      else {
          submitClick=false;
-
          View processView = View.inflate(this, R.layout.simple_processbar, null);
          final android.support.v7.app.AlertDialog processDialog = new android.support.v7.app.AlertDialog.Builder(this).create();
          processDialog.setView(processView);

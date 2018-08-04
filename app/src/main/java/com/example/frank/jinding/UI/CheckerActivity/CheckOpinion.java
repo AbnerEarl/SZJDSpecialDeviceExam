@@ -362,7 +362,7 @@ public class CheckOpinion extends AppCompatActivity {
 
                 }else {
 
-                    if (TypeNumber != 0 && etcontent.getText().toString().trim().length() > 2) {
+                    if (etcontent.getText().toString().trim().length() > 2) {
 
 
                         new AlertDialog.Builder(CheckOpinion.this)
@@ -464,18 +464,19 @@ public class CheckOpinion extends AppCompatActivity {
 
                                             }
                                         }).show();
-                    } else {
-                        new AlertDialog.Builder(CheckOpinion.this)
-                                .setTitle("系统提示")
-                                .setMessage("\n请选择检验结论")
-                                .setPositiveButton("确定",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                            }
-                                        }).show();
                     }
+//                    else {
+//                        new AlertDialog.Builder(CheckOpinion.this)
+//                                .setTitle("系统提示")
+//                                .setMessage("\n请选择检验结论")
+//                                .setPositiveButton("确定",
+//                                        new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//
+//                                            }
+//                                        }).show();
+//                    }
                 }
 
             }

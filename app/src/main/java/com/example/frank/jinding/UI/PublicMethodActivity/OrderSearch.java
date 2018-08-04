@@ -188,7 +188,14 @@ public class OrderSearch extends AppCompatActivity {
             }
         });
     }
+    @Override
 
+    protected void onResume() {
+
+        super.onResume();
+        search(startIndex,numberShow);
+
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
