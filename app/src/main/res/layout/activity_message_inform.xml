@@ -56,7 +56,8 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/buttonss_shape"
-                android:text="通知" />
+                android:text="通知"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/btn_evaluate"
@@ -64,7 +65,8 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/buttonss_shape"
-                android:text="评价" />
+                android:text="评价"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/print_file"
@@ -72,7 +74,8 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/buttonss_shape"
-                android:text="打印机" />
+                android:text="打印机"
+                android:visibility="invisible" />
 
         </LinearLayout>
 

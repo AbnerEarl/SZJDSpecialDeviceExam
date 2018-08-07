@@ -274,7 +274,6 @@ public class AuthorizedPersonsActivity extends AppCompatActivity
             //intent.putExtra("userid",userid);
             intent.putExtra("option",4);
             intent.putExtra("newoption",3);
-
             startActivity(intent);
         } else if (id == R.id.nav_messageinfo4) {
             Intent intent=new Intent(AuthorizedPersonsActivity.this,MessageInform.class);

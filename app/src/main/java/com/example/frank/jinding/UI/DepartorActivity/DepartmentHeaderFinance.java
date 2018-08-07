@@ -270,14 +270,19 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void loadData() {
+        View processView=View.inflate(this,R.layout.simple_processbar,null);
+        final AlertDialog processDialog=new AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
+
         mapList.clear();
-        Map<String, Object> p = new HashMap<>();
-        p.put("option", mode-3);
+        Map<String, Object> para = new HashMap<>();
+        para.put("option", mode-3);
         if (applicantSpinner.getSelectedItem() != null && !applicantSpinner.getSelectedItem().equals("")) {
             Applicant applicant=mApplicantList.stream().filter((item)->item.getName().equals(applicantSpinner.getSelectedItem().toString())).findFirst().orElse(null);
-            p.put("applicant_id", applicant.getId());
+            para.put("applicant_id", applicant.getId());
         }
-        ApiService.GetString(this, "searchReviewExceptionResult", p, new RxStringCallback() {
+        ApiService.GetString(this, "searchReviewExceptionResult", para, new RxStringCallback() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onNext(Object tag, String response) {
@@ -325,16 +330,18 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                 }else {
                     showToastShort("暂无待审核财务异动");
                 }
+                processDialog.dismiss();
             }
 
             @Override
             public void onError(Object tag, Throwable e) {
                 showToastShort(e.getMessage());
+                processDialog.dismiss();
             }
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-
+                processDialog.dismiss();
             }
         });
     }

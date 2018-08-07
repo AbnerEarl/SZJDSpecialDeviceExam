@@ -185,9 +185,6 @@ public class CheckReport extends AppCompatActivity {
                             if (key.equals("auditPeople")){
                                 System.out.print("报告数据取得审核人："+jsonObject.get(key));
                             }
-                           /* if (key.equals("mainCheckReference")){
-                                System.out.print("主见规则："+jsonObject.get(key));
-                            }*/
                             item.put(key,jsonObject.get(key));
                         }
                         mapList.add(item);

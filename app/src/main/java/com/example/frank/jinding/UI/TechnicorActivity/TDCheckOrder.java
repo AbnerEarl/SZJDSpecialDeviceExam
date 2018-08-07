@@ -74,7 +74,7 @@ public class TDCheckOrder extends AppCompatActivity {
         }
         }
         initView();
-        search(startIndex,numberShow);
+        search(startIndex,numberShow,false);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class TDCheckOrder extends AppCompatActivity {
                     totalItemFlag=totalItemCount;
                     if (requestFlag){
                         requestFlag=false;
-                        search(startIndex,numberShow);
+                        search(startIndex,numberShow,false);
                     }
 
                 }
@@ -155,9 +155,8 @@ public class TDCheckOrder extends AppCompatActivity {
                 chooseDate(2);
                 break;
             case R.id.search_history:
-                search(startIndex,numberShow);
-               System.out.print("startDate:"+startdate.getText().toString());
-               System.out.print("endDate"+enddate.getText().toString());
+                startIndex=0;
+                search(startIndex,numberShow,true);
                 break;
         }
     }
@@ -201,7 +200,7 @@ public class TDCheckOrder extends AppCompatActivity {
         return format.format(date);
     }
 
-    private void search(int startIndexPos,int numberShowSum) {
+    private void search(int startIndexPos,int numberShowSum,boolean isNotSearch) {
         String url=null;
         View processView=View.inflate(this,R.layout.simple_processbar,null);
         final AlertDialog processDialog=new AlertDialog.Builder(this).create();
@@ -210,19 +209,15 @@ public class TDCheckOrder extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         if (startdate.getText().toString().trim().length()>1) {
             map.put("startDate", startdate.getText().toString());
-
         }
         else {
-
             map.put("startDate", "1900-01-01");
         }
         if (enddate.getText().toString().trim().length()>1) {
             map.put("endDate", enddate.getText().toString());
-
         }
         else {
             map.put("endDate", "2100-02-02");
-
         }
         if (orderOrgEt.getText()!=null&&!TextUtils.isEmpty(orderOrgEt.getText().toString()))
             map.put("orderOrg",orderOrgEt.getText().toString());
@@ -244,7 +239,9 @@ public class TDCheckOrder extends AppCompatActivity {
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 if (response != null && !TextUtils.isEmpty(response)) {
-                    //orderList.clear();
+                    if (isNotSearch){
+                        orderList.clear();
+                    }
                     startIndex=startIndex+numberShow;
                     requestFlag=true;
                     List<CheckOrder> list= JSON.parseArray(response,CheckOrder.class);
@@ -277,8 +274,9 @@ public class TDCheckOrder extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode==0){
+            startIndex=0;
             //待审核订单刷新
-            search(startIndex,numberShow);
+            search(startIndex,numberShow,true);
         }
     }
 }

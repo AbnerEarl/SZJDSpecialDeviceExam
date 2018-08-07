@@ -187,7 +187,8 @@ public class HistoryOrder extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search(startIndex,numberShow);
+                startIndex=0;
+                search(startIndex,numberShow,true);
 
             }
         });
@@ -264,7 +265,7 @@ public class HistoryOrder extends AppCompatActivity {
                     totalItemFlag=totalItemCount;
                     if (requestFlag){
                         requestFlag=false;
-                        search(startIndex,numberShow);
+                        search(startIndex,numberShow,false);
                     }
 
                 }
@@ -327,7 +328,7 @@ public class HistoryOrder extends AppCompatActivity {
         return format.format(date);
     }
 
-    private void search(int startIndexPos,int numberShowSum) {
+    private void search(int startIndexPos,int numberShowSum,boolean isNotSearch) {
         View processView=View.inflate(this,R.layout.simple_processbar,null);
         final AlertDialog processDialog=new AlertDialog.Builder(this).create();
         processDialog.setView(processView);
@@ -350,7 +351,9 @@ public class HistoryOrder extends AppCompatActivity {
             @Override
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
-                //submissionList.clear();
+                if (isNotSearch){
+                    submissionList.clear();
+                }
                 if (response!= null && !TextUtils.isEmpty(response)) {
                     startIndex=startIndex+numberShow;
                     requestFlag=true;

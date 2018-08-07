@@ -457,9 +457,9 @@ public class AddOrderInformation extends AppCompatActivity {
             return "未填写经办人电话";
         } else if (useUnit.getText() == null || TextUtils.isEmpty(useUnit.getText())) {
             return "未填写使用单位";
-        } else if (payWay.getText() == null || TextUtils.isEmpty(payWay.getText())) {
+        } /*else if (payWay.getText() == null || TextUtils.isEmpty(payWay.getText())) {
             return "未选择支付方式";
-        } else if (reportGetWay.getText() == null) {
+        }*/ else if (reportGetWay.getText() == null) {
             return "未选择获取报告方式";
         } else if (projectName.getText() == null || TextUtils.isEmpty(projectName.getText())) {
             return "未填写工程名称";

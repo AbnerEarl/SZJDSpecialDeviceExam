@@ -97,15 +97,16 @@
                 android:layout_height="match_parent"
                />
             </LinearLayout>
+
             <Button
-                android:layout_weight="1.2"
                 android:id="@+id/search_history"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="查询"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
-                android:background="@drawable/buttonss_shape"/>
+                android:layout_weight="1.2"
+                android:background="@drawable/buttonss_shape"
+                android:text="查询" />
             <View
                 android:layout_weight="2"
                 android:layout_width="0dp"

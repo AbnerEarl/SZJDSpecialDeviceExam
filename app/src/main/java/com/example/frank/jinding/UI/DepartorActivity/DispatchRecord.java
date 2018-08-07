@@ -139,7 +139,7 @@ public class DispatchRecord extends AppCompatActivity {
                     totalItemFlag=totalItemCount;
                     if (requestFlag){
                         requestFlag=false;
-                        search(startIndex,numberShow);
+                        search(startIndex,numberShow,false);
                     }
 
                 }
@@ -207,21 +207,29 @@ public class DispatchRecord extends AppCompatActivity {
             case R.id.submission_history_org:
                 break;
             case R.id.search_submission:
-                search(startIndex,numberShow);
+                startIndex=0;
+                search(startIndex,numberShow,true);
                 break;
 
         }
     }
-    protected void search(int startIndexPos,int numberShowSum){
+    protected void search(int startIndexPos,int numberShowSum,boolean isNotSearch){
         View processView=View.inflate(this,R.layout.simple_processbar,null);
         final AlertDialog processDialog=new AlertDialog.Builder(this).create();
         processDialog.setView(processView);
         processDialog.show();
         Map<String,Object> data=new HashMap<>();
-        if (submissionHistoryStartDate.getText()!=null)
-            data.put("ActualStart",submissionHistoryStartDate.getText().toString());
-        if (submissionHistoryEndDate.getText()!=null)
-            data.put("ActualEnd",submissionHistoryEndDate.getText().toString());
+        if (submissionHistoryStartDate.getText()!=null) {
+            data.put("ActualStart", submissionHistoryStartDate.getText().toString());
+        }
+        else {
+            data.put("ActualStart","1991-2-2");
+        }
+        if (submissionHistoryEndDate.getText()!=null) {
+            data.put("ActualEnd", submissionHistoryEndDate.getText().toString());
+        }else {
+            data.put("ActualEnd", "2200-11-11");
+        }
         if (submissionHistoryOrg.getText()!=null)
             data.put("orderOrg",submissionHistoryOrg.getText().toString());
         data.put("startIndex",startIndexPos);
@@ -233,7 +241,9 @@ public class DispatchRecord extends AppCompatActivity {
                 @Override
                 public void onNext(Object tag, String response) {
 
-                    //submissionList.clear();
+                    if (isNotSearch){
+                        submissionList.clear();
+                    }
                     processDialog.dismiss();
                     if (response!=null&&!response.equals("")){
                         startIndex=startIndex+numberShow;

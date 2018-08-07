@@ -147,14 +147,23 @@ public class SalesmanFinance extends AppCompatActivity {
     }
 
     private void loadData() {
+        View processView=View.inflate(this,R.layout.simple_processbar,null);
+        final AlertDialog processDialog=new AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
+
         mapList.clear();
         final Map<String, Object> map = new HashMap<>();
         map.put("option", String.valueOf(mode));
         if (mStartDate.getText() != null) {
             map.put("startDate", mStartDate.getText().toString());
+        }else {
+            map.put("startDate", "2010-11-11");
         }
         if (mEndDate.getText() != null) {
             map.put("endDate", mEndDate.getText().toString());
+        }else {
+            map.put("endDate", "2200-11-11");
         }
         if (orderSearchOrg.getText() != null && !orderSearchOrg.getText().toString().equals("")) {
             map.put("orderOrg", orderSearchOrg.getText().toString());
@@ -171,21 +180,24 @@ public class SalesmanFinance extends AppCompatActivity {
                             }
                             Log.i("financeMap", mapList.toString());
                         }
-                        mAdapter.notifyDataSetChanged();
+
                     } catch (JSONException e) {
                         showToastShort(response);
                     }
                 }
+                mAdapter.notifyDataSetChanged();
+                processDialog.dismiss();
             }
 
             @Override
             public void onError(Object tag, Throwable e) {
                 showToastShort(e.getMessage());
+                processDialog.dismiss();
             }
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-
+                processDialog.dismiss();
             }
         });
 

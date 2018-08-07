@@ -160,7 +160,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="付款方式*"
+                    android:text="付款方式"
                     android:textSize="14sp" />
 
                 <EditText

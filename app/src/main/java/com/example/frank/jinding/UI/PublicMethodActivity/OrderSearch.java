@@ -100,7 +100,8 @@ public class OrderSearch extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search(startIndex,numberShow);
+                startIndex=0;
+                search(startIndex,numberShow,true);
             }
         });
         orderList = new ArrayList<>();
@@ -171,7 +172,7 @@ public class OrderSearch extends AppCompatActivity {
                     totalItemFlag=totalItemCount;
                     if (requestFlag){
                         requestFlag=false;
-                        search(startIndex,numberShow);
+                        search(startIndex,numberShow,false);
                     }
 
                 }
@@ -195,7 +196,7 @@ public class OrderSearch extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-        search(startIndex,numberShow);
+        search(startIndex,numberShow,false);
 
     }
     @Override
@@ -207,7 +208,7 @@ public class OrderSearch extends AppCompatActivity {
     private void deleteOrder(final int position){
         Map<String, Object> map = new HashMap<>();
             map.put("orderId",orderList.get(position).getOrderId());
-        ApiService.GetString(this, "orderDelete", map, new RxStringCallback() {
+        ApiService.GetString(this, "deleteOrderByOrderId", map, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
                 if (response != null &&response.equals("success")) {
@@ -271,7 +272,7 @@ public class OrderSearch extends AppCompatActivity {
         return format.format(date);
     }
 
-    private void search(int startIndexPos,int numberShowSum ) {
+    private void search(int startIndexPos,int numberShowSum ,boolean isNotSearch) {
         View processView=View.inflate(this,R.layout.simple_processbar,null);
         final AlertDialog processDialog=new AlertDialog.Builder(this).create();
         processDialog.setView(processView);
@@ -281,10 +282,18 @@ public class OrderSearch extends AppCompatActivity {
 //            //只查询待审核订单
 //            map.put("orderStatus","01");
 //        }
-        if (startdate.getText() != null)
+        if (startdate.getText() != null&&!"".equals(startdate.getText().toString().trim())){
             map.put("startDate", startdate.getText().toString());
-        if (enddate.getText() != null)
+        }else {
+            map.put("startDate", "1991-11-11");
+        }
+
+        if(enddate.getText() != null&&!"".equals(enddate.getText().toString().trim())){
             map.put("endDate", enddate.getText().toString());
+        }else{
+            map.put("endDate", "2100-11-11");
+        }
+
         if (orderOrgEt.getText()!=null&&TextUtils.isEmpty(orderOrgEt.getText().toString()))
             map.put("orderOrg",orderOrgEt.getText());
         map.put("startIndex",startIndexPos);
@@ -294,7 +303,10 @@ public class OrderSearch extends AppCompatActivity {
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 if (response != null && !TextUtils.isEmpty(response)) {
-                    //orderList.clear();
+                    if (isNotSearch){
+                        orderList.clear();
+                    }
+
                     startIndex=startIndex+numberShow;
                     requestFlag=true;
                     List<CheckOrder> list= JSON.parseArray(response,CheckOrder.class);
@@ -337,7 +349,8 @@ public class OrderSearch extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        search(startIndex,numberShow);
+        startIndex=0;
+        search(startIndex,numberShow,true);
     }
     //其他任务信息加载
 

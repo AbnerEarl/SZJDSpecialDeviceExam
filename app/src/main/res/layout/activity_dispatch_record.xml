@@ -61,13 +61,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
+
         <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="0dp"
-            android:layout_weight="1.2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="委托单位: "
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:text="委托单位:" />
         <LinearLayout
             android:layout_marginLeft="5dp"
             android:layout_width="0dp"
