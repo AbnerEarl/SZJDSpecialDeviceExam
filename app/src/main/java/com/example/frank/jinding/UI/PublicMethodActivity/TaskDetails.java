@@ -103,6 +103,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 Log.i(TAG, "获取设备成功");
+                deviceList.clear();
                 List<OrderDeviceDetail> list = new ArrayList<>();
                 if (response != null) {
 
@@ -217,48 +218,54 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                     et5.setText(deviceList.get(position).getSelfCode());
                     et6.setText(deviceList.get(position).getDeviceCharge() + "");
 
-                    new AlertDialog.Builder(TaskDetails.this).setTitle("修改设备信息").setView(layout)
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (et1.getText() == null || TextUtils.isEmpty(et1.getText()) || et2.getText() == null || TextUtils.isEmpty(et2.getText()) || et3.getText() == null || TextUtils.isEmpty(et3.getText()) || et4.getText() == null || TextUtils.isEmpty(et4.getText()) || et5.getText() == null || TextUtils.isEmpty(et5.getText())) {
-                                        Toast.makeText(TaskDetails.this, "请输入完整设备信息", Toast.LENGTH_SHORT).show();
-                                    } else if (checkLegal(et1.getText().toString(), et5.getText().toString(), position)) {
-                                        Toast.makeText(TaskDetails.this, "设备出厂编号或自编号与其他设备相同，请重新输入", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        device = deviceList.get(position);
-                                        Log.i("deviceCheckType", device.getCheckTypeId());
-                                        device.setDeviceManufacCode(et1.getText().toString());
-                                        device.setTypeSpecification(et2.getText().toString());
-                                        device.setCheckTypeId(et3.getText().toString());
-                                        device.setInstallHeight(Float.parseFloat(et4.getText().toString()));
-                                        device.setSelfCode(et5.getText().toString());
-                                        device.setDeviceCharge(Float.valueOf(et6.getText().toString()));
-                                        if (showMonitor) {
-                                            if (radioGroup.getCheckedRadioButtonId() == R.id.monitor_true) {
-                                                device.setMonitorStatus("1");
-                                            } else {
-                                                device.setMonitorStatus("0");
-                                            }
-                                        }
-                                        Log.i("deviceCheckTypeId", device.getCheckTypeId());
-                                        if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
-                                            deviceList.set(position, device);
-                                            adapter.notifyDataSetChanged();
-                                            Toast.makeText(TaskDetails.this, "添加成功", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            deviceList.set(position, device);
-                                            updateDevice(position);
-                                        }
-                                    }
-                                }
-                            })
+                    AlertDialog modifyDeviceDialog=new AlertDialog.Builder(TaskDetails.this).setTitle("修改设备信息").setView(layout)
+                            .setPositiveButton("确定", null)
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
-                            }).show();
+                            }).create();
+                    modifyDeviceDialog.show();
+                    modifyDeviceDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (et1.getText() == null || TextUtils.isEmpty(et1.getText()) || et2.getText() == null || TextUtils.isEmpty(et2.getText()) || et3.getText() == null || TextUtils.isEmpty(et3.getText()) || et4.getText() == null || TextUtils.isEmpty(et4.getText()) || et5.getText() == null || TextUtils.isEmpty(et5.getText())) {
+                                Toast.makeText(TaskDetails.this, "请输入完整设备信息", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else if (checkLegal(et1.getText().toString(), et5.getText().toString(), position)) {
+                                Toast.makeText(TaskDetails.this, "设备出厂编号或自编号与其他设备相同，请重新输入", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                device = deviceList.get(position);
+                                Log.i("deviceCheckType", device.getCheckTypeId());
+                                device.setDeviceManufacCode(et1.getText().toString());
+                                device.setTypeSpecification(et2.getText().toString());
+                                device.setCheckTypeId(et3.getText().toString());
+                                device.setInstallHeight(Float.parseFloat(et4.getText().toString()));
+                                device.setSelfCode(et5.getText().toString());
+                                device.setDeviceCharge(Float.valueOf(et6.getText().toString()));
+                                if (showMonitor) {
+                                    if (radioGroup.getCheckedRadioButtonId() == R.id.monitor_true) {
+                                        device.setMonitorStatus("1");
+                                    } else {
+                                        device.setMonitorStatus("0");
+                                    }
+                                }
+                                Log.i("deviceCheckTypeId", device.getCheckTypeId());
+                                if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
+                                    deviceList.set(position, device);
+                                    adapter.notifyDataSetChanged();
+                                    Toast.makeText(TaskDetails.this, "添加成功", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    deviceList.set(position, device);
+                                    updateDevice(position);
+                                }
+                                modifyDeviceDialog.dismiss();
+                            }
+                        }
+                    });
+
                     et3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -326,50 +333,57 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         monitorLayout.setVisibility(View.GONE);
         if (showMonitor)
             monitorLayout.setVisibility(View.VISIBLE);
-        new AlertDialog.Builder(TaskDetails.this).setTitle("添加设备").setView(layout)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (et1.getText() == null || TextUtils.isEmpty(et1.getText()) || et2.getText() == null || TextUtils.isEmpty(et2.getText()) || et3.getText() == null || TextUtils.isEmpty(et3.getText()) || et4.getText() == null || TextUtils.isEmpty(et4.getText()) || et5.getText() == null || TextUtils.isEmpty(et5.getText()) || et6.getText() == null || TextUtils.isEmpty(et6.getText())) {
-                            Toast.makeText(TaskDetails.this, "请输入完整设备信息", Toast.LENGTH_SHORT).show();
-                        } else if (checkLegal(et1.getText().toString(), et5.getText().toString(), -1)) {
-                            Toast.makeText(TaskDetails.this, "设备出厂编号或自编号与其他设备相同，请重新输入", Toast.LENGTH_SHORT).show();
-                        } else if (Float.parseFloat(et4.getText().toString().trim()) > 1000) {
-                            Toast.makeText(TaskDetails.this, "安装高度不能大于1000", Toast.LENGTH_SHORT).show();
-                            et4.setText("");
-                        } else {
-                            Log.i("添加设备", "" + Log.i("id", et1.getText().toString() + "2" + et2.getText().toString() + "3" + et3.getText().toString() + "4" + et4.getText().toString() + "5" + et5.getText().toString()));
-                            OrderDeviceDetail orderDeviceDetail = new OrderDeviceDetail(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(), Float.parseFloat(et4.getText().toString()), et5.getText().toString());
-                            orderDeviceDetail.setStatusCode("01");
-                            orderDeviceDetail.setDeviceCharge(Float.valueOf(et6.getText().toString()));
-                            if (showMonitor) {
-                                if (radioGroup.getCheckedRadioButtonId() == R.id.monitor_true) {
-                                    orderDeviceDetail.setMonitorStatus("1");
-                                } else {
-                                    orderDeviceDetail.setMonitorStatus("0");
-                                }
-                            }
-                            if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
-                                deviceList.add(orderDeviceDetail);
-                                Log.i("addDevice", "添加成功");
-                                adapter.notifyDataSetChanged();
-                                Toast.makeText(TaskDetails.this, "添加成功", Toast.LENGTH_SHORT).show();
-
-                            } else {
-                                orderDeviceDetail.setConsignmentId(consignmentId);
-                                addDevice(orderDeviceDetail);
-                            }
-                            Log.i("更新item", "更新成功");
-
-                        }
-                    }
-                })
+        AlertDialog addDeviceDialog=new AlertDialog.Builder(TaskDetails.this).setTitle("添加设备").setView(layout)
+                .setPositiveButton("确定", null)
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
-                }).show();
+                }).create();
+        addDeviceDialog.show();
+        addDeviceDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (et1.getText() == null || TextUtils.isEmpty(et1.getText()) || et2.getText() == null || TextUtils.isEmpty(et2.getText()) || et3.getText() == null || TextUtils.isEmpty(et3.getText()) || et4.getText() == null || TextUtils.isEmpty(et4.getText()) || et5.getText() == null || TextUtils.isEmpty(et5.getText()) || et6.getText() == null || TextUtils.isEmpty(et6.getText())) {
+                    Toast.makeText(TaskDetails.this, "请输入完整设备信息", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (checkLegal(et1.getText().toString(), et5.getText().toString(), -1)) {
+                    Toast.makeText(TaskDetails.this, "设备出厂编号或自编号与其他设备相同，请重新输入", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (Float.parseFloat(et4.getText().toString().trim()) > 1000) {
+                    Toast.makeText(TaskDetails.this, "安装高度不能大于1000", Toast.LENGTH_SHORT).show();
+                    et4.setText("");
+                    return;
+                } else {
+                    Log.i("添加设备", "" + Log.i("id", et1.getText().toString() + "2" + et2.getText().toString() + "3" + et3.getText().toString() + "4" + et4.getText().toString() + "5" + et5.getText().toString()));
+                    OrderDeviceDetail orderDeviceDetail = new OrderDeviceDetail(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(), Float.parseFloat(et4.getText().toString()), et5.getText().toString());
+                    orderDeviceDetail.setStatusCode("01");
+                    orderDeviceDetail.setDeviceCharge(Float.valueOf(et6.getText().toString()));
+                    if (showMonitor) {
+                        if (radioGroup.getCheckedRadioButtonId() == R.id.monitor_true) {
+                            orderDeviceDetail.setMonitorStatus("1");
+                        } else {
+                            orderDeviceDetail.setMonitorStatus("0");
+                        }
+                    }
+                    if (REQUEST_CODE == AddOrder.ADDORDER_REQUEST_CODE) {
+                        deviceList.add(orderDeviceDetail);
+                        Log.i("addDevice", "添加成功");
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(TaskDetails.this, "添加成功", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        orderDeviceDetail.setConsignmentId(consignmentId);
+                        addDevice(orderDeviceDetail);
+                    }
+                    Log.i("更新item", "更新成功");
+
+                    addDeviceDialog.dismiss();
+                }
+            }
+        });
+
         et3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -439,7 +453,7 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
             public void onNext(Object tag, String response) {
                 processDialog.dismiss();
                 if (response.equals("success")) {
-                    Log.i(TAG, "删除成功");
+                    Log.i(TAG, "从网络删除成功");
                     deviceList.remove(position);
                     adapter.notifyDataSetChanged();
                     Toast.makeText(TaskDetails.this, "删除成功", Toast.LENGTH_SHORT).show();
@@ -506,10 +520,10 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
         processDialog.setView(processView);
         processDialog.show();
         OrderDeviceDetail orderdeviceDetail = orderDeviceDetail;
-        if (REQUEST_CODE == OrderCheck.REQUEST_CODE)
+       /* if (REQUEST_CODE == OrderCheck.REQUEST_CODE)
             orderdeviceDetail.setStatusCode("06");
         if (REQUEST_CODE == OrderSearch.UPDATE_REQUEST_CODE)
-            orderdeviceDetail.setStatusCode("01");
+            orderdeviceDetail.setStatusCode("01");*/
         Map<String, Object> map = new HashMap<>();
         map.put("orderDeviceDetail", JSON.toJSONString(orderdeviceDetail));
         map.put("requestCode", 1);
@@ -528,8 +542,9 @@ public class TaskDetails extends AppCompatActivity implements View.OnClickListen
                     public void onNext(Object tag, String response) {
                         processDialog.dismiss();
                         if (response.equals("success")) {
-                            deviceList.add(orderDeviceDetail);
-                            adapter.notifyDataSetChanged();
+                            //deviceList.add(orderDeviceDetail);
+                            //adapter.notifyDataSetChanged();
+                            getDeviceList(consignmentId);
                             Toast.makeText(TaskDetails.this, "设备添加成功", Toast.LENGTH_SHORT).show();
                         }
                     }

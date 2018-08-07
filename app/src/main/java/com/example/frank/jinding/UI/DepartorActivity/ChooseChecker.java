@@ -92,7 +92,7 @@ public class ChooseChecker extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
               if (REQUEST_CODE==0x11){
                 //派工时显示近期任务
-                  Log.i("点击检验员", position + "");
+                  Log.i("点击检验员", position + "==="+workerIdList.get(position));
                 getWorkerDetail(workerIdList.get(position));}
 
             }
@@ -119,9 +119,7 @@ public class ChooseChecker extends AppCompatActivity {
             @Override
             public void onNext(Object tag, String response) {
                 Log.i(TAG, "获取工人任务数据成功" + response);
-                if (response != null && TextUtils.isEmpty(response)) {
-
-                } else {
+                if (response.contains("actrualDate")) {
                     JSONArray jsonArray = JSON.parseArray(response);
                     for (Object object : jsonArray) {
                         JSONObject jsonObject = (JSONObject) object;
@@ -134,6 +132,7 @@ public class ChooseChecker extends AppCompatActivity {
                     }
                     processDialog.dismiss();
                     if (workerTaskList.size() == 0) {
+                        recentSubmissionLv.setAdapter(null);
                         new AlertDialog.Builder(ChooseChecker.this).setTitle("该检验员暂时没有任务").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -144,6 +143,15 @@ public class ChooseChecker extends AppCompatActivity {
                         OrderMapAdapter adapter = new OrderMapAdapter(ChooseChecker.this, workerTaskList);
                         recentSubmissionLv.setAdapter(adapter);
                     }
+                }else {
+                    processDialog.dismiss();
+                    recentSubmissionLv.setAdapter(null);
+                    new AlertDialog.Builder(ChooseChecker.this).setTitle("该检验员暂时没有任务").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
                 }
 
             }

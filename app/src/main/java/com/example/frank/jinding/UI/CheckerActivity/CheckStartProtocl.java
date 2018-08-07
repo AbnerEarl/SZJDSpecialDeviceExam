@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -55,6 +56,7 @@ public class CheckStartProtocl extends AppCompatActivity {
     private String orderId="";
     private SwipeRefreshLayout refreshLayout;
     private AlertDialog processDialog;
+    private boolean isNotComplete=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +73,23 @@ public class CheckStartProtocl extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if (!isNotComplete)
+                {
+                    // 创建退出对话框
+                    AlertDialog isExit = new AlertDialog.Builder(CheckStartProtocl.this).create();
+                    // 设置对话框标题
+                    isExit.setTitle("系统提示");
+                    // 设置对话框消息
+                    isExit.setMessage("您还有设备检验任务没有完成，是否确定离开？");
+                    // 添加选择按钮并注册监听
+                    isExit.setButton("确定", listener);
+                    isExit.setButton2("取消", listener);
+                    // 显示对话框
+                    isExit.show();
+
+                }else {
+                    finish();
+                }
             }
         });
 
@@ -84,8 +102,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                 final EditText et=new EditText(CheckStartProtocl.this);
 
                 new AlertDialog.Builder(CheckStartProtocl.this)
-                        .setTitle("系统提示")
-                        .setMessage("\n请输入终止检验申请理由：")
+                        .setMessage("请输入终止检验申请理由：")
                         .setView(et)
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
@@ -158,8 +175,7 @@ public class CheckStartProtocl extends AppCompatActivity {
 
                 final EditText et=new EditText(CheckStartProtocl.this);
                 new AlertDialog.Builder(CheckStartProtocl.this)
-                        .setTitle("系统提示")
-                        .setMessage("\n请输入重新派工申请理由：")
+                        .setMessage("请输入重新派工申请理由：")
                         .setView(et)
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
@@ -385,9 +401,11 @@ public class CheckStartProtocl extends AppCompatActivity {
                     if (consignmentList.size()>0&&refreshcode.equals("23")){
                         backwork.setEnabled(true);
                         endtest.setEnabled(true);
+                        isNotComplete=false;
                     }else {
                         backwork.setEnabled(false);
                         endtest.setEnabled(false);
+                        isNotComplete=true;
                     }
                 }else {
                     String toastStr=null;
@@ -416,5 +434,54 @@ public class CheckStartProtocl extends AppCompatActivity {
      //   getDeviceType();
     }
 
-    
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK )
+        {
+            // 创建退出对话框
+            AlertDialog isExit = new AlertDialog.Builder(this).create();
+            // 设置对话框标题
+            isExit.setTitle("系统提示");
+            // 设置对话框消息
+            isExit.setMessage("您还有设备检验任务没有完成，是否确定离开？");
+            // 添加选择按钮并注册监听
+            isExit.setButton("确定", listener);
+            isExit.setButton2("取消", listener);
+            // 显示对话框
+            isExit.show();
+
+        }else {
+          finish();
+        }
+
+        return false;
+
+    }
+    /**监听对话框里面的button点击事件*/
+    DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener()
+    {
+        public void onClick(DialogInterface dialog, int which)
+        {
+            switch (which)
+            {
+                case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
+                {
+                    isNotComplete=false;
+                    finish();
+                }
+                break;
+                case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+
+
+
 }

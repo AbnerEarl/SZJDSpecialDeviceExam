@@ -26,11 +26,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.bumptech.glide.Glide;
 import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.Conf.URLConfig;
+import com.example.frank.jinding.Log.L;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
+import com.example.frank.jinding.Utils.Apires;
 import com.example.frank.jinding.Utils.CameraPermissionCompat;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
@@ -55,10 +59,11 @@ public class CheckOpinion extends AppCompatActivity {
     private String consignmentId="",submission_id="",device_id="",instrment_codes="",exam_result="",problem_suggestion="";
     private MyAdapter mAdapter;
     private String orderId="";
-    private Button add_recheck,add_opinion_photo,look_opinion;
+    private Button add_recheck,look_opinion;
     private ListView lv_rcheck;
     private String Type="不合格";
     private int TypeNumber=0;
+    private boolean isUploadOpinionPicture=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,20 +103,20 @@ public class CheckOpinion extends AppCompatActivity {
                     add_recheck.setVisibility(View.VISIBLE);
                     lv_rcheck.setVisibility(View.VISIBLE);
                     etcontent.setVisibility(View.INVISIBLE);
-                    add_opinion_photo.setVisibility(View.VISIBLE);
+
                     look_opinion.setVisibility(View.VISIBLE);
 
                 }else if (list.get(arg2).equals("请选择检验结论：")){
                     add_recheck.setVisibility(View.INVISIBLE);
                     lv_rcheck.setVisibility(View.INVISIBLE);
                     etcontent.setVisibility(View.INVISIBLE);
-                    add_opinion_photo.setVisibility(View.INVISIBLE);
+
                     look_opinion.setVisibility(View.INVISIBLE);
                 }else {
                     add_recheck.setVisibility(View.INVISIBLE);
                     lv_rcheck.setVisibility(View.INVISIBLE);
                     etcontent.setVisibility(View.VISIBLE);
-                    add_opinion_photo.setVisibility(View.VISIBLE);
+
                     look_opinion.setVisibility(View.VISIBLE);
                 }
 
@@ -179,31 +184,7 @@ public class CheckOpinion extends AppCompatActivity {
 
 
 
-        add_opinion_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Boolean permission= CameraPermissionCompat.checkCameraPermission(CheckOpinion.this, new CameraPermissionCompat.OnCameraPermissionListener() {
-                    @Override
-                    public void onGrantResult(boolean granted) {
-
-                        Log.i("相机权限：",granted+"");
-                    }
-                });
-
-                if (permission) {
-                    Intent intent = new Intent(CheckOpinion.this, Opinion_Recorde.class);
-                    intent.putExtra("consignmentId", consignmentId);
-                    intent.putExtra("orderId", orderId);
-                    intent.putExtra("deviceId",device_id);
-                    startActivity(intent);
-                    //startActivityForResult(intent, 5201);
-                }
-                else {
-                    new AlertDialog.Builder(CheckOpinion.this).setTitle("系统提示").setMessage("您还没有给该应用赋予拍照的权限，请前往手机设置里面手动赋予该应用相机权限").show();
-                }
-            }
-        });
 
 
         look_opinion.setOnClickListener(new View.OnClickListener() {
@@ -214,8 +195,8 @@ public class CheckOpinion extends AppCompatActivity {
                 intent11.putExtra("consignmentId", consignmentId);
                 intent11.putExtra("orderId", orderId);
                 intent11.putExtra("deviceId",device_id);
-                startActivity(intent11);
-                //getOpinionPhoto();
+                //startActivity(intent11);
+                startActivityForResult(intent11,100);
 
             }
         });
@@ -230,144 +211,150 @@ public class CheckOpinion extends AppCompatActivity {
                 }*/
 
                 if (Type.equals("需复检（待确认）")){
-                    processDialog.show();
-                    submit.setEnabled(false);
-                    HashMap<String,String> map_data=new HashMap<>();
-                    exam_result = (TypeNumber - 1) + "";
-                    problem_suggestion = "该设备需要复检，详情条目见表详情！";
-                   // String data = submission_id + "#" + device_id + "#" + exam_result + "#" + problem_suggestion;
-                    map_data.put("exam_result",exam_result);
-                    map_data.put("problem_suggestion",problem_suggestion);
-                    map_data.put("submission_id",submission_id);
-                    map_data.put("device_id",device_id);
-                    map_data.put("orderId",orderId);
-                    Map<String, Object> paremetes = new HashMap<>();
-                    paremetes.put("data", JSON.toJSONString(map_data));
+                    if (mAdapter.listItem.size()>0) {
+                        processDialog.show();
+                        submit.setEnabled(false);
+                        HashMap<String, String> map_data = new HashMap<>();
+                        exam_result = (TypeNumber) + "";
+                        problem_suggestion = "该设备需要复检，详情条目见表详情！";
+                        // String data = submission_id + "#" + device_id + "#" + exam_result + "#" + problem_suggestion;
+                        map_data.put("exam_result", exam_result);
+                        map_data.put("problem_suggestion", problem_suggestion);
+                        map_data.put("submission_id", submission_id);
+                        map_data.put("device_id", device_id);
+                        map_data.put("orderId", orderId);
+                        Map<String, Object> paremetes = new HashMap<>();
+                        paremetes.put("data", JSON.toJSONString(map_data));
 
-                    ApiService.GetString(CheckOpinion.this, "addCheckOpinionResult", paremetes, new RxStringCallback() {
-                        boolean flag = false;
+                        ApiService.GetString(CheckOpinion.this, "addCheckOpinionResult", paremetes, new RxStringCallback() {
+                            boolean flag = false;
 
-                        @Override
-                        public void onNext(Object tag, String response) {
+                            @Override
+                            public void onNext(Object tag, String response) {
 
-                            if (response.trim().equals("重复提交")) {
-                                CheckControl.start=true;
-                                //Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(CheckOpinion.this, "该台设备的检测意见更新成功", Toast.LENGTH_SHORT).show();
+                                if (response.trim().equals("重复提交")) {
+                                    CheckControl.start = true;
+                                    //Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CheckOpinion.this, "该台设备的检测意见更新成功", Toast.LENGTH_SHORT).show();
 
-                            }else if (response.trim().equals("拒绝修改")){
-                                Toast.makeText(CheckOpinion.this, "该台设备的检测意见已经审核通过，拒绝再次修改", Toast.LENGTH_SHORT).show();
-                            }
-                            else if (response.trim().equals("提交失败！")){
-                                Toast.makeText(CheckOpinion.this, "提交失败，请检查网络连接", Toast.LENGTH_SHORT).show();
-                            }
-                            else if (response.trim().equals("session为空")){
-                                Toast.makeText(CheckOpinion.this, "提交失败，需要重新登录", Toast.LENGTH_SHORT).show();
-                            }
-                            else if (!response.trim().equals("")){
-                                if (response.trim().equals("device")){
+                                } else if (response.trim().equals("拒绝修改")) {
+                                    Toast.makeText(CheckOpinion.this, "该台设备的检测意见已经审核通过，拒绝再次修改", Toast.LENGTH_SHORT).show();
+                                } else if (response.trim().equals("提交失败！")) {
+                                    Toast.makeText(CheckOpinion.this, "提交失败，请检查网络连接", Toast.LENGTH_SHORT).show();
+                                } else if (response.trim().equals("session为空")) {
+                                    Toast.makeText(CheckOpinion.this, "提交失败，需要重新登录", Toast.LENGTH_SHORT).show();
+                                } else if (!response.trim().equals("")) {
+                                    if (response.trim().equals("device")) {
 
-                                    CheckControl.device_finish=true;
-                                }
-                                if (response.trim().equals("protocol")){
+                                        CheckControl.device_finish = true;
+                                    }
+                                    if (response.trim().equals("protocol")) {
 
-                                    CheckControl.device_finish=true;
-                                    CheckControl.protocol_finish=true;
-                                }
-                                if (response.trim().equals("order")){
-                                    CheckControl.device_finish=true;
-                                    CheckControl.protocol_finish=true;
-                                    CheckControl.order_finish=true;
-                                }
+                                        CheckControl.device_finish = true;
+                                        CheckControl.protocol_finish = true;
+                                    }
+                                    if (response.trim().equals("order")) {
+                                        CheckControl.device_finish = true;
+                                        CheckControl.protocol_finish = true;
+                                        CheckControl.order_finish = true;
+                                    }
 
 
+                                    CheckControl.start = true;
 
-                                CheckControl.start=true;
+                                    String recheckdata = "";
 
-                                String recheckdata="";
-
-                                for (int k=0;k<mAdapter.listItem.size();k++){
-                                    HashMap<String, Object> map =mAdapter.listItem.get(k);
-                                    recheckdata=recheckdata+map.get("ItemNumber")+"##"+map.get("ItemText")+"##";
-                                }
+                                    for (int k = 0; k < mAdapter.listItem.size(); k++) {
+                                        HashMap<String, Object> map = mAdapter.listItem.get(k);
+                                        recheckdata = recheckdata + map.get("ItemNumber") + "##" + map.get("ItemText") + "##";
+                                    }
 
 
-                                String data = orderId + "##" + consignmentId + "##" + device_id + "##" + recheckdata;
-                                Map<String, Object> paremetes = new HashMap<>();
-                                paremetes.put("data", data);
-                                ApiService.GetString(CheckOpinion.this, "recheckInfomation", paremetes, new RxStringCallback() {
-                                    boolean flag = false;
+                                    String data = orderId + "##" + consignmentId + "##" + device_id + "##" + recheckdata;
+                                    Map<String, Object> paremetes = new HashMap<>();
+                                    paremetes.put("data", data);
+                                    ApiService.GetString(CheckOpinion.this, "recheckInfomation", paremetes, new RxStringCallback() {
+                                        boolean flag = false;
 
-                                    @Override
-                                    public void onNext(Object tag, String response) {
+                                        @Override
+                                        public void onNext(Object tag, String response) {
 
-                                        if (response.trim().equals("true")){
-                                            etcontent.setText("");
-                                            CheckControl.start = true;
-                                            submit.setEnabled(false);
-                                            processDialog.dismiss();
-                                            Toast.makeText(CheckOpinion.this, "检测意见提交成功，请等待审核结果", Toast.LENGTH_SHORT).show();
-                                            finish();
-                                        }else if (response.trim().equals("false")){
-                                            Toast.makeText(CheckOpinion.this, "服务连接问题，请重新尝试提交", Toast.LENGTH_SHORT).show();
+                                            if (response.trim().equals("true")) {
+                                                etcontent.setText("");
+                                                CheckControl.start = true;
+                                                submit.setEnabled(false);
+                                                processDialog.dismiss();
+                                                Toast.makeText(CheckOpinion.this, "检测意见提交成功，请等待审核结果", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            } else if (response.trim().equals("false")) {
+                                                Toast.makeText(CheckOpinion.this, "服务连接问题，请重新尝试提交", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    public void onError(Object tag, Throwable e) {
-                                        Toast.makeText(CheckOpinion.this, "提交失败" , Toast.LENGTH_SHORT).show();
-                                        submit.setEnabled(true);
-                                        processDialog.dismiss();
+                                        @Override
+                                        public void onError(Object tag, Throwable e) {
+                                            Toast.makeText(CheckOpinion.this, "提交失败", Toast.LENGTH_SHORT).show();
+                                            submit.setEnabled(true);
+                                            processDialog.dismiss();
 
-                                    }
+                                        }
 
-                                    @Override
-                                    public void onCancel(Object tag, Throwable e) {
-                                        Toast.makeText(CheckOpinion.this, "提交失败", Toast.LENGTH_SHORT).show();
-                                        submit.setEnabled(true);
-                                        processDialog.dismiss();
-                                    }
-
-
-                                });
+                                        @Override
+                                        public void onCancel(Object tag, Throwable e) {
+                                            Toast.makeText(CheckOpinion.this, "提交失败", Toast.LENGTH_SHORT).show();
+                                            submit.setEnabled(true);
+                                            processDialog.dismiss();
+                                        }
 
 
-                            } else {
+                                    });
+
+
+                                } else {
+                                    submit.setEnabled(true);
+                                    processDialog.dismiss();
+                                    Toast.makeText(CheckOpinion.this, "提交失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Object tag, Throwable e) {
+                                Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
                                 submit.setEnabled(true);
                                 processDialog.dismiss();
-                                Toast.makeText(CheckOpinion.this, "提交失败", Toast.LENGTH_SHORT).show();
+
                             }
-                        }
 
-                        @Override
-                        public void onError(Object tag, Throwable e) {
-                            Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
-                            submit.setEnabled(true);
-                            processDialog.dismiss();
-
-                        }
-
-                        @Override
-                        public void onCancel(Object tag, Throwable e) {
-                            Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
-                            submit.setEnabled(true);
-                            processDialog.dismiss();
-                        }
+                            @Override
+                            public void onCancel(Object tag, Throwable e) {
+                                Toast.makeText(CheckOpinion.this, "提交失败" + e, Toast.LENGTH_SHORT).show();
+                                submit.setEnabled(true);
+                                processDialog.dismiss();
+                            }
 
 
-                    });
+                        });
 
 
+                    }else {
+                        new AlertDialog.Builder(CheckOpinion.this)
+                                .setMessage("请添加需要复检的条目！")
+                                .setPositiveButton("确定",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
 
+                                            }
+                                        }).show();
+                    }
 
                 }else {
 
-                    if (etcontent.getText().toString().trim().length() > 2) {
+                    if (etcontent.getText().toString().trim().length() > 2||isUploadOpinionPicture) {
 
 
                         new AlertDialog.Builder(CheckOpinion.this)
-                                .setTitle("系统提示")
-                                .setMessage("\n请核对检测意见\n\n检测结论：" + Type + "\n\n检测意见：" + etcontent.getText() + "\n\n\n\n确认无误后，点击“确定”进行提交，点击“取消”返回修改")
+                                .setMessage("请核对检测意见\n\n检测结论：" + Type + "\n\n检测意见：" + etcontent.getText() + "\n\n\n\n确认无误后，点击“确定”进行提交，点击“取消”返回修改")
                                 .setNegativeButton("取消", null)
                                 .setPositiveButton("确定",
                                         new DialogInterface.OnClickListener() {
@@ -376,7 +363,7 @@ public class CheckOpinion extends AppCompatActivity {
                                                 HashMap<String,String> map_data=new HashMap<>();
                                                 submit.setEnabled(false);
                                                 processDialog.show();
-                                                exam_result = (TypeNumber - 1) + "";
+                                                exam_result = (TypeNumber) + "";
                                                 problem_suggestion = etcontent.getText().toString();
                                                // String data = submission_id + "#" + device_id  + "#" + exam_result + "# " + problem_suggestion+" #"+orderId;
                                                 map_data.put("exam_result",exam_result);
@@ -455,8 +442,7 @@ public class CheckOpinion extends AppCompatActivity {
                                         }).show();
                     } else if (etcontent.getText().toString().trim().length() < 3) {
                         new AlertDialog.Builder(CheckOpinion.this)
-                                .setTitle("系统提示")
-                                .setMessage("\n请填写不少于3个字符的检测意见")
+                                .setMessage("请填写不少于3个字符的检测意见")
                                 .setPositiveButton("确定",
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -490,7 +476,7 @@ public class CheckOpinion extends AppCompatActivity {
         etcontent=(EditText)this.findViewById(R.id.editText4);
         submit=(Button)this.findViewById(R.id.button24);
         add_recheck=(Button)this.findViewById(R.id.btn_add_recheck_item);
-        add_opinion_photo=(Button)this.findViewById(R.id.btn_opinion_photo);
+
         look_opinion=(Button)this.findViewById(R.id.btn_look_opinion);
         lv_rcheck=(ListView)this.findViewById(R.id.lv_recheck_item);
 
@@ -508,7 +494,7 @@ public class CheckOpinion extends AppCompatActivity {
         add_recheck.setVisibility(View.INVISIBLE);
         lv_rcheck.setVisibility(View.INVISIBLE);
         etcontent.setVisibility(View.VISIBLE);
-        add_opinion_photo.setVisibility(View.VISIBLE);
+
         look_opinion.setVisibility(View.VISIBLE);
 
 
@@ -520,11 +506,17 @@ public class CheckOpinion extends AppCompatActivity {
 //        opionsp.setAdapter(spadapter);
         opionsp.attachDataSource(list);
 
-        //getInstrumentCodes();
+        isNotUploadOpinionPhoto();
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==100){
+            isNotUploadOpinionPhoto();
+        }
+    }
 
     private class MyAdapter extends BaseAdapter {
 
@@ -598,12 +590,6 @@ public class CheckOpinion extends AppCompatActivity {
                 }
             });
 
-
-
-
-
-
-
             return convertView;
         }
 
@@ -614,6 +600,64 @@ public class CheckOpinion extends AppCompatActivity {
         public Button delete;
 
     }
+
+
+
+    private void isNotUploadOpinionPhoto(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HashMap<String,String> map_data=new HashMap<>();
+                    map_data.put("order_id",orderId);
+                    map_data.put("consignment_id",consignmentId);
+                    map_data.put("device_id",device_id);
+                    Map<String, Object> paremetes = new HashMap<>();
+                    paremetes.put("data", JSON.toJSONString(map_data));
+                    ApiService.GetString(CheckOpinion.this, "isNotUploadOpinionPhoto", paremetes, new RxStringCallback() {
+                        boolean flag = false;
+
+                        @Override
+                        public void onNext(Object tag, String response) {
+                            try {
+                                Apires joResponse = JSON.parseObject(response, Apires.class);
+                                if (joResponse.status == 0) {
+                                    L.e("协议填写状态获取成功");
+                                    isUploadOpinionPicture = true;
+                                } else{
+                                    L.e("协议填写状态获取失败");
+                                    isUploadOpinionPicture = false;
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Object tag, Throwable e) {
+
+
+                        }
+
+                        @Override
+                        public void onCancel(Object tag, Throwable e) {
+
+                        }
+                    });
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+    }
+
+
 
 
 

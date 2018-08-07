@@ -96,7 +96,8 @@ public class DepartmentHeaderFinance extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             checkItemPosition=position;
-                            checkFinance();
+                            //checkFinance();
+                            checkDetail();
                         }
                     });
                 } else if (searchContentSpinner.getSelectedItem().toString().equals("已审核财务异动历史")){

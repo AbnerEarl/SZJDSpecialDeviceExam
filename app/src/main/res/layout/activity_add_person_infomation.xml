@@ -34,7 +34,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="委托单位"
+                    android:text="委托单位*"
                     android:textSize="14sp" />
 
                 <EditText
@@ -90,7 +90,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="联系电话"
+                    android:text="联系电话*"
                     android:textSize="14sp" />
 
                 <EditText
@@ -114,7 +114,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="使用单位"
+                    android:text="使用单位*"
                     android:textSize="14sp" />
 
                 <EditText
@@ -160,7 +160,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="付款方式"
+                    android:text="付款方式*"
                     android:textSize="14sp" />
 
                 <EditText
@@ -265,7 +265,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="工程名称"
+                    android:text="工程名称*"
                     android:textSize="14sp" />
 
                 <EditText
@@ -288,7 +288,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="所在地区"
+                    android:text="所在地区*"
                     android:textSize="14sp" />
 
                 <EditText
@@ -312,7 +312,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="详细地址"
+                    android:text="详细地址*"
                     android:textSize="14sp" />
 
                 <EditText

@@ -393,61 +393,7 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (((DeviceType)deviceTypeSpinner.getSelectedItem()).getDevice_type_id()==null)
-                                    Toast.makeText(AddOrder.this,"请选择设备类型",Toast.LENGTH_SHORT).show();
-                                else if(checkRepate(((DeviceType)deviceTypeSpinner.getSelectedItem()).getDevice_type_name())){
-                                    Toast.makeText(AddOrder.this,"请勿重复添加",Toast.LENGTH_SHORT).show();
-                                }
-                                else if (checkReferenceTv.getText()==null|| TextUtils.isEmpty(checkReferenceTv.getText().toString()))
-                                    Toast.makeText(AddOrder.this,"请选择检验依据",Toast.LENGTH_SHORT).show();
-                                else {
-                                    Float checkCharge=new Float(0);
-                                    deviceTypeName=((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_name();
-                                    if (requestCode==OrderSearch.UPDATE_REQUEST_CODE){
-                                       if (ADD_OR_UPDATE==1) {
-                                           ConsignmentDetail consignmentDetail = new ConsignmentDetail(((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_id(), 0);
-                                           consignmentDetail.setOrderId(checkOrder.getOrderId());
-                                           consignmentDetail.setIsPassCheck("2");
-                                           consignmentDetail.setConsignmentStatus(checkOrder.getOrderStatus());
-                                         //  consignmentDetail.setReferenceCodes((String) checkArray.get(0));
-                                           consignmentDetail.setMainCheckReference(mainCheckReference);
-                                           consignmentDetail.setCheckCharge(checkCharge);
-                                           Log.i(TAG, "修改协议 ");
-                                           addOrUpdateConsignmentCommit(consignmentDetail);
-                                       }else if (ADD_OR_UPDATE==2){
-                                          // consignmentDetail.setCheckCharge(checkCharge);
-                                           consignmentDetail.setDeviceTypeId(((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_id());
-                                           //consignmentDetail.setReferenceCodes(mainCheckReference);
-                                           consignmentDetail.setMainCheckReference(mainCheckReference);
-                                           addOrUpdateConsignmentCommit(consignmentDetail);
-                                           updatePosition=position;
-                                        }
-                                    }else {
-                                        if (ADD_OR_UPDATE==1) {
-                                            ConsignmentDetail consignmentDetail = new ConsignmentDetail(((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_name(), 0);
-                                            consignmentDetail.setIsPassCheck("2");
-                                            consignmentDetail.setConsignmentStatus("01");
-                                            consignmentDetail.setCheckCharge(checkCharge);
-                                            consignmentDetail.setMainCheckReference(checkReferenceStr);
-                                            consignmentList.add(consignmentDetail);
-                                            adapter.notifyDataSetChanged();
-                                            protocol_info.setVisibility(View.GONE);
-                                            // Toast.makeText(AddOrder.this, "添加成功！", Toast.LENGTH_SHORT).show();
-                                        }else if (ADD_OR_UPDATE==2){
-                                          //  consignmentDetail.setCheckCharge(checkCharge);
-                                            consignmentDetail.setDeviceTypeId(((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_name());
-                                            consignmentDetail.setMainCheckReference(checkReferenceStr);
-                                            consignmentList.set(position,consignmentDetail);
-                                            adapter.notifyDataSetChanged();
-                                            }
-                                    }
-                                }
-                            }
-                        }
-                )
+                .setPositiveButton("确定", null)
                 .create();
         if (ADD_OR_UPDATE==1)
         alertDialog.setTitle("添加协议");
@@ -456,6 +402,66 @@ public class AddOrder extends AppCompatActivity implements View.OnClickListener,
         }
         alertDialog.setView(dialogView);
         alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((DeviceType)deviceTypeSpinner.getSelectedItem()).getDevice_type_id()==null) {
+                    Toast.makeText(AddOrder.this, "请选择设备类型", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(checkRepate(((DeviceType)deviceTypeSpinner.getSelectedItem()).getDevice_type_name())){
+                    Toast.makeText(AddOrder.this,"请勿重复添加",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if (checkReferenceTv.getText()==null|| TextUtils.isEmpty(checkReferenceTv.getText().toString())){
+                    Toast.makeText(AddOrder.this,"请选择检验依据",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else {
+                    Float checkCharge=new Float(0);
+                    deviceTypeName=((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_name();
+                    if (requestCode==OrderSearch.UPDATE_REQUEST_CODE){
+                        if (ADD_OR_UPDATE==1) {
+                            ConsignmentDetail consignmentDetail = new ConsignmentDetail(((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_id(), 0);
+                            consignmentDetail.setOrderId(checkOrder.getOrderId());
+                            consignmentDetail.setIsPassCheck("2");
+                            consignmentDetail.setConsignmentStatus(checkOrder.getOrderStatus());
+                            //  consignmentDetail.setReferenceCodes((String) checkArray.get(0));
+                            consignmentDetail.setMainCheckReference(mainCheckReference);
+                            consignmentDetail.setCheckCharge(checkCharge);
+                            Log.i(TAG, "修改协议 ");
+                            addOrUpdateConsignmentCommit(consignmentDetail);
+                        }else if (ADD_OR_UPDATE==2){
+                            // consignmentDetail.setCheckCharge(checkCharge);
+                            consignmentDetail.setDeviceTypeId(((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_id());
+                            //consignmentDetail.setReferenceCodes(mainCheckReference);
+                            consignmentDetail.setMainCheckReference(mainCheckReference);
+                            addOrUpdateConsignmentCommit(consignmentDetail);
+                            updatePosition=position;
+                        }
+                    }else {
+                        if (ADD_OR_UPDATE==1) {
+                            ConsignmentDetail consignmentDetail = new ConsignmentDetail(((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_name(), 0);
+                            consignmentDetail.setIsPassCheck("2");
+                            consignmentDetail.setConsignmentStatus("01");
+                            consignmentDetail.setCheckCharge(checkCharge);
+                            consignmentDetail.setMainCheckReference(checkReferenceStr);
+                            consignmentList.add(consignmentDetail);
+                            adapter.notifyDataSetChanged();
+                            protocol_info.setVisibility(View.GONE);
+                            // Toast.makeText(AddOrder.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                        }else if (ADD_OR_UPDATE==2){
+                            //  consignmentDetail.setCheckCharge(checkCharge);
+                            consignmentDetail.setDeviceTypeId(((DeviceType) deviceTypeSpinner.getSelectedItem()).getDevice_type_name());
+                            consignmentDetail.setMainCheckReference(checkReferenceStr);
+                            consignmentList.set(position,consignmentDetail);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                    alertDialog.dismiss();
+                }
+            }
+        });
     }
     private void addOrUpdateConsignmentCommit(final ConsignmentDetail consignment){
         ConsignmentDetail consignmentDetail=consignment;

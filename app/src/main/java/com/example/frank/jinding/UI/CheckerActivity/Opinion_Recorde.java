@@ -135,9 +135,13 @@ public class Opinion_Recorde extends AppCompatActivity {
 
 
                     new AlertDialog.Builder(Opinion_Recorde.this)
-                            .setTitle("系统提示")
                             .setMessage("\n您是否确定上传本张检验意见照片？")
-                            .setNegativeButton("取消", null)
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
                             .setPositiveButton("确定",
                                     new DialogInterface.OnClickListener() {
                                         @Override
@@ -176,6 +180,8 @@ public class Opinion_Recorde extends AppCompatActivity {
                                                                         if (response.trim().equals("上传成功！")) {
                                                                             Toast.makeText(Opinion_Recorde.this, "上传成功", Toast.LENGTH_SHORT).show();
                                                                             finish();
+                                                                        }else {
+                                                                            Toast.makeText(Opinion_Recorde.this, "上传失败，请检查服务器或者网络是否正常", Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }
 

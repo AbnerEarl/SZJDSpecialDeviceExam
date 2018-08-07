@@ -463,9 +463,9 @@ public class AddOrderInformation extends AppCompatActivity {
             return "未选择获取报告方式";
         } else if (projectName.getText() == null || TextUtils.isEmpty(projectName.getText())) {
             return "未填写工程名称";
-        } else if (expectCheckdate.getText() == null || TextUtils.isEmpty(expectCheckdate.getText())) {
+        } /*else if (expectCheckdate.getText() == null || TextUtils.isEmpty(expectCheckdate.getText())) {
             return "未选择期待检验日期";
-        } else if (projectAddress.getText() == null || TextUtils.isEmpty(projectAddress.getText())) {
+        } */else if (projectAddress.getText() == null || TextUtils.isEmpty(projectAddress.getText())) {
             return "未填写工程地址";
         }
         return "填写完成";

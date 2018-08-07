@@ -239,7 +239,7 @@ public class SelectEquipment extends AppCompatActivity {
                     et.setText(mAdapter.listItem.get(arg2).get("ItemText").toString());
                 }
                 new  AlertDialog.Builder(SelectEquipment.this)
-                        .setMessage("\n请修改新的检验情况说明：")
+                        .setMessage("请修改新的检验情况说明：")
                         .setView(et)
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
@@ -335,8 +335,7 @@ public class SelectEquipment extends AppCompatActivity {
 
                 }
                     new AlertDialog.Builder(SelectEquipment.this)
-                            .setTitle("系统提示")
-                            .setMessage("\n您是否确定上传本次检验记录？\n\n如果上传完成，可以填写检验意见！")
+                            .setMessage("您是否确定上传本次检验记录？\n\n如果上传完成，可以填写检验意见！")
                             .setNegativeButton("取消", null)
                             .setPositiveButton("确定",
                                     new DialogInterface.OnClickListener() {
@@ -473,8 +472,7 @@ public class SelectEquipment extends AppCompatActivity {
 
 
                 new  AlertDialog.Builder(SelectEquipment.this)
-                        .setTitle("系统提示")
-                        .setMessage("\n撰写报告前请点击“上传保存”，以免信息丢失！如果您确定检测已经完成，点击“确定”进行撰写检测意见，点击“取消”继续进行相关检测！")
+                        .setMessage("撰写报告前请点击“上传保存”，以免信息丢失！如果您确定检测已经完成，点击“确定”进行撰写检测意见，点击“取消”继续进行相关检测！")
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -1065,8 +1063,7 @@ public class SelectEquipment extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     new  AlertDialog.Builder(SelectEquipment.this)
-                            .setTitle("系统提示")
-                            .setMessage("\n您确定删除本条检测记录吗？")
+                            .setMessage("您确定删除本条检测记录吗？")
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -1152,8 +1149,7 @@ public class SelectEquipment extends AppCompatActivity {
                     final EditText et=new EditText(SelectEquipment.this);
                     et.setText(mAdapter.listItem.get(position).get("ItemText").toString());
                     new  AlertDialog.Builder(SelectEquipment.this)
-                            .setTitle("系统提示")
-                            .setMessage("\n请修改新的检验情况说明：")
+                            .setMessage("请修改新的检验情况说明：")
                             .setView(et)
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override

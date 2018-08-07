@@ -11,7 +11,7 @@ package com.example.frank.jinding.Report;
  **/
 public class ReportRule {
 
-    public static String deviceReportCorrespondence(String deviceTypeId, String checkTypeId, String monitorStatus,String projectCity) {
+    public static String deviceReportCorrespondence(String deviceTypeId, String checkTypeId, String monitorStatus,String mainCheckReference) {
         String report = "";
         //桥门式起重机
         if ((deviceTypeId == "2" || deviceTypeId == "4") && (monitorStatus == "1")) {
@@ -36,7 +36,7 @@ public class ReportRule {
         }
         //施工升降机
         if (deviceTypeId .trim().equals( "3")) {
-            if(checkTypeId.equals("3"))
+            if(mainCheckReference.equals("3"))
                 report = "SzjdBzQz17";
             else
                 report = "SzjdBzQz22";

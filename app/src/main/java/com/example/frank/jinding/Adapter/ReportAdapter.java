@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Message;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -239,7 +240,8 @@ public class ReportAdapter extends BaseAdapter{
         String projectCity=listItem.get(position).get("projectCity").toString();
         String reportId=listItem.get(position).get("reportId").toString();
         String deviceDetailId=listItem.get(position).get("deviceDetailId").toString();
-        String report=ReportRule.deviceReportCorrespondence(deviceTypeId,checkTypeId,monitorStatus,projectCity);
+        String mainCheckReference=listItem.get(position).get("mainCheckReference").toString();
+        String report=ReportRule.deviceReportCorrespondence(deviceTypeId,checkTypeId,monitorStatus,mainCheckReference);
         //String reportTypeCode=listItem.get(position).get("reportCode").toString();
         datainfo= report+"#"+deviceDetailId+"#"+reportId;
         HashMap<String,String> map_data=new HashMap<>();
@@ -377,8 +379,8 @@ public class ReportAdapter extends BaseAdapter{
     private void getData(String map_data,String dd) {
 
         String savedir = Environment.getExternalStorageDirectory() + "/Luban/Doc/";
-
         ProgressBar progressBar=new ProgressBar(context);
+        progressBar.setMinimumHeight(200);
         AlertDialog alertDialog=new AlertDialog.Builder(context).setView(progressBar).create();
         alertDialog.show();
 
@@ -469,8 +471,10 @@ public class ReportAdapter extends BaseAdapter{
                         alertDialog.dismiss();
                         Toast.makeText(context, "操作成功", Toast.LENGTH_SHORT).show();
                         listItem.remove(pos);
-
                         CheckReport.isOperate=true;
+                        Message massage=new Message();
+                        massage.what=101;
+                        CheckReport.mHandler.sendMessage(massage);
 
                     } else if (response.equals("false")) {
                         Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
@@ -507,6 +511,9 @@ public class ReportAdapter extends BaseAdapter{
                         Toast.makeText(context, "操作成功", Toast.LENGTH_SHORT).show();
                         listItem.remove(pos);
                         CheckReport.isOperate=true;
+                        Message massage=new Message();
+                        massage.what=101;
+                        CheckReport.mHandler.sendMessage(massage);
                     } else if (response.equals("false")) {
                         Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
                     } else if (response.equals("重新登录")) {
@@ -542,6 +549,9 @@ public class ReportAdapter extends BaseAdapter{
                         Toast.makeText(context, "操作成功", Toast.LENGTH_SHORT).show();
                         listItem.remove(pos);
                         CheckReport.isOperate=true;
+                        Message massage=new Message();
+                        massage.what=101;
+                        CheckReport.mHandler.sendMessage(massage);
                     } else if (response.equals("false")) {
                         Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
                     } else if (response.equals("重新登录")) {

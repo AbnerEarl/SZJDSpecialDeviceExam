@@ -10,15 +10,16 @@
         android:layout_margin="8dp"
         android:layout_height="50dp"
         android:background="@drawable/buttonss_shape">
+
         <TextView
-            android:layout_margin="8dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/__picker_black_40"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:text="设备类型："/>
+            android:gravity="center_vertical"
+            android:text="设备类型:"
+            android:textColor="@color/__picker_black_40"
+            android:textStyle="bold" />
         <Spinner
             android:id="@+id/add_protocol_deviceType_spinner"
             style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
@@ -35,15 +36,16 @@
         android:layout_margin="8dp"
         android:layout_height="wrap_content"
         android:background="@drawable/buttonss_shape">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:gravity="center_vertical"
             android:layout_marginLeft="8dp"
-            android:textColor="@color/__picker_black_40"
             android:layout_weight="1"
-            android:textStyle="bold"
-            android:text="检验依据："/>
+            android:gravity="center_vertical"
+            android:text="检验依据:"
+            android:textColor="@color/__picker_black_40"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/add_protocol_checkReference_et"
             android:background="@drawable/divider_line_bottom"

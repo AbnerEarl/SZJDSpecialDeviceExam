@@ -10,7 +10,7 @@
         <item
             android:id="@+id/nav_order_manage"
             android:icon="?android:attr/actionModePasteDrawable"
-            android:title="派工管理/查看" />
+            android:title="派工任务" />
         <item
             android:id="@+id/nav_instrument"
             android:icon="?android:attr/actionModeCutDrawable"

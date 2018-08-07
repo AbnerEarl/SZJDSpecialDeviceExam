@@ -69,9 +69,9 @@ public class TDCheckOrder extends AppCompatActivity {
         if (intent!=null){
             if ((requestCode=intent.getIntExtra("requestCode",0))!=0){
                 titleplain.setText("已审核订单");
-            }
-        }else{
+            }else{
             titleplain.setText("待审核订单");
+        }
         }
         initView();
         search(startIndex,numberShow);

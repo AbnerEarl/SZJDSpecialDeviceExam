@@ -124,25 +124,14 @@
         app:layout_constraintTop_toBottomOf="@+id/opinion_spinner" />
 
     <Button
-        android:id="@+id/btn_opinion_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="添加照片"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/btn_add_recheck_item"
-        app:layout_constraintTop_toBottomOf="@+id/opinion_spinner" />
-
-    <Button
         android:id="@+id/btn_look_opinion"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="查看照片"
+        android:text="检验意见照片"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/btn_opinion_photo"
+        app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/opinion_spinner" />
 
 </android.support.constraint.ConstraintLayout>

@@ -262,10 +262,10 @@ public class OpinionResultActivity extends AppCompatActivity {
                                         opinion_result_conclue_text.setText("不合格");
                                     } else if (map_data.get("examResult").trim().equals("1")) {
                                         //map.put("ItemResult", "合格");
-                                        opinion_result_conclue_text.setText("不合格");
+                                        opinion_result_conclue_text.setText("合格");
                                     } else if (map_data.get("examResult").trim().equals("2")) {
                                         //map.put("ItemResult", "需复检（待确认）");
-                                        opinion_result_conclue_text.setText("不合格");
+                                        opinion_result_conclue_text.setText("需复检（待确认）");
                                     }
                                     //map.put("ItemOpinion", map_data.get("problemSuggestion"));
                                 opinion_result_opinion_text.setText(map_data.get("problemSuggestion"));

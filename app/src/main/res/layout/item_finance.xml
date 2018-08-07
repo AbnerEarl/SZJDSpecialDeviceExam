@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:orientation="horizontal"
+    android:layout_height="100dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:paddingTop="5dp"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/task_icon"
@@ -24,6 +24,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/device_type"
                 android:layout_width="match_parent"
@@ -31,6 +32,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/apply_time"
+                android:layout_toStartOf="@+id/apply_time"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="TextView"
@@ -39,43 +42,45 @@
 
             <TextView
                 android:id="@+id/status"
-                android:layout_width="80sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingRight="5dp"
-                android:text=""
                 android:ellipsize="marquee"
+                android:paddingRight="5dp"
+                android:text="   "
                 android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/apply_time"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/status"
-                android:layout_alignBottom="@id/device_type"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/status"
                 android:singleLine="true"
-                android:text=""
+                android:text="      "
                 android:textSize="12sp" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/order_org"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="left"
             android:singleLine="true"
             android:text="TextView"
             android:textSize="14sp" />
+
         <LinearLayout
             android:id="@+id/expect_checker_layout"
             android:layout_width="match_parent"
             android:layout_height="18dp">
+
             <ImageView
-                android:layout_marginLeft="2dp"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:src="@drawable/checker_green_500_18dp"/>
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/checker_green_500_18dp" />
 
             <TextView
                 android:id="@+id/finance_man"
@@ -86,40 +91,46 @@
                 android:text="TextView"
                 android:textSize="13sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
                 android:text="检测费用："
                 android:textColor="@color/__picker_black_40"
-                android:layout_gravity="center_vertical"/>
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/check_charge"
-                android:layout_marginLeft="5dp"
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:text="0.0"
-                android:layout_gravity="center_vertical"/>
+                android:textSize="12sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:layout_gravity="center_vertical"
+                android:text="已支付费用："
                 android:textColor="@color/__picker_black_40"
-                android:text="已支付费用："/>
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/already_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textSize="12sp"
                 android:layout_gravity="center_vertical"
-                android:text="0.0"/>
+                android:layout_marginLeft="5dp"
+                android:text="0.0"
+                android:textSize="12sp" />
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -130,9 +141,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
+                android:text="报告编码："
                 android:textColor="@color/__picker_black_40"
-                android:textSize="12sp"
-                android:text="报告编码：" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/report_number"
@@ -144,6 +155,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textSize="13sp" />
+
             <CheckBox
                 android:id="@+id/finance_checkBox"
                 android:layout_width="25dp"

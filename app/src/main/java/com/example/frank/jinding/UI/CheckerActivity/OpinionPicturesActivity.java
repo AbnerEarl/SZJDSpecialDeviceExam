@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.example.frank.jinding.Conf.URLConfig;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
+import com.example.frank.jinding.Utils.CameraPermissionCompat;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
@@ -41,7 +43,7 @@ public class OpinionPicturesActivity extends AppCompatActivity {
     private Map<String, Object> checked_list= new HashMap<String, Object>();
     private ImageButton titleleft;
     private TextView title;
-    private Button delete_picture;
+    private Button delete_picture,add_picture;
     private String order_id="",consignment_id="",device_id="",pic_id_data="";
 
     @Override
@@ -57,6 +59,7 @@ public class OpinionPicturesActivity extends AppCompatActivity {
         titleleft=(ImageButton)this.findViewById(R.id.titleback);
         title=(TextView)this.findViewById(R.id.titleplain);
         delete_picture=(Button)this.findViewById(R.id.btn_delete_opinion_picture);
+        add_picture=(Button)this.findViewById(R.id.opinion_picture_add_picture);
         gview = (GridView) findViewById(R.id.gv_opinion_pictures);
         myAdapter=new MyGridViewAdapter(this);
         //配置适配器
@@ -116,6 +119,35 @@ public class OpinionPicturesActivity extends AppCompatActivity {
             }
         });
 
+
+        add_picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Boolean permission= CameraPermissionCompat.checkCameraPermission(OpinionPicturesActivity.this, new CameraPermissionCompat.OnCameraPermissionListener() {
+                    @Override
+                    public void onGrantResult(boolean granted) {
+
+                        Log.i("相机权限：",granted+"");
+                    }
+                });
+
+                if (permission) {
+                    Intent intent = new Intent(OpinionPicturesActivity.this, Opinion_Recorde.class);
+                    intent.putExtra("consignmentId", consignment_id);
+                    intent.putExtra("orderId", order_id);
+                    intent.putExtra("deviceId",device_id);
+                    //startActivity(intent);
+                    startActivityForResult(intent, 101);
+                }
+                else {
+                    new android.app.AlertDialog.Builder(OpinionPicturesActivity.this).setTitle("系统提示").setMessage("您还没有给该应用赋予拍照的权限，请前往手机设置里面手动赋予该应用相机权限").show();
+                }
+            }
+        });
+
+
+
         getOpinionPhoto();
     }
 
@@ -132,10 +164,7 @@ public class OpinionPicturesActivity extends AppCompatActivity {
         //private int height = 150;//每个Item的高度,可以根据实际情况修改
 
 
-        public  class MyGridViewHolder{
-            public ImageView imageview_thumbnail;
-            public CheckBox checkBox_select;
-        }
+
 
         public MyGridViewAdapter(Context context) {
             // TODO Auto-generated constructor stub
@@ -168,15 +197,15 @@ public class OpinionPicturesActivity extends AppCompatActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
-            MyGridViewAdapter.MyGridViewHolder viewHolder = null;
+            MyGridViewHolder viewHolder = null;
             if(convertView == null){
-                viewHolder = new MyGridViewAdapter.MyGridViewHolder();
+                viewHolder = new MyGridViewHolder();
                 convertView = mLayoutInflater.inflate(R.layout.item_show_photo, null);
                 viewHolder.imageview_thumbnail = (ImageView)convertView.findViewById(R.id.img_show_photo);
                 viewHolder.checkBox_select = (CheckBox) convertView.findViewById(R.id.check_box_select);
                 convertView.setTag(viewHolder);
             }else{
-                viewHolder = (MyGridViewAdapter.MyGridViewHolder)convertView.getTag();
+                viewHolder = (MyGridViewHolder)convertView.getTag();
             }
 
             Glide.with(OpinionPicturesActivity.this).load(list_item.get(position).get("image").toString()).into(viewHolder.imageview_thumbnail);
@@ -204,6 +233,10 @@ public class OpinionPicturesActivity extends AppCompatActivity {
 
 
 
+    }
+    public  class MyGridViewHolder{
+        public ImageView imageview_thumbnail;
+        public CheckBox checkBox_select;
     }
 
     private void deletePhotoById(final String data){
@@ -250,7 +283,20 @@ public class OpinionPicturesActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==101){
+           // getOpinionPhoto();
+            Intent intent11=new Intent(OpinionPicturesActivity.this,OpinionPicturesActivity.class);
+            intent11.putExtra("consignmentId", consignment_id);
+            intent11.putExtra("orderId", order_id);
+            intent11.putExtra("deviceId",device_id);
+            startActivity(intent11);
+            finish();
+        }
 
+    }
 
     private void getOpinionPhoto(){
 
@@ -275,6 +321,7 @@ public class OpinionPicturesActivity extends AppCompatActivity {
 
                             if (response.contains("#")&&!response.trim().equals("没有记录")&&!response.trim().equals("上传失败！")) {
                                 myAdapter.list_item.clear();
+
                                 String data_pic[]=response.split("##");
                                 for (int i=0;i<data_pic.length;i=i+2){
                                     String imgurl= URLConfig.CompanyURL+order_id+"/"+consignment_id+"/"+device_id+"/"+data_pic[i+1]+".jpg";

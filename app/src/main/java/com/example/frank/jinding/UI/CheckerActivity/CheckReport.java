@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -54,8 +55,19 @@ public class CheckReport extends AppCompatActivity {
     private String url;//接口
     private ReportAdapter mAdapter;
     private List<HashMap<String, Object>> mapList;
-
     public static boolean isOperate=false;
+    private static Handler handler;
+    private static Runnable runnable;
+    public static Handler mHandler= new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what==101){
+                handler.postDelayed(runnable, 100);
+            }
+
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +117,10 @@ public class CheckReport extends AppCompatActivity {
         });
 
 
-        final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
+        handler = new Handler();
+        runnable = new Runnable() {
             public void run() {
-                handler.postDelayed(this, 1000);
+               // handler.postDelayed(this, 1000);
                 if (isOperate) {
                     isOperate=false;
                     refreshLayout.setRefreshing(true);
@@ -117,7 +129,7 @@ public class CheckReport extends AppCompatActivity {
 
             }
         };
-        handler.postDelayed(runnable, 1000);
+
 
     }
 
@@ -173,6 +185,9 @@ public class CheckReport extends AppCompatActivity {
                             if (key.equals("auditPeople")){
                                 System.out.print("报告数据取得审核人："+jsonObject.get(key));
                             }
+                           /* if (key.equals("mainCheckReference")){
+                                System.out.print("主见规则："+jsonObject.get(key));
+                            }*/
                             item.put(key,jsonObject.get(key));
                         }
                         mapList.add(item);
