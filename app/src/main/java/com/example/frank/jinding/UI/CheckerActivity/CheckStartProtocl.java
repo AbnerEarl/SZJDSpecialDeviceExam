@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.frank.jinding.Adapter.ProtocolAdapter;
 import com.example.frank.jinding.Bean.OrderBean.ConsignmentDetail;
 import com.example.frank.jinding.Bean.OrderBean.DeviceType;
@@ -54,7 +55,8 @@ public class CheckStartProtocl extends AppCompatActivity {
     private ArrayAdapter<String> spinnerAdapter;
     private Spinner mSpinner;
     private String orderId="";
-    private SwipeRefreshLayout refreshLayout;
+    //private SwipeRefreshLayout refreshLayout;
+    private PullRefreshLayout pullRefreshLayout;
     private AlertDialog processDialog;
     private boolean isNotComplete=false;
     @Override
@@ -135,7 +137,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                                                         CheckControl.start=true;
                                                         finish();
                                                         Toast.makeText(CheckStartProtocl.this, "申请提交成功，请等候审批结果", Toast.LENGTH_SHORT).show();
-
+                                                        OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                                     } else {
                                                         Toast.makeText(CheckStartProtocl.this, "申请提交失败", Toast.LENGTH_SHORT).show();
                                                     }
@@ -207,7 +209,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                                                         CheckControl.start=true;
                                                         finish();
                                                         Toast.makeText(CheckStartProtocl.this, "申请提交成功，请等候审批结果", Toast.LENGTH_SHORT).show();
-
+                                                        OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                                     } else {
                                                         Toast.makeText(CheckStartProtocl.this, "申请提交失败", Toast.LENGTH_SHORT).show();
                                                     }
@@ -266,7 +268,7 @@ public class CheckStartProtocl extends AppCompatActivity {
             }
         });
 
-        lv_task.setOnScrollListener(new AbsListView.OnScrollListener() {
+        /*lv_task.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -279,16 +281,23 @@ public class CheckStartProtocl extends AppCompatActivity {
                 else
                     refreshLayout.setEnabled(false);
             }
+        });*/
+
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(refreshcode);
+            }
         });
 
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+       /* refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
-                getData(refreshcode);
+
 
             }
-        });
+        });*/
 
 
 
@@ -320,7 +329,8 @@ public class CheckStartProtocl extends AppCompatActivity {
 
         back = (ImageButton) this.findViewById(R.id.titleback);
         title = (TextView) this.findViewById(R.id.titleplain);
-        refreshLayout=(SwipeRefreshLayout)this.findViewById(R.id.refresh_check_start_protocol);
+        //refreshLayout=(SwipeRefreshLayout)this.findViewById(R.id.refresh_check_start_protocol);
+        pullRefreshLayout=(PullRefreshLayout)this.findViewById(R.id.refreshCheckStartProtocol);
         mSpinner=(Spinner)this.findViewById(R.id.check_start_protocol_spinner);
         lv_task = (ListView) this.findViewById(R.id.lv_check_start_protocol);
         consignmentList=new ArrayList<>();
@@ -376,18 +386,18 @@ public class CheckStartProtocl extends AppCompatActivity {
             @Override
             public void onError(Object tag, Throwable e) {
               Log.i(TAG,e.getMessage());
-              refreshLayout.setRefreshing(false);
+              //refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-                refreshLayout.setRefreshing(false);
+                //refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onNext(Object tag, String response) {
-                refreshLayout.setRefreshing(false);
-
                 if (response!=null) {
                     Log.i(TAG,"获取协议成功"+response.toString());
                     consignmentList.clear();
@@ -423,6 +433,8 @@ public class CheckStartProtocl extends AppCompatActivity {
                         }
                     }).create().show();
                 }
+
+                pullRefreshLayout.setRefreshing(false);
             }
 
 
@@ -439,7 +451,7 @@ public class CheckStartProtocl extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        if (keyCode == KeyEvent.KEYCODE_BACK )
+        if (keyCode == KeyEvent.KEYCODE_BACK &&!isNotComplete)
         {
             // 创建退出对话框
             AlertDialog isExit = new AlertDialog.Builder(this).create();

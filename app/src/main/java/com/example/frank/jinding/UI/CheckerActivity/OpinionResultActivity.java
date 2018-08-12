@@ -143,7 +143,7 @@ public class OpinionResultActivity extends AppCompatActivity {
                                                                             else if (response.trim().equals("提交成功！")&& CheckControl.sign) {
                                                                                 etcontent.setText("");
                                                                                 CheckControl.start=true;
-
+                                                                                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                                                                 Toast.makeText(OpinionResultActivity.this,"检测意见提交成功，请等待审核结果",Toast.LENGTH_SHORT).show();
 
                                                                             }else {

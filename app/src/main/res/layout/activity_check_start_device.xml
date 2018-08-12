@@ -19,14 +19,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include23"
         android:gravity="start" />
+
     <View
+        android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/bg_color"
-        app:layout_constraintTop_toBottomOf="@id/check_start_device_spinner"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/check_start_device_spinner" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <!--<android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_check_start_device"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,12 +39,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent">-->
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/refreshCheckStartDevice"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3">
+
 
         <ListView
             android:id="@+id/lv_check_start_device_info"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -52,7 +67,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/check_start_device_spinner"
             app:layout_constraintVertical_bias="0.516" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <!-- </android.support.v4.widget.SwipeRefreshLayout>-->
+    </com.baoyz.widget.PullRefreshLayout>
 
 
     <include

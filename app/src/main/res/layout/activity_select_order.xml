@@ -24,13 +24,14 @@
 </android.support.v7.widget.CardView>
 
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="9dp"
         android:background="@color/bg_color"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_view" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <!--<android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/check_spot_checkOrder_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,12 +42,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent">-->
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/refreshSelectOrder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view">
 
         <ListView
             android:id="@+id/lv_order"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -56,7 +69,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/check_start_protocol_spinner"
             app:layout_constraintVertical_bias="0.0" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <!-- </android.support.v4.widget.SwipeRefreshLayout>-->
+    </com.baoyz.widget.PullRefreshLayout>
     <include
         android:id="@+id/include5"
         layout="@layout/back_title"

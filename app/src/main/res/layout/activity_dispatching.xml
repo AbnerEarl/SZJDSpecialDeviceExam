@@ -100,7 +100,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dp"
                 android:layout_marginRight="15dp"
-                android:layout_toLeftOf="@+id/main_checker_btn"
+
                 android:layout_toRightOf="@id/textView24"
                 android:gravity="center"
                 android:textColor="@color/__picker_black_40" />

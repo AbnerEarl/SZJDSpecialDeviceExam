@@ -10,6 +10,9 @@ import android.support.multidex.MultiDex;
 import com.baidu.mapapi.SDKInitializer;
 import com.example.frank.jinding.Service.LocationService;
 import com.example.frank.jinding.Utils.ExceptionHandler;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.crash.PgyerCrashObservable;
+import com.pgyersdk.crash.PgyerObserver;
 import com.tencent.smtt.sdk.QbSdk;
 
 import cn.jpush.android.api.JPushInterface;
@@ -44,6 +47,13 @@ public class LocationApplication extends Application {
         //初始化消息通知
         JPushInterface.init(this);
 
+        PgyCrashManager.register();
+        PgyerCrashObservable.get().attach(new PgyerObserver() {
+            @Override
+            public void receivedCrash(Thread thread, Throwable throwable) {
+
+            }
+        });
 
     }
 

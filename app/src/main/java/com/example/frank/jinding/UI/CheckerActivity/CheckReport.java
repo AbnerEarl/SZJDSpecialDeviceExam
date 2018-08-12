@@ -83,7 +83,10 @@ public class CheckReport extends AppCompatActivity {
         Log.i("option",Integer.toString(option));
         if (intent!=null) {
             if (option == 2) {
-                titleplain.setText("待审核订单");
+                if (newoption==1)
+                titleplain.setText("已校验报告");
+                else if (newoption==2)
+                    titleplain.setText("待审核订单");
             } else if(option==1){
                 titleplain.setText("待校验报告");
             } else if(option==3){
@@ -151,6 +154,7 @@ public class CheckReport extends AppCompatActivity {
         refreshLayout.setRefreshing(false);
         Map<String, Object> paremetes = new HashMap<>();
         paremetes.put("option", option);
+        paremetes.put("newoption", newoption);
         if (startdate.getText().toString().trim().length()>1){
             paremetes.put("startDate",startdate.getText().toString());
         }

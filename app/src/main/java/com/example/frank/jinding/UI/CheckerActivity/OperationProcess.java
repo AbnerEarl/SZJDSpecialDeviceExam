@@ -40,14 +40,14 @@ public class OperationProcess extends AppCompatActivity {
     private TextView title;
     private TextView LocationResult;
     private LocationService locationService;
-
-    private ProgressBar waitprogress;
     private String locaterecorde="";
     private HashMap<String ,String> locate=new HashMap<>();
     private Button refresh;
     private static String submission_id="";
     String orderId;
     Boolean isMainChecker;
+    public static Handler handler;
+    public static Runnable runnable;
     private Boolean singtag=false,leavetag=false;
     private AlertDialog processDialog;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -76,12 +76,12 @@ public class OperationProcess extends AppCompatActivity {
         });
 
         View processView = View.inflate(this, R.layout.simple_processbar, null);
-         processDialog= new AlertDialog.Builder(this).create();
+        processDialog= new AlertDialog.Builder(this).create();
         processDialog.setView(processView);
 
 
-        final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
+         handler= new Handler();
+         runnable= new Runnable() {
             public void run() {
 
                 if (CheckControl.sign) {
@@ -90,9 +90,7 @@ public class OperationProcess extends AppCompatActivity {
                     comfirm.setEnabled(true);
                     start.setEnabled(false);
                     leave.setEnabled(false);
-
-
-            }
+                }
                 if (CheckControl.comfirm) {
                     sign.setBackgroundResource(R.drawable.button_shape);
                     comfirm.setBackgroundResource(R.drawable.button_shape);
@@ -112,10 +110,10 @@ public class OperationProcess extends AppCompatActivity {
 
                 }
 
-                handler.postDelayed(this, 1000);
+               // handler.postDelayed(this, 1000);
             }
         };
-        handler.postDelayed(runnable, 1000);
+
 
 
         sign.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +143,8 @@ public class OperationProcess extends AppCompatActivity {
                     Intent intent = new Intent(OperationProcess.this, OrderCheck.class);
                     intent.putExtra("submissionId",submission_id);
                     intent.putExtra("orderId",orderId);
-                    startActivity(intent);
+                    //startActivity(intent);
+                    startActivityForResult(intent,101);
                 }else {
                     new  AlertDialog.Builder(OperationProcess.this)
                             .setTitle("系统提示")
@@ -175,7 +174,8 @@ public class OperationProcess extends AppCompatActivity {
                 intent.putExtra("submission_id",submission_id);
                 intent.putExtra("order_id",orderId);
                 intent.putExtra("isMainChecker",isMainChecker);
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent,101);
 
 
             }
@@ -219,8 +219,6 @@ public class OperationProcess extends AppCompatActivity {
         start = (Button) this.findViewById(R.id.button62);
         leave = (Button) this.findViewById(R.id.button63);
         refresh=(Button)this.findViewById(R.id.start_check_refresh);
-        waitprogress=(ProgressBar)this.findViewById(R.id.progressBar);
-
         back = (ImageButton) this.findViewById(R.id.titleback);
         title = (TextView) this.findViewById(R.id.titleplain);
 
@@ -232,6 +230,14 @@ public class OperationProcess extends AppCompatActivity {
         getOrderStatu();
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==101){
+            OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
+        }
     }
 
     private void getOrderStatu(){
@@ -255,6 +261,7 @@ public class OperationProcess extends AppCompatActivity {
                                 CheckControl.comfirm=true;
                                 CheckControl.start=true;
                                 CheckControl.leave=true;
+                                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                             }else {
                                 arriveInfomation();
                             }
@@ -301,9 +308,7 @@ public class OperationProcess extends AppCompatActivity {
                             if (response.trim().equals("true")) {
 
                                 CheckControl.sign=true;
-                                /*CheckControl.comfirm=true;
-                                CheckControl.start=true;
-                                CheckControl.leave=true;*/
+                                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                             }
                         }
 
@@ -347,12 +352,15 @@ public class OperationProcess extends AppCompatActivity {
                     CheckControl.comfirm=true;
                     CheckControl.start=true;
                     CheckControl.leave=true;
+                    OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                 }
                 else if (response.trim().equals("yhd")&&CheckControl.sign) {
                     flag =true;
                     CheckControl.comfirm=true;
+                    OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                 }else {
                     CheckControl.comfirm=false;
+                    OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                 }
             }
 
@@ -433,6 +441,7 @@ public class OperationProcess extends AppCompatActivity {
                                             if (response.equals("签到成功！")){
                                                 locate.clear();
                                                 CheckControl.sign=true;
+                                                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                                 new  AlertDialog.Builder(OperationProcess.this)
                                                         .setTitle("系统提示")
                                                         .setMessage("\n签到成功！\n\n"+s)
@@ -448,11 +457,13 @@ public class OperationProcess extends AppCompatActivity {
                                                                 }).show();
                                             }else if (response.equals("重复签到")){
                                                 CheckControl.sign=true;
+                                                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                                 Toast.makeText(OperationProcess.this,"已经签到，您可以进行下一步操作了",Toast.LENGTH_SHORT).show();
 
                                             }
                                             else {
                                                 CheckControl.sign=false;
+                                                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                                 new  AlertDialog.Builder(OperationProcess.this)
                                                         .setTitle("系统提示")
                                                         .setMessage("\n签到失败！请检查网络是否连接正确，位置服务或GPS是否打开！\n\n"+s)
@@ -526,6 +537,7 @@ public class OperationProcess extends AppCompatActivity {
                                             if (response.equals("离开成功！")){
                                                 locate.clear();
                                                 CheckControl.leave=true;
+                                                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                                 new  AlertDialog.Builder(OperationProcess.this)
                                                         .setTitle("系统提示")
                                                         .setMessage("\n离开成功！\n\n"+s+

@@ -265,23 +265,20 @@ public class AuthorizedPersonsActivity extends AppCompatActivity
 
         if (id == R.id.nav_post4) {
             Intent intent=new Intent(AuthorizedPersonsActivity.this,CheckReport.class);
-            //intent.putExtra("userid",userid);
             intent.putExtra("option",3);
             intent.putExtra("newoption",2);
             startActivityForResult(intent,6666);
         } else if (id == R.id.nav_hadcheck4) {
             Intent intent=new Intent(AuthorizedPersonsActivity.this,CheckReport.class);
-            //intent.putExtra("userid",userid);
             intent.putExtra("option",4);
             intent.putExtra("newoption",3);
-            startActivity(intent);
+           // startActivity(intent);
+            startActivityForResult(intent,6666);
         } else if (id == R.id.nav_messageinfo4) {
             Intent intent=new Intent(AuthorizedPersonsActivity.this,MessageInform.class);
-            //intent.putExtra("userid",userid);
             startActivity(intent);
         } else if (id == R.id.nav_personinfo4) {
             Intent intent=new Intent(AuthorizedPersonsActivity.this,PersonInformation.class);
-            //intent.putExtra("userid",userid);
             startActivity(intent);
         } else if (id == R.id.nav_exit4) {
             finish();

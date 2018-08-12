@@ -4,25 +4,29 @@
     <group android:checkableBehavior="single">
 
         <item
-        android:id="@+id/nav_task"
+        android:id="@+id/nav_checker_order_history"
         android:icon="@drawable/__picker_ic_photo_black_48dp"
         android:title="历史订单" />
         <item
-            android:id="@+id/nav_order_manage"
+            android:id="@+id/nav_checker_order_manage"
             android:icon="?android:attr/actionModePasteDrawable"
             android:title="派工任务" />
         <item
-            android:id="@+id/nav_instrument"
+            android:id="@+id/nav_checker_apply_instrument"
             android:icon="?android:attr/actionModeCutDrawable"
             android:title="仪器申领" />
         <item
-            android:id="@+id/nav_check"
+            android:id="@+id/nav_checker_start_check"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="检验现场" />
         <item
-            android:id="@+id/nav_opinion"
+            android:id="@+id/nav_checker_report_check"
             android:icon="?android:attr/actionModePasteDrawable"
             android:title="校核报告" />
+        <item
+            android:id="@+id/nav_checker_report_history"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="校核历史" />
     </group>
 
     <item android:title="更多">

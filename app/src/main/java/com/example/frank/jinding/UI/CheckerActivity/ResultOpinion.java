@@ -611,6 +611,7 @@ public class ResultOpinion extends TabActivity {
                                                                                 else if (response.trim().equals("提交成功！")&& CheckControl.sign) {
                                                                                     etcontent.setText("");
                                                                                     CheckControl.start=true;
+                                                                                    OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
 
                                                                                     Toast.makeText(ResultOpinion.this,"检测意见提交成功，请等待审核结果",Toast.LENGTH_SHORT).show();
 

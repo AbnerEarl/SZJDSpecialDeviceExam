@@ -1,8 +1,12 @@
 package com.example.frank.jinding.UI.LoginActivity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +18,7 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.example.frank.jinding.UI.AuthorActivity.AuthorizedPersonsActivity;
@@ -23,6 +28,8 @@ import com.example.frank.jinding.UI.SalesmanActivity.SalesmansActivity;
 import com.example.frank.jinding.UI.SurveyorsActivity.SurveyorsActivity;
 import com.example.frank.jinding.UI.TechnicorActivity.TechnicalDirectorsActivity;
 import com.example.frank.jinding.Utils.MenuMessage;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.update.PgyUpdateManager;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
@@ -49,6 +56,8 @@ public class RolePermission extends AppCompatActivity {
     private int is_init;
     private SharedPreferences sharedPreferences;
     private  Set<String> tags=new HashSet<>();
+    private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSIONS = 1;
+    private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 2;
 
 
     @Override
@@ -58,9 +67,6 @@ public class RolePermission extends AppCompatActivity {
 
         role=getIntent().getStringExtra("role");
         init();
-        // new AlertDialog.Builder(RolePermission.this).setTitle("xinxi").setMessage(roles.get(0).trim().substring(1,roles.get(0).trim().length()-1)).show();
-        Log.i("juese:",role_list.toString());
-        Log.i("juese:",data_list.toString());
 
         gview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -94,41 +100,20 @@ public class RolePermission extends AppCompatActivity {
                 }
             }
         });
+
+
+        initMessageAndVersionUpdate();
+
     }
 
+/*
     @Override
     protected void onResume() {
         super.onResume();
-        //初始化消息通知，为登陆的用户设置别名和标签
-        if(is_init==1){//如果还没有初始化
-            Map<String,Object> params=new HashMap<>();
-            ApiService.GetString(RolePermission.this, "getUserId", params, new RxStringCallback() {
-                @Override
-                public void onNext(Object tag, String response) {
-                    JPushInterface.setAlias(RolePermission.this,is_init,response);
-                    Set<String> tags=new HashSet<>();
-                    for(Map map:role_list){
-                        tags.add(map.get("text").toString());
-                    }
-                    JPushInterface.setTags(RolePermission.this,1,tags);
-                    SharedPreferences.Editor editor=sharedPreferences.edit();
-                    editor.putInt("is_init",2);
-                    editor.commit();
-                }
 
-                @Override
-                public void onError(Object tag, Throwable e) {
-
-                }
-
-                @Override
-                public void onCancel(Object tag, Throwable e) {
-
-                }
-            });
-        }
 
     }
+*/
 
 
 
@@ -177,6 +162,70 @@ public class RolePermission extends AppCompatActivity {
         is_init=sharedPreferences.getInt("is_init",1);
 
         getMessageInfo();
+    }
+
+    private void initMessageAndVersionUpdate(){
+
+       /* new Thread(new Runnable() {
+            @Override
+            public void run() {*/
+
+                //初始化消息通知，为登陆的用户设置别名和标签
+                if(is_init==1){//如果还没有初始化
+                    Map<String,Object> params=new HashMap<>();
+                    ApiService.GetString(RolePermission.this, "getUserId", params, new RxStringCallback() {
+                        @Override
+                        public void onNext(Object tag, String response) {
+                            JPushInterface.setAlias(RolePermission.this,is_init,response);
+                            Set<String> tags=new HashSet<>();
+                            for(Map map:role_list){
+                                tags.add(map.get("text").toString());
+                            }
+                            JPushInterface.setTags(RolePermission.this,1,tags);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putInt("is_init",2);
+                            editor.commit();
+                        }
+
+                        @Override
+                        public void onError(Object tag, Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onCancel(Object tag, Throwable e) {
+
+                        }
+                    });
+                }
+
+                PgyCrashManager.register();
+                //动态请求权限
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                REQUEST_CODE_READ_EXTERNAL_STORAGE_PERMISSIONS);
+                        requestPermissions(
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+                    }
+                }
+
+                Handler handler=new Handler();
+                Runnable runnable=new Runnable() {
+                    public void run() {
+                        new PgyUpdateManager.Builder()
+                                .setForced(false)                //设置是否强制更新
+                                .setUserCanRetry(false)         //失败后是否提示重新下载
+                                .setDeleteHistroyApk(true)     // 检查更新前是否删除本地历史 Apk
+                                .register();
+                    }
+                };
+                handler.postDelayed(runnable, 1000);
+            /*}
+        }).start();*/
+
     }
 
     private void formatData(String origin){

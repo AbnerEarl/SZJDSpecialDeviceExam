@@ -172,6 +172,13 @@ public class ReportAdapter extends BaseAdapter{
                 firstPerson.setText(listItem.get(position).get("createPeople").toString());
                 firstTime.setText(listItem.get(position).get("createTime").toString());
                 //actionBtn.setText("前往审核");
+                if (newoption==1){
+                    actionBtnPass.setVisibility(View.INVISIBLE);
+                    actionBtnRefuse.setVisibility(View.INVISIBLE);
+                }else {
+                    actionBtnPass.setVisibility(View.VISIBLE);
+                    actionBtnRefuse.setVisibility(View.VISIBLE);
+                }
             }
             firstPersonFrontTv.setText("报告提交人");
             firstTimeFront.setText("提交时间");
@@ -477,7 +484,12 @@ public class ReportAdapter extends BaseAdapter{
                         CheckReport.mHandler.sendMessage(massage);
 
                     } else if (response.equals("false")) {
-                        Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
+                        alertDialog.dismiss();
+                        Toast.makeText(context, "操作失败，请查看报告状态", Toast.LENGTH_SHORT).show();
+                        CheckReport.isOperate=true;
+                        Message massage=new Message();
+                        massage.what=101;
+                        CheckReport.mHandler.sendMessage(massage);
                     } else if (response.equals("重新登录")) {
                         Toast.makeText(context, "您需要重新登录，才有权限进行此操作", Toast.LENGTH_SHORT).show();
                     }
@@ -515,7 +527,12 @@ public class ReportAdapter extends BaseAdapter{
                         massage.what=101;
                         CheckReport.mHandler.sendMessage(massage);
                     } else if (response.equals("false")) {
-                        Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
+                        alertDialog.dismiss();
+                        Toast.makeText(context, "操作失败，请查看报告状态", Toast.LENGTH_SHORT).show();
+                        CheckReport.isOperate=true;
+                        Message massage=new Message();
+                        massage.what=101;
+                        CheckReport.mHandler.sendMessage(massage);
                     } else if (response.equals("重新登录")) {
                         Toast.makeText(context, "您需要重新登录，才有权限进行此操作", Toast.LENGTH_SHORT).show();
                     }
@@ -553,7 +570,12 @@ public class ReportAdapter extends BaseAdapter{
                         massage.what=101;
                         CheckReport.mHandler.sendMessage(massage);
                     } else if (response.equals("false")) {
-                        Toast.makeText(context, "操作失败，请检查网络是否连接正常", Toast.LENGTH_SHORT).show();
+                        alertDialog.dismiss();
+                        Toast.makeText(context, "操作失败，请查看报告状态", Toast.LENGTH_SHORT).show();
+                        CheckReport.isOperate=true;
+                        Message massage=new Message();
+                        massage.what=101;
+                        CheckReport.mHandler.sendMessage(massage);
                     } else if (response.equals("重新登录")) {
                         Toast.makeText(context, "您需要重新登录，才有权限进行此操作", Toast.LENGTH_SHORT).show();
                     }
@@ -577,11 +599,6 @@ public class ReportAdapter extends BaseAdapter{
 
 
         }
-
-
-
-
-
 
     }
 

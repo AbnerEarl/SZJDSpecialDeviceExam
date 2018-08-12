@@ -79,9 +79,9 @@ public class OrderStatus {
         }else if (orderStatus.equals("2201")){
             result="审批返回（复检）";
         }else if (orderStatus.equals("23")){
-            result="初检检验现场信息核对完成";
+            result="检验现场信息核对完成";
         }else if (orderStatus.equals("2301")){
-            result="复检检验现场信息核对完成";
+            result="检验现场信息核对完成";
         }else if (orderStatus.equals("24")){
             result="财务异动待审核";
         }else if (orderStatus.equals("2401")){

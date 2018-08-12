@@ -282,27 +282,16 @@ public class SurveyorsActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_request1) {
-            // Handle the camera action
-
             Intent intent=new Intent(SurveyorsActivity.this,CheckReport.class);
-            //intent.putExtra("userid",userid);
-            //startActivity(intent);
             intent.putExtra("option",2);
-            //startActivity(intent);
+            intent.putExtra("newoption",2);
             startActivityForResult(intent, 6666);
 
         } else if (id == R.id.nav_historypost1) {
-
-            //lv_tasksss.setAdapter(confirmAdapter);//为ListView绑定Adapter
-
             Intent intent=new Intent(SurveyorsActivity.this,CheckReport.class);
-            //intent.putExtra("userid",userid);
-            //startActivity(intent);
             intent.putExtra("option",3);
             intent.putExtra("newoption",1);
-
             startActivityForResult(intent, 6666);
 
         } else if (id == R.id.nav_messageinfo1) {

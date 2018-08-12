@@ -392,60 +392,38 @@ public class CheckersActivityNew extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_task) {
+        if (id == R.id.nav_checker_order_history) {
             Intent intent = new Intent(CheckersActivityNew.this, HistoryOrder.class);
-            //intent.putExtra("userid",userid);
             startActivity(intent);
-            //finish();
-        } else if (id == R.id.nav_instrument) {
-            //Intent intent = new Intent(CheckersActivity.this, ApplyInstrument.class);
+        } else if (id == R.id.nav_checker_apply_instrument) {
             Intent intent = new Intent(CheckersActivityNew.this, OrderSelectActivity.class);
-            //intent.putExtra("userid",userid);
-            //startActivity(intent);
             startActivityForResult(intent, 6666);
-            // finish();
-        }/* else if (id == R.id.nav_signleave) {
-            //Intent intent=new Intent(CheckersActivity.this,SignLeave.class);
-            //intent.putExtra("userid",userid);
-            //startActivity(intent);
-            //finish();
 
-            Intent intent=new Intent(CheckersActivity.this,LocationActivity.class);
-            startActivity(intent);
-
-
-        }*/ else if (id == R.id.nav_check) {
+        }else if (id == R.id.nav_checker_start_check) {
             Intent intent = new Intent(CheckersActivityNew.this, SelectOrder.class);
-            //intent.putExtra("userid",userid);
-            //startActivity(intent);
             startActivityForResult(intent, 6666);
 
-            //finish();
-        } else if (id == R.id.nav_opinion) {
+        } else if (id == R.id.nav_checker_report_check) {
             Intent intent = new Intent(CheckersActivityNew.this, CheckReport.class);
-            //intent.putExtra("userid",userid);
-            //startActivity(intent);
             intent.putExtra("option",1);
             startActivityForResult(intent, 6666);
-            // finish();
-        } else if (id == R.id.nav_messageinfo) {
+        }else if (id == R.id.nav_checker_report_history) {
+            Intent intent = new Intent(CheckersActivityNew.this, CheckReport.class);
+            intent.putExtra("option",2);
+            intent.putExtra("newoption",1);
+            startActivityForResult(intent, 6666);
+        }  else if (id == R.id.nav_messageinfo) {
             Intent intent = new Intent(CheckersActivityNew.this, MessageInform.class);
-            //intent.putExtra("userid",userid);
             startActivity(intent);
-            // finish();
         } else if (id == R.id.nav_personinfomation) {
             Intent intent = new Intent(CheckersActivityNew.this, PersonInformation.class);
-            //intent.putExtra("userid",userid);
             startActivity(intent);
-            // finish();
         } else if (id == R.id.nav_exit) {
             finish();
         }else if (id==R.id.extra_permisson_checkers){
             initpermission();
-        }else if (id==R.id.nav_order_manage){
+        }else if (id==R.id.nav_checker_order_manage){
             Intent intent = new Intent(CheckersActivityNew.this, Checker.class);
-            //intent.putExtra("userid",userid);
-            //startActivity(intent);
             startActivityForResult(intent, 6666);
         }
 

@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.frank.jinding.Bean.OrderBean.CheckType;
 import com.example.frank.jinding.Bean.OrderBean.OrderDeviceDetail;
 import com.example.frank.jinding.Conf.CheckControl;
@@ -50,7 +51,8 @@ public class CheckStartDevice extends AppCompatActivity {
     private List<OrderDeviceDetail> deviceList;
     private ArrayAdapter<String> spinnerAdapter;
     private Spinner mSpinner;
-    private SwipeRefreshLayout refreshLayout;
+    //private SwipeRefreshLayout refreshLayout;
+    private PullRefreshLayout pullRefreshLayout;
     private List<CheckType> checkTypeList = new ArrayList<>();
     private String refreshcode = "23";
     private boolean showMonitor = false;
@@ -100,14 +102,21 @@ public class CheckStartDevice extends AppCompatActivity {
             }
         });
 
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+       /* refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 getDeviceList(consignmentId, refreshcode);
 
             }
-        });
+        });*/
+
+       pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+           @Override
+           public void onRefresh() {
+               getDeviceList(consignmentId, refreshcode);
+           }
+       });
 
 
     }
@@ -121,7 +130,7 @@ public class CheckStartDevice extends AppCompatActivity {
             finish();
         }
         else if (requestCode ==123) {
-            refreshLayout.setRefreshing(true);
+            pullRefreshLayout.setRefreshing(true);
             getDeviceList(consignmentId, refreshcode);
         }
     }
@@ -134,8 +143,8 @@ public class CheckStartDevice extends AppCompatActivity {
         lv_task = (ListView) this.findViewById(R.id.lv_check_start_device_info);
         waitAdapter = new MyAdapter(this);//得到一个MyAdapter对象
         deviceList = new ArrayList<>();
-        refreshLayout = (SwipeRefreshLayout) this.findViewById(R.id.refresh_check_start_device);
-
+        //refreshLayout = (SwipeRefreshLayout) this.findViewById(R.id.refresh_check_start_device);
+        pullRefreshLayout=(PullRefreshLayout)this.findViewById(R.id.refreshCheckStartDevice);
         List<String> spinnerList = new ArrayList<>();
         spinnerList.add("待检验设备");
         spinnerList.add("已检验设备");
@@ -169,20 +178,7 @@ public class CheckStartDevice extends AppCompatActivity {
 
         });
 
-        lv_task.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem==0)
-                    refreshLayout.setEnabled(true);
-                else
-                    refreshLayout.setEnabled(false);
-            }
-        });
 
     }
 
@@ -194,7 +190,6 @@ public class CheckStartDevice extends AppCompatActivity {
         ApiService.GetString(this, "orderDeviceDetail", parameters, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {
-                refreshLayout.setRefreshing(false);
                 Log.i(TAG, "获取设备成功");
                 List<OrderDeviceDetail> list = new ArrayList<>();
                 if (response != null) {
@@ -218,18 +213,19 @@ public class CheckStartDevice extends AppCompatActivity {
                         }
                     }).create().show();
                 }
+                pullRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onError(Object tag, Throwable e) {
                 Log.i(TAG, e.getMessage());
                 Toast.makeText(CheckStartDevice.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-                refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
             }
 
         });

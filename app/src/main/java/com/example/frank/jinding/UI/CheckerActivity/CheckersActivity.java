@@ -370,39 +370,34 @@ else
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_task) {
+        if (id == R.id.nav_checker_order_history) {
             Intent intent = new Intent(CheckersActivity.this, HistoryOrder.class);
             //intent.putExtra("userid",userid);
             startActivity(intent);
             //finish();
-        } else if (id == R.id.nav_instrument) {
+        } else if (id == R.id.nav_checker_apply_instrument) {
             //Intent intent = new Intent(CheckersActivity.this, ApplyInstrument.class);
             Intent intent = new Intent(CheckersActivity.this, OrderSelectActivity.class);
             //intent.putExtra("userid",userid);
             startActivity(intent);
             // finish();
-        }/* else if (id == R.id.nav_signleave) {
-            //Intent intent=new Intent(CheckersActivity.this,SignLeave.class);
-            //intent.putExtra("userid",userid);
-            //startActivity(intent);
-            //finish();
-
-            Intent intent=new Intent(CheckersActivity.this,LocationActivity.class);
-            startActivity(intent);
-
-
-        }*/ else if (id == R.id.nav_check) {
+        }else if (id == R.id.nav_checker_start_check) {
             Intent intent = new Intent(CheckersActivity.this, SelectOrder.class);
             //intent.putExtra("userid",userid);
             startActivity(intent);
 
             //finish();
-        } else if (id == R.id.nav_opinion) {
+        } else if (id == R.id.nav_checker_report_check) {
             Intent intent = new Intent(CheckersActivity.this, CheckReport.class);
             //intent.putExtra("userid",userid);
             intent.putExtra("option",1);
             startActivity(intent);
             // finish();
+        } else if (id == R.id.nav_checker_report_history) {
+            Intent intent = new Intent(CheckersActivity.this, CheckReport.class);
+            intent.putExtra("option",1);
+            intent.putExtra("newoption",1);
+            startActivityForResult(intent, 6666);
         } else if (id == R.id.nav_messageinfo) {
             Intent intent = new Intent(CheckersActivity.this, MessageInform.class);
             //intent.putExtra("userid",userid);

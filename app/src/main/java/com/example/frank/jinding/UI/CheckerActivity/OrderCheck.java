@@ -374,8 +374,8 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
             processDialog.dismiss();
             if (response!=null&&response.equals("true")){
                 Toast.makeText(OrderCheck.this,"信息核对完成",Toast.LENGTH_SHORT).show();
-
                 CheckControl.comfirm=true;
+                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                 finish();
             }else {
                 Toast.makeText(OrderCheck.this,response,Toast.LENGTH_SHORT).show();

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.frank.jinding.Conf.CheckControl;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
@@ -48,11 +49,12 @@ public class SelectOrder extends AppCompatActivity {
     private TextView title;
     private List<JSONObject> submissionOrderList;
     private  MyAdapter mAdapter;
-    private SwipeRefreshLayout refreshLayout;
+   // private SwipeRefreshLayout refreshLayout;
     private NiceSpinner mSpinner;
    // private ArrayAdapter spinnerAdapter;
     private int spinnerSelectedItem=1;
     private List<String>NiceSpinner;
+    PullRefreshLayout pullRefreshLayout;
     private String Type="等待检验订单";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,39 +86,39 @@ public class SelectOrder extends AppCompatActivity {
         //mSpinner.setAdapter(spinnerAdapter);
 
         mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-                                               public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                                   //  TODO  Auto-generated  method  stub
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                //  TODO  Auto-generated  method  stub
                 /*  将所选mySpinner  的值带入myTextView  中*/
-                                                   if (NiceSpinner.get(arg2).equals("等待检验订单")) {
-                                                       spinnerSelectedItem=1;
-                                                       mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
-                                                       //获取建立派工单
-                                                       mAdapter.listItem=submissionOrderList;
-                                                       getData(6);
-                                                       lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
-                                                   } else if (NiceSpinner.get(arg2).equals("已经检验订单")) {
-                                                       spinnerSelectedItem=3;
-                                                       mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
-                                                       //获取建立派工单
-                                                       mAdapter.listItem=submissionOrderList;
-                                                       getData(7);
-                                                       lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
-                                                   }else if (NiceSpinner.get(arg2).equals("正在检验订单")) {
-                                                       spinnerSelectedItem=2;
-                                                       mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
-                                                       //获取建立派工单
-                                                       mAdapter.listItem=submissionOrderList;
-                                                       getData(8);
-                                                       lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
-                                                   }
-                                                   Type=NiceSpinner.get(arg2);
-                                               }
+                if (NiceSpinner.get(arg2).equals("等待检验订单")) {
+                    spinnerSelectedItem=1;
+                    mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
+                    //获取建立派工单
+                    mAdapter.listItem=submissionOrderList;
+                    getData(6);
+                    lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
+                } else if (NiceSpinner.get(arg2).equals("已经检验订单")) {
+                    spinnerSelectedItem=3;
+                    mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
+                    //获取建立派工单
+                    mAdapter.listItem=submissionOrderList;
+                    getData(7);
+                    lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
+                }else if (NiceSpinner.get(arg2).equals("正在检验订单")) {
+                    spinnerSelectedItem=2;
+                    mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
+                    //获取建立派工单
+                    mAdapter.listItem=submissionOrderList;
+                    getData(8);
+                    lv_task.setAdapter(mAdapter);//为ListView绑定Adapter
+                }
+                Type=NiceSpinner.get(arg2);
+            }
 
-                                               @Override
-                                               public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                                               }
-                                           });
+            }
+        });
 
 
         lv_task.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -149,7 +151,24 @@ public class SelectOrder extends AppCompatActivity {
                 startActivityForResult(intent,123);
             }
         });
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+
+        lv_task.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(SelectOrder.this,OrderDetails.class);
+                intent.putExtra("orderId",mAdapter.listItem.get(position).get("orderId").toString());
+                //是否可更新
+                intent.putExtra("update",false);
+                startActivity(intent);
+
+                return true;
+            }
+        });
+
+
+
+        /*refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
@@ -163,9 +182,26 @@ public class SelectOrder extends AppCompatActivity {
                 }
 
             }
+        });*/
+
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //refreshLayout.setRefreshing(true);
+                if (spinnerSelectedItem==1){
+                    getData(6);
+                }
+                else if (spinnerSelectedItem==3){
+                    getData(7);
+                }else if (spinnerSelectedItem==2){
+                    getData(8);
+                }
+            }
         });
 
-        lv_task.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+
+      /*  lv_task.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -173,13 +209,17 @@ public class SelectOrder extends AppCompatActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem==0)
-                    refreshLayout.setEnabled(true);
-                else
-                    refreshLayout.setEnabled(false);
+                if (firstVisibleItem==0) {
+                    // refreshLayout.setEnabled(true);
+                    pullRefreshLayout.setRefreshing(true);
+                }
+                else {
+                   // refreshLayout.setEnabled(false);
+                    pullRefreshLayout.setRefreshing(false);
+                }
             }
         });
-
+*/
     }
 
 
@@ -189,7 +229,8 @@ public class SelectOrder extends AppCompatActivity {
         // super.onActivityResult(requestCode, resultCode, data);
        if (requestCode ==123) {
 
-           refreshLayout.setRefreshing(true);
+          // refreshLayout.setRefreshing(true);
+           pullRefreshLayout.setRefreshing(true);
            if (spinnerSelectedItem==1){
                getData(6);
            }
@@ -207,7 +248,8 @@ public class SelectOrder extends AppCompatActivity {
         back=(ImageButton)this.findViewById(R.id.titleback);
         title=(TextView)this.findViewById(R.id.titleplain);
         mSpinner=(NiceSpinner)this.findViewById(R.id.check_scene_spinner);
-        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.check_spot_checkOrder_refresh);
+        pullRefreshLayout=(PullRefreshLayout)this.findViewById(R.id.refreshSelectOrder) ;
+       // refreshLayout=(SwipeRefreshLayout)findViewById(R.id.check_spot_checkOrder_refresh);
         submissionOrderList=new ArrayList<>();
         spinnerSelectedItem=1;
         mAdapter= new MyAdapter(SelectOrder.this);//得到一个MyAdapter对象
@@ -223,7 +265,7 @@ public class SelectOrder extends AppCompatActivity {
         ApiService.GetString(this, "submissionOrder", parameters, new RxStringCallback(){
             @Override
             public void onNext(Object tag, String response) {
-                refreshLayout.setRefreshing(false);
+
                 Log.i(TAG,response.toString());
                 if (response!=null&&!response.equals("failed")) {
                   submissionOrderList.clear();
@@ -233,7 +275,8 @@ public class SelectOrder extends AppCompatActivity {
                         submissionOrderList.add(jsonObject);
                     }
                     mAdapter.notifyDataSetChanged();
-                    refreshLayout.setRefreshing(false);
+                    //refreshLayout.setRefreshing(false);
+                    pullRefreshLayout.setRefreshing(false);
                 }
                 if (submissionOrderList.size()==0||response==null){
                    new  AlertDialog.Builder(SelectOrder.this).setTitle("暂时没有"+Type.toString()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -244,16 +287,20 @@ public class SelectOrder extends AppCompatActivity {
                    }).create().show();
                 }
                 Log.i("获取数据结束","getdataover");
+                // refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
                 }
             @Override
             public void onError(Object tag, Throwable e) {
-                refreshLayout.setRefreshing(false);
+                //refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
                 Toast.makeText(SelectOrder.this,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-                refreshLayout.setRefreshing(false);
+                //refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
             }
 
         });
@@ -329,15 +376,8 @@ public class SelectOrder extends AppCompatActivity {
                 holder.ptaskIcon.setImageResource(R.drawable.first_order);
             //如果传过来的工程名字中有复检则为复检
             Log.i("SelectOrder","是否是主检验员："+listItem.get(position).getBoolean("isMainChecker"));
-//            holder.bt_beizhu.setTag(position);
 
-
-            // ItemListener itemListener = new ItemListener(position);//监听器记录了所在行，于是绑定到各个控件后能够返回具体的行，以及触发的控件
-            /*为Button添加点击事件*/
-
-
-
-            holder.more.setOnClickListener(new View.OnClickListener() {
+           /* holder.more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(SelectOrder.this,OrderDetails.class);
@@ -346,7 +386,7 @@ public class SelectOrder extends AppCompatActivity {
                     intent.putExtra("update",false);
                     startActivity(intent);
                 }
-            });
+            });*/
             return convertView;
         }
 

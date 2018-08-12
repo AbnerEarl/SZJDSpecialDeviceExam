@@ -236,7 +236,7 @@ public class CheckOpinion extends AppCompatActivity {
                                     CheckControl.start = true;
                                     //Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
                                     Toast.makeText(CheckOpinion.this, "该台设备的检测意见更新成功", Toast.LENGTH_SHORT).show();
-
+                                    OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                 } else if (response.trim().equals("拒绝修改")) {
                                     Toast.makeText(CheckOpinion.this, "该台设备的检测意见已经审核通过，拒绝再次修改", Toast.LENGTH_SHORT).show();
                                 } else if (response.trim().equals("提交失败！")) {
@@ -261,7 +261,7 @@ public class CheckOpinion extends AppCompatActivity {
 
 
                                     CheckControl.start = true;
-
+                                    OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                     String recheckdata = "";
 
                                     for (int k = 0; k < mAdapter.listItem.size(); k++) {
@@ -286,6 +286,7 @@ public class CheckOpinion extends AppCompatActivity {
                                                 processDialog.dismiss();
                                                 Toast.makeText(CheckOpinion.this, "检测意见提交成功，请等待审核结果", Toast.LENGTH_SHORT).show();
                                                 finish();
+                                                OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                             } else if (response.trim().equals("false")) {
                                                 Toast.makeText(CheckOpinion.this, "服务连接问题，请重新尝试提交", Toast.LENGTH_SHORT).show();
                                             }
@@ -384,6 +385,8 @@ public class CheckOpinion extends AppCompatActivity {
                                                             //Toast.makeText(CheckOpinion.this, "该台设备已经提交过检测意见，请查看审核结果", Toast.LENGTH_SHORT).show();
                                                             Toast.makeText(CheckOpinion.this, "该台设备的检测意见更新成功", Toast.LENGTH_SHORT).show();
                                                             CheckControl.start=true;
+                                                            OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
+
                                                         }else if (response.trim().equals("拒绝修改")){
                                                             Toast.makeText(CheckOpinion.this, "该台设备的检测意见已经审核通过，拒绝再次修改", Toast.LENGTH_SHORT).show();
                                                         }
@@ -416,6 +419,7 @@ public class CheckOpinion extends AppCompatActivity {
                                                             processDialog.dismiss();
                                                             Toast.makeText(CheckOpinion.this, "检测意见提交成功，请等待审核结果", Toast.LENGTH_SHORT).show();
                                                             finish();
+                                                            OperationProcess.handler.postDelayed(OperationProcess.runnable, 100);
                                                         }
                                                     }
 
