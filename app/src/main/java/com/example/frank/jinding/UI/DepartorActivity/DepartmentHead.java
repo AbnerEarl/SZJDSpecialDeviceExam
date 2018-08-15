@@ -373,7 +373,12 @@ public class DepartmentHead extends AppCompatActivity implements View.OnClickLis
             holder.projectName.setText(orderList.get(position).get("projectName").toString());
             holder.place.setText(orderList.get(position).get("projectAddress").toString() );
             holder.select.setChecked(getIsSelected().get(position));
-            holder.actualTime.setText(orderList.get(position).get("checkdateExpect").toString());
+            if (orderList.get(position).get("checkdateExpect")!=null&&!orderList.get(position).get("checkdateExpect").toString().equals("null")&&!orderList.get(position).get("checkdateExpect").toString().trim().equals("")){
+                holder.actualTime.setText(orderList.get(position).get("checkdateExpect").toString());
+            }else {
+                holder.actualTime.setText("");
+            }
+
             holder.title.setText(orderList.get(position).get("orderOrg").toString());
             holder.expectChecker.setText(orderList.get(position).get("checkerExpect").toString());
             if (orderList.get(position).get("isFirstSubmission").equals("true")){

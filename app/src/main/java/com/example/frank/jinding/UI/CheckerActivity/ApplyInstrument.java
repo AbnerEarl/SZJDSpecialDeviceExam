@@ -225,6 +225,7 @@ public class ApplyInstrument extends AppCompatActivity {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+
                                             refreshDataIndex();
                                             List<InstrumentStatus> list = new ArrayList<>();
                                             for (int i = 0; i < isSelectedList.size(); i++) {
@@ -307,6 +308,13 @@ public class ApplyInstrument extends AppCompatActivity {
 
 
     private void submit(List<InstrumentStatus> list) {
+
+        View processView=View.inflate(ApplyInstrument.this,R.layout.simple_processbar,null);
+        final android.support.v7.app.AlertDialog processDialog=new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
+
+
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("instrumentStatusList", JsonTimeUtil.toJSON(list));
         parameters.put("selectOrderId", JSON.toJSONString(selectOrderId));
@@ -328,16 +336,18 @@ public class ApplyInstrument extends AppCompatActivity {
                 }else{
                     Toast.makeText(ApplyInstrument.this, response, Toast.LENGTH_LONG).show();
                 }
+
+                processDialog.dismiss();
             }
 
             @Override
             public void onError(Object tag, Throwable e) {
-
+                processDialog.dismiss();
             }
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-
+                processDialog.dismiss();
             }
         });
     }

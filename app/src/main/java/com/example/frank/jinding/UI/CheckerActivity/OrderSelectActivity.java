@@ -419,6 +419,14 @@ public class OrderSelectActivity extends AppCompatActivity {
                         }
                     });
 
+                    /*Intent intent = new Intent(OrderSelectActivity.this, ApplyInstrument.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("orderIdList", selectOrderId);
+                    bundle.putString("type", Type.toString());
+                    //bundle.putString("isRecheck", gson.toJson(orderStatusMap));
+                    intent.putExtra("isNotModify","true");
+                    intent.putExtras(bundle);
+                    startActivity(intent);*/
 
                 } else {
                     Toast.makeText(OrderSelectActivity.this, "请先勾选您的订单再进行下一步", Toast.LENGTH_LONG).show();
@@ -537,7 +545,12 @@ public class OrderSelectActivity extends AppCompatActivity {
             }
 
             holder.place.setText(address);
-            holder.actualTime.setText(listItem.get(position).get("actualDate").toString());
+            if (listItem.get(position).get("actualDate")!=null&&!listItem.get(position).get("actualDate").toString().equals("null")&&!listItem.get(position).get("actualDate").toString().trim().equals("")){
+                holder.actualTime.setText(listItem.get(position).get("actualDate").toString());
+            }else {
+                holder.actualTime.setText("");
+            }
+
             holder.title.setText(listItem.get(position).get("orderOrg").toString());
 
             if(listItem.get(position).get("projectName").toString().indexOf("(复检)")!=-1)

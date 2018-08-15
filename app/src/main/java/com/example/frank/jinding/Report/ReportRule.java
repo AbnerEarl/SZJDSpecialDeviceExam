@@ -42,11 +42,14 @@ public class ReportRule {
                 report = "SzjdBzQz22";
         }
         //卷扬机、电动葫芦和流式起重机
-        if (deviceTypeId == "5" || deviceTypeId == "6" || deviceTypeId == "8") {
+        if (deviceTypeId.equals("5")  || deviceTypeId.equals("6")  || deviceTypeId.equals("8") ) {
             report = "SzjdBzQz12";
         }
         //高处吊篮
-        if ((deviceTypeId == "27") && (checkTypeId == "1")) {
+       /* if ((deviceTypeId.equals("27") ) && (checkTypeId.equals("1") )) {
+            report = "SzjdBzQz19";
+        }*/
+        if (deviceTypeId.equals("27")) {
             report = "SzjdBzQz19";
         }
 //        暂时不用复检报告

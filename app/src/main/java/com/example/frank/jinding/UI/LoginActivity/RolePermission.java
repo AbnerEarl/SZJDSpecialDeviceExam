@@ -29,6 +29,7 @@ import com.example.frank.jinding.UI.SurveyorsActivity.SurveyorsActivity;
 import com.example.frank.jinding.UI.TechnicorActivity.TechnicalDirectorsActivity;
 import com.example.frank.jinding.Utils.MenuMessage;
 import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.feedback.PgyerFeedbackManager;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
@@ -166,10 +167,6 @@ public class RolePermission extends AppCompatActivity {
 
     private void initMessageAndVersionUpdate(){
 
-       /* new Thread(new Runnable() {
-            @Override
-            public void run() {*/
-
                 //初始化消息通知，为登陆的用户设置别名和标签
                 if(is_init==1){//如果还没有初始化
                     Map<String,Object> params=new HashMap<>();
@@ -199,7 +196,7 @@ public class RolePermission extends AppCompatActivity {
                     });
                 }
 
-                PgyCrashManager.register();
+                PgyCrashManager.register(this);
                 //动态请求权限
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -212,19 +209,20 @@ public class RolePermission extends AppCompatActivity {
                     }
                 }
 
+
+
                 Handler handler=new Handler();
                 Runnable runnable=new Runnable() {
                     public void run() {
+                        handler.removeCallbacks(this);
                         new PgyUpdateManager.Builder()
-                                .setForced(false)                //设置是否强制更新
+                                .setForced(false)
                                 .setUserCanRetry(false)         //失败后是否提示重新下载
                                 .setDeleteHistroyApk(true)     // 检查更新前是否删除本地历史 Apk
                                 .register();
                     }
                 };
                 handler.postDelayed(runnable, 1000);
-            /*}
-        }).start();*/
 
     }
 

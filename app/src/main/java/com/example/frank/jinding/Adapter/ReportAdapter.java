@@ -393,6 +393,7 @@ public class ReportAdapter extends BaseAdapter{
 
         Map<String, Object> paremetes = new HashMap<>();
         paremetes.put("data", map_data);
+        Log.e("映射路径","exportReport"+(dd.split("#")[0]));
         ApiService.GetString(activity, "exportReport"+(dd.split("#")[0]), paremetes, new RxStringCallback() {
             @Override
             public void onError(Object tag, Throwable e) {

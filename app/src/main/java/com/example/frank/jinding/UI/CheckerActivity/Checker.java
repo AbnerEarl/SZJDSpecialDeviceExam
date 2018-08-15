@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.frank.jinding.R;
 import com.example.frank.jinding.Service.ApiService;
 import com.example.frank.jinding.UI.PublicMethodActivity.OrderDetails;
@@ -52,7 +53,8 @@ public class Checker extends AppCompatActivity {
     private NiceSpinner mySpinner;
     private ArrayAdapter<String> adapter;
     private ListView lv_tasksss;
-    private SwipeRefreshLayout refreshLayout;
+    //private SwipeRefreshLayout refreshLayout;
+    private PullRefreshLayout pullRefreshLayout;
     private ImageButton back;
     private TextView title;
     private FloatingActionButton fab;
@@ -73,15 +75,13 @@ public class Checker extends AppCompatActivity {
         setContentView(R.layout.content_checkers_order);
         currentList = 1;
 
-
-
-
         init();
         //第一步：添加一个下拉列表项的list，这里添加的项就是下拉列表的菜单项
 //        list.add("待确认派工");
 //        list.add("已确认派工");
 //        list.add("已成立派工");
 //        list.add("已拒绝派工");
+        Type="待确认派工";
         currentList = 1;
         getData(currentList);
 
@@ -89,7 +89,6 @@ public class Checker extends AppCompatActivity {
        // adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         //第三步：为适配器设置下拉列表下拉时的菜单样式。
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Type="待确认派工";
 //        NiceSpinner = new LinkedList<String>(list);
 //        //第四步：将适配器添加到下拉列表上
 //        mySpinner.attachDataSource(NiceSpinner);
@@ -153,23 +152,7 @@ public class Checker extends AppCompatActivity {
 
             }
         });
-        lv_tasksss.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-            }
-
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem==0)
-                    refreshLayout.setEnabled(true);
-                else
-                {
-                    refreshLayout.setEnabled(false);
-                }
-            }
-        });
 
 
     }
@@ -184,7 +167,8 @@ public class Checker extends AppCompatActivity {
         //绑定控件
         lv_tasksss = (ListView) this.findViewById(R.id.lv_tasksss_ch);
 //        mySpinner = (NiceSpinner) findViewById(R.id.spinner3_ch);
-        refreshLayout=(SwipeRefreshLayout) findViewById(R.id.refresh_submission_ch);
+       // refreshLayout=(SwipeRefreshLayout) findViewById(R.id.refresh_submission_ch);
+        pullRefreshLayout=(PullRefreshLayout)findViewById(R.id.refreshCheckerAcceptOrder);
         back=(ImageButton)findViewById(R.id.titleback);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,13 +192,21 @@ public class Checker extends AppCompatActivity {
         confirmAdapter = new MyAdapterO(Checker.this);//得到一个MyAdapter对象
         establishAdapter = new MyAdapterO(Checker.this);//得到一个MyAdapter对象
         refuseAdapter = new MyAdapterO(Checker.this);//得到一个MyAdapter对象
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        /*refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
                 getData(currentList);
             }
+        });*/
+
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(currentList);
+            }
         });
+
     }
 
 
@@ -270,12 +262,14 @@ public class Checker extends AppCompatActivity {
                     refuseAdapter.listItem = submissionOrderList;
                     lv_tasksss.setAdapter(refuseAdapter);
                 }
-                refreshLayout.setRefreshing(false);
+                //refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
                 Log.i("获取数据结束", "getdataover");
             }
             @Override
             public void onError(Object tag, Throwable e) {
-                refreshLayout.setRefreshing(false);
+               // refreshLayout.setRefreshing(false);
+                pullRefreshLayout.setRefreshing(false);
                 processDialog.dismiss();
                 Log.i("失败",""+e.getMessage()+"  "+e.getCause()+tag.toString());
                 Toast.makeText(Checker.this,e.getMessage(),Toast.LENGTH_LONG).show();
@@ -283,7 +277,7 @@ public class Checker extends AppCompatActivity {
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-
+                pullRefreshLayout.setRefreshing(false);
             }
 
         });
@@ -291,6 +285,12 @@ public class Checker extends AppCompatActivity {
     }
 
     private void rejectSubmission(final int position, String id, final String reason) {
+
+        View processView=View.inflate(Checker.this,R.layout.simple_processbar,null);
+        final android.support.v7.app.AlertDialog processDialog=new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
+
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("reason", reason);
         parameters.put("submissionId", id);
@@ -305,21 +305,30 @@ public class Checker extends AppCompatActivity {
                     Toast.makeText(Checker.this, "拒绝失败", Toast.LENGTH_SHORT).show();
 
                 }
+
+                processDialog.dismiss();
             }
 
             @Override
             public void onError(Object tag, Throwable e) {
+                processDialog.dismiss();
                 Toast.makeText(Checker.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-
+                processDialog.dismiss();
             }
         });
 
     }
     private void confirmSubmission(final int position,String id){
+
+        View processView=View.inflate(Checker.this,R.layout.simple_processbar,null);
+        final android.support.v7.app.AlertDialog processDialog=new android.support.v7.app.AlertDialog.Builder(this).create();
+        processDialog.setView(processView);
+        processDialog.show();
+
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("submissionId", id);
         ApiService.GetString(this, "confirmSubmission", parameters, new RxStringCallback() {
@@ -333,16 +342,19 @@ public class Checker extends AppCompatActivity {
                     Toast.makeText(Checker.this, "接单失败", Toast.LENGTH_SHORT).show();
 
                 }
+
+                processDialog.dismiss();
             }
 
             @Override
             public void onError(Object tag, Throwable e) {
+                processDialog.dismiss();
                 Toast.makeText(Checker.this, "" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancel(Object tag, Throwable e) {
-
+                processDialog.dismiss();
             }
         });
     }
