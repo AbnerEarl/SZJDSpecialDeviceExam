@@ -93,6 +93,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
+    <org.angmarch.views.NiceSpinner
+        android:id="@+id/check_picture_scene_spinner"
+        style="@android:style/Theme.Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout3"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/textView49" />
 
     <ListView
         android:id="@+id/lv_equipment_situation"
@@ -101,7 +113,7 @@
         android:layout_marginBottom="60dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="150dp"
         app:layout_constraintBottom_toTopOf="@+id/other_infomation"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

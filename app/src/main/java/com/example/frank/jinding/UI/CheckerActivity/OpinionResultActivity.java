@@ -228,6 +228,7 @@ public class OpinionResultActivity extends AppCompatActivity {
                 try {
                     HashMap<String,String> map_data=new HashMap<>();
                     map_data.put("device_id",device_id);
+                    map_data.put("submission_id",submission_id);
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data", JSON.toJSONString(map_data));
                     ApiService.GetString(OpinionResultActivity.this, "lookCheckOpinionResult", paremetes, new RxStringCallback() {

@@ -44,7 +44,7 @@ public class OpinionPicturesActivity extends AppCompatActivity {
     private ImageButton titleleft;
     private TextView title;
     private Button delete_picture,add_picture;
-    private String order_id="",consignment_id="",device_id="",pic_id_data="";
+    private String order_id="",consignment_id="",device_id="",pic_id_data="",submission_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class OpinionPicturesActivity extends AppCompatActivity {
         consignment_id=intentda.getStringExtra("consignmentId");
         order_id=intentda.getStringExtra("orderId");
         device_id=intentda.getStringExtra("deviceId");
+        submission_id=intentda.getStringExtra("submission_id");
 
         titleleft=(ImageButton)this.findViewById(R.id.titleback);
         title=(TextView)this.findViewById(R.id.titleplain);
@@ -136,6 +137,7 @@ public class OpinionPicturesActivity extends AppCompatActivity {
                     Intent intent = new Intent(OpinionPicturesActivity.this, Opinion_Recorde.class);
                     intent.putExtra("consignmentId", consignment_id);
                     intent.putExtra("orderId", order_id);
+                    intent.putExtra("submission_id",submission_id);
                     intent.putExtra("deviceId",device_id);
                     //startActivity(intent);
                     startActivityForResult(intent, 101);
@@ -291,6 +293,7 @@ public class OpinionPicturesActivity extends AppCompatActivity {
             Intent intent11=new Intent(OpinionPicturesActivity.this,OpinionPicturesActivity.class);
             intent11.putExtra("consignmentId", consignment_id);
             intent11.putExtra("orderId", order_id);
+            intent11.putExtra("submission_id",submission_id);
             intent11.putExtra("deviceId",device_id);
             startActivity(intent11);
             finish();
@@ -304,12 +307,10 @@ public class OpinionPicturesActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-
-
-                    //String data=order_id+"#"+consignment_id+"#"+device_id;
                     HashMap<String,String> map_data=new HashMap<>();
                     map_data.put("order_id",order_id);
                     map_data.put("consignment_id",consignment_id);
+                    map_data.put("submission_id",submission_id);
                     map_data.put("device_id",device_id);
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data", JSON.toJSONString(map_data));

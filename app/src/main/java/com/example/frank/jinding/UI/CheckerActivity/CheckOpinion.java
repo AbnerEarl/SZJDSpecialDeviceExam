@@ -193,6 +193,7 @@ public class CheckOpinion extends AppCompatActivity {
 
                 Intent intent11=new Intent(CheckOpinion.this,OpinionPicturesActivity.class);
                 intent11.putExtra("consignmentId", consignmentId);
+                intent11.putExtra("submission_id",submission_id);
                 intent11.putExtra("orderId", orderId);
                 intent11.putExtra("deviceId",device_id);
                 //startActivity(intent11);
@@ -270,7 +271,7 @@ public class CheckOpinion extends AppCompatActivity {
                                     }
 
 
-                                    String data = orderId + "##" + consignmentId + "##" + device_id + "##" + recheckdata;
+                                    String data = orderId + "##" + consignmentId + "##" + device_id+ "##" +submission_id + "##" + recheckdata;
                                     Map<String, Object> paremetes = new HashMap<>();
                                     paremetes.put("data", data);
                                     ApiService.GetString(CheckOpinion.this, "recheckInfomation", paremetes, new RxStringCallback() {

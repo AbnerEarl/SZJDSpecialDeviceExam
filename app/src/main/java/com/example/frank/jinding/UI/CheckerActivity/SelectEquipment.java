@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ import com.example.frank.jinding.Utils.SaveImage;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 
+import org.angmarch.views.NiceSpinner;
 import org.apache.poi.hssf.util.HSSFColor;
 
 import java.io.File;
@@ -56,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -66,15 +69,18 @@ public class SelectEquipment extends AppCompatActivity {
     private ArrayAdapter<String> spadapter;
     private List<String> ls = new ArrayList<String>();
     private List<String> list = new ArrayList<String>();
-
+    private org.angmarch.views.NiceSpinner mSpinner;
+    // private ArrayAdapter spinnerAdapter;
+    private int spinnerSelectedItem=1;
+    private List<String>NiceSpinner;
     public static ArrayList<String> mDataList = new ArrayList<>();//存储选取图片路径
     private ImageButton back;
     private TextView title ,device;
     private ListView lv_tasksss;
-    private int environTag=0;
+    private int environTag=0,currentCheckTime=0,selectedCheckTime=0;
     private String deviceinfo="",isMainChecker="",consignmentId="",orderId="",deviceId="",submission_id="";
     private  AlertDialog processDialogRequest;
-    private static boolean dirurl=false;
+    private  boolean dirurl=false;
     public static int sum_tag=0,file_tag=0,text_tag=0;
     private MyAdapter mAdapter;
     FtpUpload ff=new FtpUpload();
@@ -229,93 +235,93 @@ public class SelectEquipment extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-                String pic_description=mAdapter.listItem.get(arg2).get("ItemText").toString();
-                String pic_url = mAdapter.listItem.get(arg2).get("ItemImage").toString();
-                String pic_tag = mAdapter.listItem.get(arg2).get("Tag").toString();
-                EditText et=new EditText(SelectEquipment.this);
-                if (mAdapter.listItem.get(arg2).get("ItemText").toString().equals("请填写照片相关描述")){
-                    et.setHint(mAdapter.listItem.get(arg2).get("ItemText").toString());
-                }else {
-                    et.setText(mAdapter.listItem.get(arg2).get("ItemText").toString());
-                }
-                new  AlertDialog.Builder(SelectEquipment.this)
-                        .setMessage("请修改新的检验情况说明：")
-                        .setView(et)
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                if (selectedCheckTime==currentCheckTime) {
+                    String pic_description = mAdapter.listItem.get(arg2).get("ItemText").toString();
+                    String pic_url = mAdapter.listItem.get(arg2).get("ItemImage").toString();
+                    String pic_tag = mAdapter.listItem.get(arg2).get("Tag").toString();
+                    EditText et = new EditText(SelectEquipment.this);
+                    if (mAdapter.listItem.get(arg2).get("ItemText").toString().equals("请填写照片相关描述")) {
+                        et.setHint(mAdapter.listItem.get(arg2).get("ItemText").toString());
+                    } else {
+                        et.setText(mAdapter.listItem.get(arg2).get("ItemText").toString());
+                    }
+                    new AlertDialog.Builder(SelectEquipment.this)
+                            .setMessage("请修改新的检验情况说明：")
+                            .setView(et)
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                            }
-                        })
-                        .setPositiveButton("确定",
-                                new  DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public  void  onClick(DialogInterface dialog, int  which)
-                                    {
+                                }
+                            })
+                            .setPositiveButton("确定",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
 
-                                        if (mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("0")) {
-                                            HashMap<String, Object> map = new HashMap<String, Object>();
-                                            map.put("ItemImage", pic_url);
-                                            map.put("ItemText", et.getText());
-                                            map.put("Tag", pic_tag);
-                                            mAdapter.listItem.remove(arg2);
-                                            mAdapter.listItem.add(map);
-                                            mAdapter.notifyDataSetChanged();
-                                            Toast.makeText(SelectEquipment.this, "修改成功", Toast.LENGTH_SHORT).show();
-                                        }else if (!et.getText().toString().equals(pic_description)&&mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("1")){
-                                            String filename = mAdapter.listItem.get(arg2).get("ItemImage").toString();
-                                            String datafile = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) ;
+                                            if (mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("0")) {
+                                                HashMap<String, Object> map = new HashMap<String, Object>();
+                                                map.put("ItemImage", pic_url);
+                                                map.put("ItemText", et.getText());
+                                                map.put("Tag", pic_tag);
+                                                mAdapter.listItem.remove(arg2);
+                                                mAdapter.listItem.add(map);
+                                                mAdapter.notifyDataSetChanged();
+                                                Toast.makeText(SelectEquipment.this, "修改成功", Toast.LENGTH_SHORT).show();
+                                            } else if (!et.getText().toString().equals(pic_description) && mAdapter.listItem.get(arg2).get("Tag").toString().trim().equals("1")) {
+                                                String filename = mAdapter.listItem.get(arg2).get("ItemImage").toString();
+                                                String datafile = filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf("."));
 
-                                            String picDescrip=et.getText().toString();
-                                            HashMap<String,String> map_data=new HashMap<>();
-                                            map_data.put("orderId",orderId);
-                                            map_data.put("consignmentId",consignmentId);
-                                            map_data.put("deviceId",deviceId);
-                                            map_data.put("datafile",datafile);
-                                            map_data.put("picDescrip",picDescrip);
-                                            Map<String, Object> paremetes = new HashMap<>();
-                                            paremetes.put("data", JSON.toJSONString(map_data));
+                                                String picDescrip = et.getText().toString();
+                                                HashMap<String, String> map_data = new HashMap<>();
+                                                map_data.put("orderId", orderId);
+                                                map_data.put("consignmentId", consignmentId);
+                                                map_data.put("deviceId", deviceId);
+                                                map_data.put("datafile", datafile);
+                                                map_data.put("picDescrip", picDescrip);
+                                                Map<String, Object> paremetes = new HashMap<>();
+                                                paremetes.put("data", JSON.toJSONString(map_data));
 
-                                            ApiService.GetString(SelectEquipment.this, "modifyDescription", paremetes, new RxStringCallback() {
-                                                boolean flag = false;
+                                                ApiService.GetString(SelectEquipment.this, "modifyDescription", paremetes, new RxStringCallback() {
+                                                    boolean flag = false;
 
-                                                @Override
-                                                public void onNext(Object tag, String response) {
-                                                    if (response.trim().equals("修改成功！")) {
-                                                        HashMap<String, Object> map = new HashMap<String, Object>();
-                                                        map.put("ItemImage", pic_url);
-                                                        map.put("ItemText", et.getText());
-                                                        map.put("Tag", pic_tag);
-                                                        mAdapter.listItem.remove(arg2);
-                                                        mAdapter.listItem.add(map);
-                                                        mAdapter.notifyDataSetChanged();
-                                                        Toast.makeText(SelectEquipment.this,"修改成功",Toast.LENGTH_SHORT).show();
+                                                    @Override
+                                                    public void onNext(Object tag, String response) {
+                                                        if (response.trim().equals("修改成功！")) {
+                                                            HashMap<String, Object> map = new HashMap<String, Object>();
+                                                            map.put("ItemImage", pic_url);
+                                                            map.put("ItemText", et.getText());
+                                                            map.put("Tag", pic_tag);
+                                                            mAdapter.listItem.remove(arg2);
+                                                            mAdapter.listItem.add(map);
+                                                            mAdapter.notifyDataSetChanged();
+                                                            Toast.makeText(SelectEquipment.this, "修改成功", Toast.LENGTH_SHORT).show();
+
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Object tag, Throwable e) {
+                                                        Toast.makeText(SelectEquipment.this, "修改失败" + e, Toast.LENGTH_SHORT).show();
+
 
                                                     }
-                                                }
 
-                                                @Override
-                                                public void onError(Object tag, Throwable e) {
-                                                    Toast.makeText(SelectEquipment.this, "修改失败" + e, Toast.LENGTH_SHORT).show();
+                                                    @Override
+                                                    public void onCancel(Object tag, Throwable e) {
+                                                        Toast.makeText(SelectEquipment.this, "修改失败" + e, Toast.LENGTH_SHORT).show();
 
+                                                    }
+                                                });
 
-                                                }
+                                            }
 
-                                                @Override
-                                                public void onCancel(Object tag, Throwable e) {
-                                                    Toast.makeText(SelectEquipment.this, "修改失败" + e, Toast.LENGTH_SHORT).show();
-
-                                                }
-                                            });
 
                                         }
-
-
-                                    }
-                                }).show();
-
-
+                                    }).show();
+                }else {
+                    Toast.makeText(SelectEquipment.this,"非本次检验现场信息，没有权限修改",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -375,6 +381,7 @@ public class SelectEquipment extends AppCompatActivity {
                                                                     String filename = mAdapter.listItem.get(i).get("ItemImage").toString();
                                                                     // String dd = orderId + "#" + consignmentId + "#" + deviceId + "#" + filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")) + "#" + mAdapter.listItem.get(i).get("ItemText").toString();
                                                                     map_data.put("orderId",orderId);
+                                                                    map_data.put("submissionId",submission_id);
                                                                     map_data.put("consignmentId",consignmentId);
                                                                     map_data.put("deviceId",deviceId);
                                                                     map_data.put("picName",filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")));
@@ -470,35 +477,38 @@ public class SelectEquipment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (isMainChecker.equals("true")) {
+                    new AlertDialog.Builder(SelectEquipment.this)
+                            .setMessage("撰写报告前请点击“上传保存”，以免信息丢失！如果您确定检测已经完成，点击“确定”进行撰写检测意见，点击“取消”继续进行相关检测！")
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
-                new  AlertDialog.Builder(SelectEquipment.this)
-                        .setMessage("撰写报告前请点击“上传保存”，以免信息丢失！如果您确定检测已经完成，点击“确定”进行撰写检测意见，点击“取消”继续进行相关检测！")
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            })
+                            .setPositiveButton("确定",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        })
-                        .setPositiveButton("确定",
-                                new  DialogInterface.OnClickListener()
-                                {
-                                    @Override
-                                    public  void  onClick(DialogInterface dialog, int  which)
-                                    {
+                                            Intent intent = new Intent(SelectEquipment.this, CheckOpinion.class);
+                                            intent.putExtra("submission_id", submission_id);
+                                            intent.putExtra("orderId", orderId);
+                                            intent.putExtra("deviceId", deviceId);
+                                            intent.putExtra("consignmentId", consignmentId);
+                                            startActivityForResult(intent, 123);
 
-                                        Intent intent=new Intent(SelectEquipment.this,CheckOpinion.class);
-                                        intent.putExtra("submission_id", submission_id);
-                                        intent.putExtra("orderId", orderId);
-                                        intent.putExtra("deviceId",deviceId);
-                                        intent.putExtra("consignmentId",consignmentId);
-                                        startActivityForResult(intent,123);
-
-                                        //startActivity(intent);
-                                        //finish();
+                                            //startActivity(intent);
+                                            //finish();
 
 
-                                    }
-                                }).show();
+                                        }
+                                    }).show();
+                }else {
+                    new AlertDialog.Builder(SelectEquipment.this)
+                            .setMessage("请与主检验员协商，协商之后由主检填写检验意见，上传之后您可以查看检验意见！")
+                            .setNegativeButton("取消",null).show();
+                }
 
 
             }
@@ -610,7 +620,7 @@ public class SelectEquipment extends AppCompatActivity {
         upload=(Button)this.findViewById(R.id.other_infomation);
         post=(Button)this.findViewById(R.id.work_end);
 
-
+        mSpinner=(NiceSpinner)this.findViewById(R.id.check_picture_scene_spinner);
 
         back=(ImageButton)this.findViewById(R.id.titleback);
         title=(TextView)this.findViewById(R.id.titleplain);
@@ -633,10 +643,25 @@ public class SelectEquipment extends AppCompatActivity {
 
         //ff.download(SelectEquipment.this,orderId+"/"+deviceId+"/","20180103_040520"+".jpg");
 
+
+        mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Log.e("检验次数",arg2+"");
+                selectedCheckTime=arg2;
+                getCheckDetails(arg2);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
 
 
-    private void getCheckDetails(){
+    private void getCheckDetails(int recheckSeq){
 
         new Thread(new Runnable() {
             @Override
@@ -644,10 +669,12 @@ public class SelectEquipment extends AppCompatActivity {
                 try {
 
                    // processDialogRequest.show();
+                    mAdapter.listItem.clear();
                     HashMap<String,String> map_data=new HashMap<>();
                     map_data.put("orderId",orderId);
                     map_data.put("consignmentId",consignmentId);
                     map_data.put("deviceId",deviceId);
+                    map_data.put("recheckSeq",recheckSeq+"");
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data",JSON.toJSONString(map_data));
                     ApiService.GetString(SelectEquipment.this, "getOrderCheckDetails", paremetes, new RxStringCallback() {
@@ -672,14 +699,13 @@ public class SelectEquipment extends AppCompatActivity {
                                     map.put("ItemText", data[i+1]);
                                     map.put("Tag","1");
                                     mAdapter.listItem.add(map);
-
-
                                 }
-                                mAdapter.notifyDataSetChanged();
+
 
 
                             }
                             //processDialogRequest.dismiss();
+                            mAdapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -711,6 +737,55 @@ public class SelectEquipment extends AppCompatActivity {
     }
 
 
+    private void getRecheckPhoto(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    HashMap<String,String> map_data=new HashMap<>();
+                    map_data.put("orderId",orderId);
+                    map_data.put("consignmentId",consignmentId);
+                    map_data.put("deviceId",deviceId);
+                    Map<String, Object> paremetes = new HashMap<>();
+                    paremetes.put("data",JSON.toJSONString(map_data));
+                    ApiService.GetString(SelectEquipment.this, "getCheckPhotoByTimes", paremetes, new RxStringCallback() {
+                        boolean flag = false;
+
+                        @Override
+                        public void onNext(Object tag, String response) {
+
+
+                        }
+
+                        @Override
+                        public void onError(Object tag, Throwable e) {
+                            Toast.makeText(SelectEquipment.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onCancel(Object tag, Throwable e) {
+                            Toast.makeText(SelectEquipment.this, "获取失败" + e, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+
+    }
+
+
+
+
     private void dir_url(){
 
         new Thread(new Runnable() {
@@ -734,7 +809,6 @@ public class SelectEquipment extends AppCompatActivity {
                         public void onNext(Object tag, String response) {
 
                             Log.i("环境信息",response);
-
                             HashMap<String,String> map_data=JSON.parseObject(response,new TypeReference<HashMap<String,String>>(){});
 
                             if (map_data!=null) {
@@ -743,6 +817,16 @@ public class SelectEquipment extends AppCompatActivity {
                                 String exam_result=map_data.get("exam_result");
                                 String erro=map_data.get("erro");
                                 String login=map_data.get("login");
+                                int recheckSeq=Integer.parseInt(map_data.get("recheckSeq"));
+                                currentCheckTime=recheckSeq;
+                                selectedCheckTime=recheckSeq;
+                                List<String> spinnerList=new ArrayList<>();
+                                for (int k=0;k<=recheckSeq;k++){
+                                    spinnerList.add("第"+(k+1)+"次检验");
+                                }
+                                NiceSpinner = new LinkedList<String>(spinnerList);
+                                mSpinner.attachDataSource(NiceSpinner);
+                                mSpinner.setSelectedIndex(recheckSeq);
 
                                 if (dir_url!=null&&exam_result!=null) {
                                     upload_wait.setVisibility(View.INVISIBLE);
@@ -769,6 +853,7 @@ public class SelectEquipment extends AppCompatActivity {
                                         environTag++;
                                        // processDialogRequest.dismiss();
                                         dir_url();
+                                        return;
                                     }
                                 } else if (login.equals("true")){
                                     //Toast.makeText(SelectEquipment.this, "查询失败，需要重新登录账号", Toast.LENGTH_SHORT).show();
@@ -780,6 +865,7 @@ public class SelectEquipment extends AppCompatActivity {
                                         environTag++;
                                       //  processDialogRequest.dismiss();
                                         dir_url();
+                                        return;
                                     }
                                 }
                             }else {
@@ -787,13 +873,14 @@ public class SelectEquipment extends AppCompatActivity {
                                     environTag++;
                                   //  processDialogRequest.dismiss();
                                     dir_url();
+                                    return;
                                 }
                             }
 
                             if (dirurl){
                                 upload_wait.setVisibility(View.INVISIBLE);
                                // processDialogRequest.dismiss();
-                                getCheckDetails();
+                                getCheckDetails(selectedCheckTime);
                             }
                             if (environTag>=5){
                                 upload_wait.setVisibility(View.INVISIBLE);
@@ -1001,6 +1088,13 @@ public class SelectEquipment extends AppCompatActivity {
 
             }
 
+            if (selectedCheckTime==currentCheckTime){
+                holder.delete.setVisibility(View.VISIBLE);
+            }else {
+                holder.delete.setVisibility(View.INVISIBLE);
+            }
+
+
 
             holder.pic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1033,10 +1127,6 @@ public class SelectEquipment extends AppCompatActivity {
                         img.setImageBitmap(bitmap);
 
                     }
-
-
-
-
 
 
                     textv.setText(holder.title.getText());

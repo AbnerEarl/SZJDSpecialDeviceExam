@@ -47,7 +47,7 @@ public class Opinion_Recorde extends AppCompatActivity {
     private ImageButton back;
     private TextView title;
 
-    private String order_id="",consignment_id="",device_id="";
+    private String order_id="",consignment_id="",device_id="",submission_id="";
 
     private  String path = Environment.getExternalStorageDirectory() + "/Luban/image/"+new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"/";
 
@@ -60,6 +60,7 @@ public class Opinion_Recorde extends AppCompatActivity {
         consignment_id=intentda.getStringExtra("consignmentId");
         order_id=intentda.getStringExtra("orderId");
         device_id=intentda.getStringExtra("deviceId");
+        submission_id=intentda.getStringExtra("submission_id");
 
 
         view= (ImageView)findViewById(R.id.imageView2op);
@@ -165,6 +166,7 @@ public class Opinion_Recorde extends AppCompatActivity {
                                                                 HashMap<String,String> map_data=new HashMap<>();
                                                                 map_data.put("order_id",order_id);
                                                                 map_data.put("consignment_id",consignment_id);
+                                                                map_data.put("submission_id",submission_id);
                                                                 map_data.put("device_id",device_id);
                                                                 map_data.put("filename",filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf(".")));
 

@@ -429,6 +429,7 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
                     Log.i(TAG,consignmentList.toString());
                     Log.i(TAG, consignmentList.size() + "个"+consignmentList.get(0).getConsignmentStatus());
                     if(consignmentList.get(0).getConsignmentStatus().equals("现场检验")||consignmentList.get(0).getConsignmentStatus().equals("复检现场检验")) {
+                    //if(consignmentList.get(0).getConsignmentStatus().equals("现场检验")) {
                         mAdapter.update = true;
                         mAdapter.notifyDataSetChanged();
                     }
@@ -531,7 +532,8 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
             return false;
             }
         });
-        }
+
+    }
     private void deleteConsignment(String consignmentId, final int position){
         Map<String,Object> map=new HashMap<>();
         map.put("consignmentId",consignmentId);
