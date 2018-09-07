@@ -398,15 +398,17 @@ public class CheckStartProtocl extends AppCompatActivity {
 
             @Override
             public void onNext(Object tag, String response) {
+                consignmentList.clear();
+                waitAdapter.list.clear();
                 if (response!=null) {
                     Log.i(TAG,"获取协议成功"+response.toString());
-                    consignmentList.clear();
+                    //consignmentList.clear();
                     List<ConsignmentDetail> list= JSON.parseArray(response, ConsignmentDetail.class);
                     for (int i=0;i<list.size();i++){
                         consignmentList.add(list.get(i));
                     }
                     Log.i(TAG,consignmentList.toString());
-                    waitAdapter.notifyDataSetChanged();
+                   // waitAdapter.notifyDataSetChanged();
                     Log.i(TAG, consignmentList.size() + "个");
                     if (consignmentList.size()>0&&refreshcode.equals("23")){
                         backwork.setEnabled(true);
@@ -433,7 +435,7 @@ public class CheckStartProtocl extends AppCompatActivity {
                         }
                     }).create().show();
                 }
-
+                waitAdapter.notifyDataSetChanged();
                 pullRefreshLayout.setRefreshing(false);
             }
 
