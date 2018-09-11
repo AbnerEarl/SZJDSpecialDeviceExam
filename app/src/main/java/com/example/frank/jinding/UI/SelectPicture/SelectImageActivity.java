@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -128,6 +129,11 @@ public class SelectImageActivity extends AppCompatActivity {
                     }
                 }));
                 mMaxCount = mImageList.size();
+                //mImageAdapter.setData(mImageList,mCurrentDir);
+                //降序
+                Collections.reverse(mImageList);
+                //升序
+                //Collections.sort(mImageList);
                 mImageAdapter.setData(mImageList,mCurrentDir);
                 refreshUI();
             }
