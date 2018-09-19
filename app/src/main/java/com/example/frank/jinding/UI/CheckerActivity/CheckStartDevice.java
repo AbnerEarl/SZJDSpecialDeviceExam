@@ -182,11 +182,12 @@ public class CheckStartDevice extends AppCompatActivity {
 
     }
 
-
+    //如果是复检，去掉不是本次复检的设备
     private void getDeviceList(String consignmentId, final String statusCode) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("consignmentId", consignmentId);
         parameters.put("statusCode", statusCode);
+        parameters.put("orderId", orderId);
         ApiService.GetString(this, "orderDeviceDetail", parameters, new RxStringCallback() {
             @Override
             public void onNext(Object tag, String response) {

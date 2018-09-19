@@ -77,9 +77,9 @@ public class Verification extends AppCompatActivity {
         company.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Verification.this,ApplicationLoad.class);
+                /*Intent intent=new Intent(Verification.this,ApplicationLoad.class);
                 intent.putExtra("url","http://www.szsafety.com/portal.php");
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
 

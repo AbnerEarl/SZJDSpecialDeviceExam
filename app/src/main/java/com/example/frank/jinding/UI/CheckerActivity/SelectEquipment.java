@@ -685,7 +685,7 @@ public class SelectEquipment extends AppCompatActivity {
 
 
                             //refreshLayout.setRefreshing(false);
-                            if (!response.trim().equals("获取失败！")&&response.trim().length()>20) {
+                            if (!response.contains("获取失败")&&!response.contains("session为空")) {
                                 //Toast.makeText(SelectEquipment.this, "获取到的数据：" + response, Toast.LENGTH_SHORT).show();
                                 //String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
                                 String data[]=response.split("##");
@@ -703,6 +703,8 @@ public class SelectEquipment extends AppCompatActivity {
 
 
 
+                            }else {
+                                Toast.makeText(SelectEquipment.this, response, Toast.LENGTH_SHORT).show();
                             }
                             //processDialogRequest.dismiss();
                             mAdapter.notifyDataSetChanged();

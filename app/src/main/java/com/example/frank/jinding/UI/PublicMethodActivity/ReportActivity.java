@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ReportActivity extends AppCompatActivity {
-    private String nameStr = null;
+    private String nameStr = "";
 
     private Range range = null;
     private HWPFDocument hwpf = null;

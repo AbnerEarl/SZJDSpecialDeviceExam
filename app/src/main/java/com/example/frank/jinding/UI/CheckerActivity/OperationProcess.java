@@ -227,7 +227,7 @@ public class OperationProcess extends AppCompatActivity {
         start.setEnabled(false);
         leave.setEnabled(false);
 
-        getOrderStatu();
+        getOrderStatus();
 
 
     }
@@ -240,7 +240,7 @@ public class OperationProcess extends AppCompatActivity {
         }
     }
 
-    private void getOrderStatu(){
+    private void getOrderStatus(){
 
         new Thread(new Runnable() {
             @Override
@@ -249,7 +249,7 @@ public class OperationProcess extends AppCompatActivity {
 
                     Map<String, Object> paremetes = new HashMap<>();
                     paremetes.put("data", orderId);
-                    ApiService.GetString(OperationProcess.this, "getOrderStatu", paremetes, new RxStringCallback() {
+                    ApiService.GetString(OperationProcess.this, "getOrderStatus", paremetes, new RxStringCallback() {
                         boolean flag = false;
 
                         @Override

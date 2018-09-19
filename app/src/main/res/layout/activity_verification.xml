@@ -71,24 +71,26 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="42dp"
         android:layout_marginRight="42dp"
         android:text="公司官网"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"/>
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/button38"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="42dp"
         android:layout_marginStart="42dp"
         android:text="使用介绍"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"/>
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/progressBar2_login"

@@ -71,76 +71,31 @@ public class ApplicationLoad extends AppCompatActivity {
 
         String str = urrl;
         Context context=ApplicationLoad.this;
-
-
         myWebView = (WebView) findViewById(R.id.webview1);
-
-        // myWebView.setWebViewClient(new WebViewClient());
 
         //同步cookie
         //new HttpCookie(mHandler,str).start();
         syncCookie(context,str);
-        //WebSettings webSettings = myWebView.getSettings();
         // 设置可以访问文件  
         myWebView.getSettings().setAllowFileAccess(true);
         //如果访问的页面中有Javascript，则webview必须设置支持Javascript  
         myWebView.getSettings().setJavaScriptEnabled(true);
-        //myWebView.getSettings().setUserAgentString(MainActivity.getUserAgent());
-        myWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        myWebView.getSettings().setAllowFileAccess(true);
-        myWebView.getSettings().setAppCacheEnabled(true);
-        myWebView.getSettings().setDomStorageEnabled(true);
-        myWebView.getSettings().setDatabaseEnabled(true);
-        // webSettings.setUseWideViewPort(true);// 设置此属性，可任意比例缩放  
-        //  webSettings.setLoadWithOverviewMode(true);// 充满全屏幕  
-        //  webSettings.setBuiltInZoomControls(false);
-        //  webSettings.setJavaScriptEnabled(true);
-        //  webSettings.setAppCacheEnabled(true);
-        myWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+
         //设置允许访问文件数据  
         myWebView.getSettings().setAllowFileAccess(true);
-        // 设置缓存模式  
-        // webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
 
-        // 开启 DOM storage API 功能  
-        //webSettings.setDomStorageEnabled(true);
         myWebView.setHorizontalScrollBarEnabled(false);// 水平不显示滚动条  
         myWebView.setOverScrollMode(View.OVER_SCROLL_NEVER);// 禁止即在网页顶出现一个空白，又自动回去。  
         myWebView.setWebChromeClient(new webChromClient());
         myWebView.setWebViewClient(new webClient());//防止外部浏览器
 
 
-        // dialog = ProgressDialog.show(ApplicationLoad.this, null, "正在加载中，请稍后···");
+
         myWebView.setWebViewClient(new WebViewClient());
         WebSettings settings = myWebView.getSettings();
-        // 开启javascript设置
-        settings.setJavaScriptEnabled(true);
-        // 设置可以使用localStorage
-        settings.setDomStorageEnabled(true);
-        // 应用可以有数据库
-        settings.setDatabaseEnabled(true);
-        String dbPath =this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
-        settings.setDatabasePath(dbPath);
-        // 应用可以有缓存
-        settings.setAppCacheEnabled(true);
-        String appCaceDir =this.getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
-        settings.setAppCachePath(appCaceDir);
-        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         myWebView.loadUrl(str);
 
 
-        //监听下载
-        myWebView.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                // System.out.println(url: + url);
-                if (url.endsWith(".zip")){
-                    // 如果传进来url包含.zip文件，那么就开启下载线程
-                    // System.out.println(download start...);
-                    new DownloadThread(url).start();
-                }
-            }
-        });
         myWebView.setOnKeyListener(new View.OnKeyListener(){
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event){
@@ -349,70 +304,6 @@ public class ApplicationLoad extends AppCompatActivity {
     }
 
 
-
-    /**
-          * 执行下载的线程
-          */
-    class DownloadThread extends Thread {
-        private String mUrl;
-
-        public DownloadThread(String url) {
-            this.mUrl = url;
-        }
-
-        @Override
-        public void run() {
-            try {
-                URL httpUrl = new URL(mUrl);
-                HttpURLConnection conn = (HttpURLConnection) httpUrl.openConnection();
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setConnectTimeout(5000);
-                conn.setReadTimeout(5000);
-
-                InputStream in = conn.getInputStream();
-                FileOutputStream out = null;
-                // 获取下载路径
-                File downloadFile;
-                File sdFile;
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                    downloadFile = Environment.getExternalStorageDirectory();
-                    sdFile = new File(downloadFile,".zip");
-                    out = new FileOutputStream(sdFile);
-                }
-                byte[] b = new byte[8 * 1024];
-                int len;
-                while ((len = in.read(b)) != -1) {
-                    if (out != null) {
-                        out.write(b, 0, len);
-                    }
-                }
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-                // System.out.println(download success...);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
-//cook同步
-    /*public static void synCookies(Context context,String url){
-        CookieSyncManager.createInstance(context);
-        CookieManager cookieManager=CookieManager.getInstance();
-        cookieManager.setAcceptCookie(true);
-        cookieManager.removeSessionCookie();//移除  
-        cookieManager.setCookie(url,cookies);//cookies是在HttpClient中获得的cookie  
-        CookieSyncManager.getInstance().sync();
-    }*/
 
 
 
