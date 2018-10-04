@@ -55,25 +55,23 @@ public class SaveImage {
      *
      * @return 返回压缩后图片的存放路径
      */
-    public static void saveBitmap(String path,String fileName) {
-        String compressdPicPath = "";
+    public static void compressImageByJPG(String path,String fileName,int compressRate) {
 
-
-      /*  //如果不压缩直接从path获取bitmap，这个bitmap会很大，下面在压缩文件到100kb时，会循环很多次，
+        //如果不压缩直接从path获取bitmap，这个bitmap会很大，下面在压缩文件到100kb时，会循环很多次，
         // 而且会因为迟迟达不到100k，options一直在递减为负数，直接报错
         // 即使原图不是太大，options不会递减为负数，也会循环多次，UI会卡顿，所以不推荐不经过压缩，直接获取到bitmap
-        Bitmap bitmap=BitmapFactory.decodeFile(path);*/
-//     重点
+        // Bitmap bitmap=BitmapFactory.decodeFile(path);
+        //重点
         Bitmap bitmap = decodeSampledBitmapFromPath(path, 720, 1280);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-/* options表示 如果不压缩是100，表示压缩率为0。如果是70，就表示压缩率是70，表示压缩30%; */
-        int options = 50;
+        /* options表示 如果不压缩是100，表示压缩率为0。如果是70，就表示压缩率是70，表示压缩30%; */
+        int options = compressRate;
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
         while (baos.toByteArray().length / 1024 > 200) {
-// 循环判断如果压缩后图片是否大于500kb继续压缩
+            // 循环判断如果压缩后图片是否大于500kb继续压缩
 
             baos.reset();
             options -= 10;
@@ -82,7 +80,7 @@ public class SaveImage {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
                 break;
             }
-// 这里压缩options%，把压缩后的数据存放到baos中
+            // 这里压缩options%，把压缩后的数据存放到baos中
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
         }
 
@@ -101,14 +99,11 @@ public class SaveImage {
             out.write(baos.toByteArray());
             out.flush();
             out.close();
-//            onSaveSuccessListener.onSuccess(file.getAbsolutePath());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 
 
     /**
@@ -121,13 +116,13 @@ public class SaveImage {
      */
     private static Bitmap decodeSampledBitmapFromPath(String path, int width, int height) {
 
-//      获取图片的宽和高，并不把他加载到内存当中
+        //获取图片的宽和高，并不把他加载到内存当中
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, options);
 
         options.inSampleSize = caculateInSampleSize(options, width, height);
-//      使用获取到的inSampleSize再次解析图片(此时options里已经含有压缩比 options.inSampleSize，再次解析会得到压缩后的图片，不会oom了 )
+        //使用获取到的inSampleSize再次解析图片(此时options里已经含有压缩比 options.inSampleSize，再次解析会得到压缩后的图片，不会oom了 )
         options.inJustDecodeBounds = false;
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
         return bitmap;
